@@ -1,23 +1,42 @@
 "use client";
 
+//hooks
 import { useState } from "react";
+import axios from "axios";
+//components
 import SearchBar from "@/components/SearchBar";
 import SearchResults from "@/components/SearchResults";
 import Sidebar from "@/components/Sidebar";
+//types
+import { Player } from "@/types/player";
 
 export default function Home() {
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchResults, setSearchResults] = useState<Player | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = async (query: string) => {
+    setIsLoading(true);
+    setError(null);
+
     try {
-      const response = await fetch(
+      const response = await axios.get<Player>(
         `https://query.idleclans.com/api/Player/profile/${query}`
       );
-      const data = await response.json();
-      setSearchResults(data);
+      setSearchResults(response.data);
     } catch (error) {
-      console.error("Error fetching player data:", error);
+      if (axios.isAxiosError(error)) {
+        setError(
+          error.response?.status === 404
+            ? "Player not found"
+            : "Error fetching player data. Please try again."
+        );
+      } else {
+        setError("An unexpected error occurred");
+      }
       setSearchResults(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -25,9 +44,17 @@ export default function Home() {
     <div className="flex">
       <Sidebar />
       <main className="ml-64 flex-1 p-8">
-        <div className="max-w-4xl mx-auto">
-          <SearchBar onSearch={handleSearch} />
-          {searchResults && <SearchResults player={searchResults} />}
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-3xl font-bold mb-8 text-emerald-400">
+            Idle Clans Finder
+          </h1>
+          <SearchBar onSearch={handleSearch} isLoading={isLoading} />
+          {(searchResults || error) && (
+            <SearchResults
+              player={searchResults as Player}
+              error={error || undefined}
+            />
+          )}
         </div>
       </main>
     </div>

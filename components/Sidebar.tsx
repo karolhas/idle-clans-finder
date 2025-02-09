@@ -1,5 +1,7 @@
-import { FaHome, FaChartBar } from "react-icons/fa";
+//hooks
 import Link from "next/link";
+//icons
+import { FaHome, FaChartBar } from "react-icons/fa";
 
 export default function Sidebar() {
   return (

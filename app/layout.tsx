@@ -1,5 +1,8 @@
+//hooks
 import type { Metadata } from "next";
+//fonts
 import { Roboto } from "next/font/google";
+//styles
 import "./globals.css";
 
 const roboto = Roboto({
