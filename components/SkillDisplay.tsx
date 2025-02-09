@@ -70,7 +70,7 @@ export default function SkillDisplay({ skills }: SkillDisplayProps) {
                 {formatSkillName(skillName)}
               </p>
             </div>
-            <p className={`text-2xl font-bold ${color}`}>Level {level}</p>
+            <p className={`text-xl font-bold ${color}`}>Level {level}</p>
             <p className="text-xs text-gray-400">
               {Math.floor(xp).toLocaleString()} XP
             </p>

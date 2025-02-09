@@ -41,7 +41,7 @@ export function UpgradeCard({
         </div>
         <p className="text-gray-300 text-sm">{formatUpgradeName(name)}</p>
       </div>
-      <p className={`text-2xl font-bold ${color}`}>
+      <p className={`text-xl font-bold ${color}`}>
         {value >= maxTier ? "Max" : `Tier ${value}`}
       </p>
       <p className="text-xs text-gray-400">{`${value}/${maxTier} tiers`}</p>

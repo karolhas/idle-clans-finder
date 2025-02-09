@@ -11,7 +11,7 @@ export const getMaxTiers = (upgradeName: string): number => {
   const maxTiers: { [key: string]: number } = {
     keepItSpacious: 190,
     valuedClanMember: 1,
-    personalHousing: 5,
+    housing: 5,
     lazyRaider: 1,
     extraLoadouts: 15,
     offlineProgress: 6,
@@ -52,7 +52,7 @@ export const categorizeUpgrades = (upgrades: Upgrades) => {
     general: [
       "keepItSpacious",
       "valuedClanMember",
-      "personalHousing",
+      "housing",
       "lazyRaider",
       "extraLoadouts",
       "offlineProgress",
