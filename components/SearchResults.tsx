@@ -1,5 +1,7 @@
 //components
 import SkillDisplay from "./SkillDisplay";
+import { LocalMarketUpgradesDisplay } from "./upgrades/LocalMarketUpgradesDisplay";
+
 //types
 import { Player } from "@/types/player";
 //icons
@@ -50,6 +52,13 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
       <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
         <h2 className="text-2xl font-bold mb-4 text-emerald-400">Skills</h2>
         <SkillDisplay skills={player.skillExperiences} />
+      </div>
+
+      <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
+        <h2 className="text-2xl font-bold mb-4 text-emerald-400">
+          Local Market Upgrades
+        </h2>
+        <LocalMarketUpgradesDisplay upgrades={player.upgrades} />
       </div>
     </div>
   );
