@@ -1,8 +1,7 @@
-//hooks
+// layout.tsx
 import type { Metadata } from "next";
-//fonts
 import { Roboto } from "next/font/google";
-//styles
+import Script from "next/script";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -18,11 +17,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-SHBQEPTLNT"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-SHBQEPTLNT');
+          `}
+        </Script>
+      </head>
       <body
         className={`${roboto.variable} font-sans bg-[#031111] min-h-screen text-white`}
       >

@@ -53,6 +53,7 @@ export default function Home() {
               height={30}
               width={30}
               className="mr-2"
+              priority
             />
             <h1 className="text-3xl font-bold text-emerald-400">
               Idle Clans Finder
