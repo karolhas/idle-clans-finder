@@ -69,7 +69,7 @@ export default function PvMStatsDisplay({ stats }: PvMStatsDisplayProps) {
             {Object.entries(categorizedBosses.raids).map(([name, kills]) => (
               <p key={name} className="ml-4 flex items-center gap-2">
                 <Image
-                  src={`/pvmstats/${name}.png`}
+                  src={`/pvmstats/${name.toLowerCase()}.png`}
                   alt={formatBossName(name)}
                   width={20}
                   height={20}
@@ -94,7 +94,7 @@ export default function PvMStatsDisplay({ stats }: PvMStatsDisplayProps) {
               ([name, kills]) => (
                 <p key={name} className="ml-4 flex items-center gap-2">
                   <Image
-                    src={`/pvmstats/${name}.png`}
+                    src={`/pvmstats/${name.toLowerCase()}.png`}
                     alt={formatBossName(name)}
                     width={24}
                     height={24}
@@ -120,7 +120,7 @@ export default function PvMStatsDisplay({ stats }: PvMStatsDisplayProps) {
             {Object.entries(categorizedBosses.bosses).map(([name, kills]) => (
               <p key={name} className="ml-4 flex items-center gap-2">
                 <Image
-                  src={`/pvmstats/${name}.png`}
+                  src={`/pvmstats/${name.toLowerCase()}.png`}
                   alt={formatBossName(name)}
                   width={24}
                   height={24}
