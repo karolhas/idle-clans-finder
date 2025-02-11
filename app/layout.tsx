@@ -30,7 +30,6 @@ export const metadata: Metadata = {
     description:
       "Search and view detailed player statistics, skills, and local market upgrades for Idle Clans",
   },
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
 };
 

@@ -11,7 +11,7 @@ interface UpgradesDisplayProps {
   upgrades: Upgrades;
 }
 
-export function UpgradesDisplay({ upgrades }: UpgradesDisplayProps) {
+export default function UpgradesDisplay({ upgrades }: UpgradesDisplayProps) {
   const categorizedUpgrades = categorizeUpgrades(upgrades);
 
   return (
