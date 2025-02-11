@@ -1,15 +1,15 @@
 //components
-import { BossCategory } from "@/components/PvMStats/BossCategory";
+import { BossCategory } from "@/components/pvmstats/BossCategory";
 //lib
 import { useBossStats } from "@/lib/useBossStats";
 //types
 import { PvMStats } from "@/types/pvmStats";
 
-interface PvMStatsDisplayProps {
+interface PvmStatsDisplayProps {
   stats: PvMStats;
 }
 
-export default function PvMStatsDisplay({ stats }: PvMStatsDisplayProps) {
+export default function PvmStatsDisplay({ stats }: PvmStatsDisplayProps) {
   const {
     categorizedBosses,
     raidTotal,

@@ -1,7 +1,7 @@
 //components
-import PvMStatsDisplay from "@/components/PvMStats/PvMStatsDisplay";
-import SkillDisplay from "@/components/Skills/SkillDisplay";
-import { UpgradesDisplay } from "@/components/Upgrades/UpgradesDisplay";
+import PvmStatsDisplay from "@/components/pvmstats/PvmStatsDisplay";
+import SkillDisplay from "@/components/skills/SkillDisplay";
+import UpgradesDisplay from "@/components/upgrades/UpgradesDisplay";
 //types
 import { Player } from "@/types/player";
 //icons
@@ -61,7 +61,7 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
             <h2 className="text-2xl font-bold mb-4 text-emerald-400">
               PvM Stats
             </h2>
-            <PvMStatsDisplay stats={player.pvmStats} />
+            <PvmStatsDisplay stats={player.pvmStats} />
           </div>
         </div>
       </div>
