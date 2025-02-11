@@ -1,5 +1,5 @@
 //components
-import { BossCategory } from "@/components/PvMStats/BossCategory";
+import { BossCategory } from "@/components/pvmstats/BossCategory";
 //lib
 import { useBossStats } from "@/lib/useBossStats";
 //types

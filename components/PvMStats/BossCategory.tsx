@@ -1,5 +1,5 @@
 //components
-import { BossRow } from "@/components/PvMStats/BossRow";
+import { BossRow } from "@/components/pvmstats/BossRow";
 
 interface BossCategoryProps {
   title: string;
