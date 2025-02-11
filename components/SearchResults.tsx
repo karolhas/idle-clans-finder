@@ -1,3 +1,7 @@
+//hooks
+import { useEffect, useState } from "react";
+//api
+import { fetchClanMembers } from "@/services/apiService";
 //components
 import PvmStatsDisplay from "@/components/pvmstats/PvmStatsDisplay";
 import SkillDisplay from "@/components/skills/SkillDisplay";
@@ -5,7 +9,7 @@ import UpgradesDisplay from "@/components/upgrades/UpgradesDisplay";
 //types
 import { Player } from "@/types/player";
 //icons
-import { FaGamepad, FaShieldAlt, FaUser } from "react-icons/fa";
+import { FaGamepad, FaShieldAlt, FaUser, FaUsers } from "react-icons/fa";
 
 interface SearchResultsProps {
   player: Player;
@@ -13,6 +17,23 @@ interface SearchResultsProps {
 }
 
 export default function SearchResults({ player, error }: SearchResultsProps) {
+  const [memberCount, setMemberCount] = useState(0);
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      if (player.guildName) {
+        try {
+          const data = await fetchClanMembers(player.guildName);
+          setMemberCount(data.memberlist?.length || 0);
+        } catch (error) {
+          console.error("Failed to fetch clan members:", error);
+        }
+      }
+    };
+
+    fetchMembers();
+  }, [player.guildName]);
+
   if (error) {
     return (
       <div className="mt-8 p-6 bg-red-50 border border-red-200 rounded-lg">
@@ -47,10 +68,16 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
             <h2 className="text-2xl font-bold mb-4 text-emerald-400">
               Clan Info
             </h2>
-            <p className="flex items-center font-light">
+            <p className="flex items-center mb-2 font-light">
               <FaShieldAlt className="mr-1" /> Clan:{" "}
               <span className="text-white ml-1 font-semibold">
                 {player.guildName || "No Clan"}
+              </span>
+            </p>
+            <p className="flex items-center font-light">
+              <FaUsers className="mr-1" /> Members:{" "}
+              <span className="text-white ml-1 font-semibold">
+                {memberCount}/20
               </span>
             </p>
           </div>

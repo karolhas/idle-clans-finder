@@ -1,7 +1,7 @@
 //types
-import { PvMStats } from "@/types/pvmStats";
+import { PvmStats } from "@/types/pvmStats";
 
-export const useBossStats = (stats: PvMStats) => {
+export const bossStatsUtils = (stats: PvmStats) => {
   const formatBossName = (name: string): string => {
     return name
       .replace(/([A-Z])/g, " $1")

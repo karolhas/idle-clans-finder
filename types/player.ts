@@ -1,12 +1,19 @@
+//types
 import { Upgrades } from "./upgrades";
-import { PvMStats } from "./pvmStats";
+import { PvmStats } from "./pvmStats";
+
+export interface ClanMember {
+  memberName: string;
+  rank: number;
+}
 
 export interface Player {
+  memberlist: ClanMember[];
   upgrades: Upgrades;
   username: string;
   gameMode: string;
   guildName: string;
-  pvmStats: PvMStats;
+  pvmStats: PvmStats;
   skillExperiences: {
     [key: string]: number;
   };

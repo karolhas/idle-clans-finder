@@ -2,8 +2,9 @@
 
 //hooks
 import { useState } from "react";
-import axios from "axios";
 import Image from "next/image";
+//api
+import { fetchPlayerProfile } from "@/services/apiService";
 //components
 import SearchBar from "@/components/SearchBar";
 import SearchResults from "@/components/SearchResults";
@@ -21,19 +22,20 @@ export default function Home() {
     setError(null);
 
     try {
-      const response = await axios.get<Player>(
-        `https://query.idleclans.com/api/Player/profile/${query}`
-      );
-      setSearchResults(response.data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setError(
-          error.response?.status === 404
-            ? "Player not found"
-            : "Error fetching player data. Please try again."
-        );
+      const data = await fetchPlayerProfile(query);
+      setSearchResults(data);
+    } catch (error: unknown) {
+      if (
+        error instanceof Error &&
+        "response" in error &&
+        typeof error.response === "object" &&
+        error.response !== null &&
+        "status" in error.response &&
+        error.response.status === 404
+      ) {
+        setError("Player not found");
       } else {
-        setError("An unexpected error occurred");
+        setError("Error fetching player data. Please try again.");
       }
       setSearchResults(null);
     } finally {

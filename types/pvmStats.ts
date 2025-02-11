@@ -1,4 +1,4 @@
-export interface PvMStats {
+export interface PvmStats {
   Griffin: number;
   Devil: number;
   Hades: number;

@@ -1,6 +1,7 @@
+//lib
 import { getLevel } from "@/lib/xpUtils";
 
-export const useSkills = (skills: Record<string, number>) => {
+export const skillsUtils = (skills: Record<string, number>) => {
   const skillOrder = [
     "attack",
     "strength",
