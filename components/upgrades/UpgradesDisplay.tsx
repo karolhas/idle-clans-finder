@@ -7,13 +7,11 @@ import {
 } from "@/lib/upgradeUtils";
 import { Upgrades } from "@/types/upgrades";
 
-interface LocalMarketUpgradesDisplayProps {
+interface UpgradesDisplayProps {
   upgrades: Upgrades;
 }
 
-export function LocalMarketUpgradesDisplay({
-  upgrades,
-}: LocalMarketUpgradesDisplayProps) {
+export function UpgradesDisplay({ upgrades }: UpgradesDisplayProps) {
   const categorizedUpgrades = categorizeUpgrades(upgrades);
 
   return (

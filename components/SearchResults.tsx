@@ -1,7 +1,7 @@
 //components
 import PvMStatsDisplay from "@/components/PvMStats/PvMStatsDisplay";
 import SkillDisplay from "@/components/Skills/SkillDisplay";
-import { LocalMarketUpgradesDisplay } from "./Upgrades/UpgradesDisplay";
+import { UpgradesDisplay } from "@/components/Upgrades/UpgradesDisplay";
 //types
 import { Player } from "@/types/player";
 //icons
@@ -76,7 +76,7 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
           <h2 className="text-2xl font-bold mb-4 text-emerald-400">
             Local Market Upgrades
           </h2>
-          <LocalMarketUpgradesDisplay upgrades={player.upgrades} />
+          <UpgradesDisplay upgrades={player.upgrades} />
         </div>
       </div>
     </div>
