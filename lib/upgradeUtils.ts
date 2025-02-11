@@ -1,3 +1,4 @@
+//types
 import { Upgrades } from "@/types/upgrades";
 
 export const formatUpgradeName = (name: string): string => {

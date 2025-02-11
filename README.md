@@ -16,6 +16,7 @@ A powerful web application for searching and viewing detailed player statistics,
 - 🔍 **Player Search**: Quick and easy player lookup by nickname
 - 📊 **Detailed Statistics**: View comprehensive player information including:
   - Player profile and clan affiliation
+  - PvM statystics showing total boss kills
   - Skill levels and experience
   - Local market upgrade progression
 - 📱 **Responsive Design**: Fully optimized for both desktop and mobile devices
@@ -24,7 +25,6 @@ A powerful web application for searching and viewing detailed player statistics,
 
 ## 💎 Future Enhancements
 
-- ⚔️ **PvM statystics**
 - 🤝 **More Clan Information**
 - 📈 **Ranking with filters**
 - 🧮 **Calculators**

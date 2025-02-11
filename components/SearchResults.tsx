@@ -1,7 +1,7 @@
 //components
-import PvMStatsDisplay from "./PvMStatsDisplay";
-import SkillDisplay from "./SkillDisplay";
-import { LocalMarketUpgradesDisplay } from "./upgrades/LocalMarketUpgradesDisplay";
+import PvMStatsDisplay from "@/components/PvMStats/PvMStatsDisplay";
+import SkillDisplay from "@/components/Skills/SkillDisplay";
+import { LocalMarketUpgradesDisplay } from "./Upgrades/UpgradesDisplay";
 //types
 import { Player } from "@/types/player";
 //icons
@@ -57,7 +57,7 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
         </div>
 
         <div className="xl:col-span-2">
-          <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
+          <div className="bg-[#002626] p-4 md:p-6 rounded-lg border border-[#004444]">
             <h2 className="text-2xl font-bold mb-4 text-emerald-400">
               PvM Stats
             </h2>
