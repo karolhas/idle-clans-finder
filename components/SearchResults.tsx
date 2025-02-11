@@ -1,7 +1,7 @@
 //components
-import PvMStatsDisplay from "@/components/pvmstats/PvMStatsDisplay";
-import SkillDisplay from "@/components/skills/SkillDisplay";
-import UpgradesDisplay from "@/components/upgrades/UpgradesDisplay";
+import PvMStatsDisplay from "./pvmstats/PvMStatsDisplay";
+import SkillDisplay from "./skills/SkillDisplay";
+import UpgradesDisplay from "./upgrades/UpgradesDisplay";
 //types
 import { Player } from "@/types/player";
 //icons
