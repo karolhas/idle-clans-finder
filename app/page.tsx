@@ -65,7 +65,7 @@ export default function Home() {
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
           {(searchResults || error) && (
             <SearchResults
-              player={searchResults as Player}
+              player={searchResults || ({} as Player)}
               error={error || undefined}
             />
           )}

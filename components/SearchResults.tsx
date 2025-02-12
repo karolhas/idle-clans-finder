@@ -48,8 +48,8 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
 
   if (error) {
     return (
-      <div className="mt-8 p-6 bg-red-50 border border-red-200 rounded-lg">
-        <p className="text-red-600">{error}</p>
+      <div className="mt-8 p-6 bg-red-50 border border-red-200 rounded-lg flex flex-col items-center space-y-4">
+        <p className="text-red-600 text-lg">{error}</p>
       </div>
     );
   }
