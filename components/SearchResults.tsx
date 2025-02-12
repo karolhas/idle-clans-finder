@@ -6,10 +6,17 @@ import { fetchClanMembers } from "@/services/apiService";
 import PvmStatsDisplay from "@/components/pvmstats/PvmStatsDisplay";
 import SkillDisplay from "@/components/skills/SkillDisplay";
 import UpgradesDisplay from "@/components/upgrades/UpgradesDisplay";
+import ClanInfoModal from "@/components/ClanInfoModal";
 //types
 import { Player } from "@/types/player";
 //icons
-import { FaGamepad, FaShieldAlt, FaUser, FaUsers } from "react-icons/fa";
+import {
+  FaGamepad,
+  FaShieldAlt,
+  FaUser,
+  FaUsers,
+  FaInfoCircle,
+} from "react-icons/fa";
 
 interface SearchResultsProps {
   player: Player;
@@ -18,6 +25,8 @@ interface SearchResultsProps {
 
 export default function SearchResults({ player, error }: SearchResultsProps) {
   const [memberCount, setMemberCount] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clanData, setClanData] = useState(null);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -25,6 +34,7 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
         try {
           const data = await fetchClanMembers(player.guildName);
           setMemberCount(data.memberlist?.length || 0);
+          setClanData(data);
         } catch (error) {
           console.error("Failed to fetch clan members:", error);
         }
@@ -43,7 +53,7 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
   }
 
   return (
-    <div className="mt-8 space-y-8">
+    <div className="mt-8">
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
         <div className="xl:col-span-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4">
           <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
@@ -64,10 +74,14 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
             </p>
           </div>
 
-          <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
-            <h2 className="text-2xl font-bold mb-4 text-emerald-400">
-              Clan Info
-            </h2>
+          <div
+            className="bg-[#002626] p-6 rounded-lg border border-[#004444] cursor-pointer hover:bg-[#003333] transition-colors"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-emerald-400">Clan Info</h2>
+              <FaInfoCircle className="text-xl text-emerald-400" />
+            </div>
             <p className="flex items-center mb-2 font-light">
               <FaShieldAlt className="mr-1" /> Clan:{" "}
               <span className="text-white ml-1 font-semibold">
@@ -93,7 +107,7 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
         </div>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-8 mt-8">
         <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
           <h2 className="text-2xl font-bold mb-4 text-emerald-400">Skills</h2>
           <SkillDisplay skills={player.skillExperiences} />
@@ -106,6 +120,22 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
           <UpgradesDisplay upgrades={player.upgrades} />
         </div>
       </div>
+
+      <ClanInfoModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        clanName={player.guildName || "No Clan"}
+        memberCount={memberCount}
+        clanData={
+          clanData || {
+            memberlist: [],
+            minimumTotalLevelRequired: 0,
+            isRecruiting: false,
+            recruitmentMessage: "",
+            language: "English",
+          }
+        }
+      />
     </div>
   );
 }
