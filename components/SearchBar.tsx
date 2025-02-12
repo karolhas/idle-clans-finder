@@ -30,10 +30,9 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
       <button
         type="submit"
         disabled={isLoading || !query.trim()}
-        className={`px-4 py-2 bg-emerald-500 text-white rounded-lg transition-colors
-          ${
-            isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-emerald-600"
-          }`}
+        className={`px-4 py-2 bg-emerald-500 text-white rounded-lg transition-colors cursor-pointer
+          ${isLoading ? "opacity-50" : "hover:bg-emerald-600"}`}
+        aria-label="search-button"
       >
         {isLoading ? (
           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

@@ -18,7 +18,7 @@ export function SkillCard({ skillName, xp, level, color }: SkillCardProps) {
             fill
             sizes="20px"
             className="object-contain"
-            priority
+            loading="lazy"
           />
         </div>
         <p className="text-gray-300 text-sm">

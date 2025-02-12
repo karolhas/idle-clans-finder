@@ -22,6 +22,7 @@ export function BossRow({
         width={24}
         height={24}
         className="inline-block"
+        priority
       />
       {formatBossName(name)}:{" "}
       <span className={`${getBossColor(kills)} font-semibold`}>

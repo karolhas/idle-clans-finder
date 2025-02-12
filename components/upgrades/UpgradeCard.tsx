@@ -36,7 +36,7 @@ export function UpgradeCard({
             fill
             sizes="20px"
             className="object-contain"
-            priority
+            loading="lazy"
           />
         </div>
         <p className="text-gray-300 text-sm">{formatUpgradeName(name)}</p>

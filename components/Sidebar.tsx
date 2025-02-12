@@ -37,6 +37,7 @@ export default function Sidebar() {
       <button
         className="md:hidden fixed top-4 right-4 z-50 text-white p-2 rounded-lg transition-colors bg-[#003333] hover:bg-[#004444]"
         onClick={() => setIsOpen(!isOpen)}
+        aria-label="menu-button"
       >
         {isOpen ? (
           <RxCross2 className="w-6 h-6" />
