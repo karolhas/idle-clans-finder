@@ -17,6 +17,8 @@ import {
   FaUsers,
   FaInfoCircle,
 } from "react-icons/fa";
+import { GiSwordsEmblem } from "react-icons/gi";
+import { getLevel } from "@/lib/xpUtils";
 
 interface SearchResultsProps {
   player: Player;
@@ -66,10 +68,20 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
                 {player.username}
               </span>
             </p>
-            <p className="flex items-center font-light">
+            <p className="flex items-center mb-2 font-light">
               <FaGamepad className="mr-1" /> Game Mode:{" "}
               <span className="text-white ml-1 font-semibold">
                 {player.gameMode === "default" ? "Normal" : player.gameMode}
+              </span>
+            </p>
+            <p className="flex items-center font-light">
+              <GiSwordsEmblem className="mr-1" /> Total Level:{" "}
+              <span className="text-white ml-1 font-semibold">
+                {Object.values(player.skillExperiences).reduce(
+                  (sum, exp) => sum + getLevel(exp),
+                  0
+                )}
+                /2400
               </span>
             </p>
           </div>
@@ -97,8 +109,8 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
           </div>
         </div>
 
-        <div className="xl:col-span-2">
-          <div className="bg-[#002626] p-4 md:p-6 rounded-lg border border-[#004444]">
+        <div className="col-span-1 md:col-span-2 xl:col-span-2">
+          <div className="bg-[#002626] p-4 md:p-6 rounded-lg border border-[#004444] h-full">
             <h2 className="text-2xl font-bold mb-4 text-emerald-400">
               PvM Stats
             </h2>
