@@ -1,0 +1,32 @@
+export const MAX_TIERS = (upgradeName: string): number => {
+  const maxTiers: { [key: string]: number } = {
+    keepItSpacious: 190,
+    valuedClanMember: 1,
+    housing: 5,
+    lazyRaider: 1,
+    extraLoadouts: 15,
+    offlineProgress: 6,
+    toolbeltUpgrade: 6,
+    ancientWisdom: 1,
+    masterCrafter: 1,
+    mostEfficientFisherman: 5,
+    farmingTrickery: 5,
+    theFisherman: 5,
+    powerForager: 5,
+    plankBargain: 3,
+    smeltingMagic: 3,
+    theLumberjack: 5,
+    autoEating: 1,
+    autoLooting: 1,
+    bossSlayer: 1,
+    ninja: 4,
+    monsterHunter: 1,
+    showUsTheMoney: 1,
+    "kronosWho?": 1,
+    pickyEater: 1,
+    "ammo-saver": 6,
+    teamwork: 1,
+    bountyHunter: 1,
+  };
+  return maxTiers[upgradeName] || 1;
+};

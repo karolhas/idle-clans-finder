@@ -1,4 +1,4 @@
-export interface SkillStats {
+export interface SkillsStats {
   attack: number;
   strength: number;
   defence: number;

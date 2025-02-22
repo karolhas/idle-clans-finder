@@ -1,11 +1,14 @@
+//components
 import { UpgradeSection } from "./UpgradeSection";
+//types
+import { Upgrades } from "@/types/upgrades.types";
+//utils
 import {
   categorizeUpgrades,
-  formatUpgradeName,
   getMaxTiers,
   getImagePath,
-} from "@/lib/upgradeUtils";
-import { Upgrades } from "@/types/upgrades";
+} from "@/utils/upgrades/upgradeUtils";
+import { formatUpgradeName } from "@/utils/upgrades/formatters/upgradeNameFormatter";
 
 interface UpgradesDisplayProps {
   upgrades: Upgrades;

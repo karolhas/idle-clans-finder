@@ -1,12 +1,5 @@
 //types
-import { Upgrades } from "@/types/upgrades";
-
-export const formatUpgradeName = (name: string): string => {
-  return name
-    .split(/(?=[A-Z])|[-_]/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
-};
+import { Upgrades } from "@/types/upgrades.types";
 
 export const getMaxTiers = (upgradeName: string): number => {
   const maxTiers: { [key: string]: number } = {

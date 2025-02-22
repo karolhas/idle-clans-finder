@@ -1,14 +1,14 @@
 //hooks
 import { useEffect, useState } from "react";
 //api
-import { fetchClanMembers } from "@/services/apiService";
+import { fetchClanMembers } from "@/lib/api/apiService";
 //components
 import PvmStatsDisplay from "@/components/pvmstats/PvmStatsDisplay";
 import SkillDisplay from "@/components/skills/SkillDisplay";
 import UpgradesDisplay from "@/components/upgrades/UpgradesDisplay";
 import ClanInfoModal from "@/components/ClanInfoModal";
 //types
-import { Player } from "@/types/player";
+import { Player } from "@/types/player.types";
 //icons
 import {
   FaGamepad,
@@ -18,7 +18,7 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import { GiSwordsEmblem } from "react-icons/gi";
-import { getLevel } from "@/lib/xpUtils";
+import { getLevel } from "@/utils/common/calculations/xpCalculations";
 
 interface SearchResultsProps {
   player: Player;

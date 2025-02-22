@@ -1,11 +1,13 @@
+//components
 import { SkillCard } from "./SkillCard";
-import { skillsUtils } from "@/lib/skillUtils";
+//utils
+import { formatSkills } from "@/utils/skills/formatters/skillFormatter";
 
 interface SkillDisplayProps {
   skills: Record<string, number>;
 }
 export default function SkillDisplay({ skills }: SkillDisplayProps) {
-  const { formattedSkills } = skillsUtils(skills);
+  const formattedSkills = formatSkills(skills);
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
