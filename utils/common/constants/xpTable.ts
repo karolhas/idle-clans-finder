@@ -120,23 +120,3 @@ export const XP_TABLE: { [key: number]: number } = {
   119: 78644309,
   120: 88474739,
 };
-
-export function getLevel(experience: number): number {
-  if (experience >= 500000000) return 120;
-
-  let level = 120;
-  while (level > 1 && experience < XP_TABLE[level]) {
-    level--;
-  }
-  return level;
-}
-
-export function convertSkillsToLevels(skillExperiences: {
-  [key: string]: number;
-}) {
-  const levels: { [key: string]: number } = {};
-  for (const [skill, xp] of Object.entries(skillExperiences)) {
-    levels[skill] = getLevel(xp);
-  }
-  return levels;
-}

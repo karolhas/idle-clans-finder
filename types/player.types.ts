@@ -1,14 +1,10 @@
 //types
-import { Upgrades } from "./upgrades";
-import { PvmStats } from "./pvmStats";
-
-export interface ClanMember {
-  memberName: string;
-  rank: number;
-}
+import { Upgrades } from "./upgrades.types";
+import { PvmStats } from "./pvm.types";
+import { Clan } from "./clan.types";
 
 export interface Player {
-  memberlist: ClanMember[];
+  memberlist: Clan[];
   upgrades: Upgrades;
   username: string;
   gameMode: string;

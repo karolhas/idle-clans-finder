@@ -8,27 +8,22 @@ import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
 
-  // Handle window resize
+  // Handle window resize to close menu on desktop
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
       if (window.innerWidth >= 768) {
         setIsOpen(false);
       }
     };
 
-    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleLinkClick = () => {
-    if (isMobile) {
-      setIsOpen(false);
-    }
+    setIsOpen(false);
   };
 
   return (
@@ -82,12 +77,12 @@ export default function Sidebar() {
       </div>
 
       {/* Overlay for mobile */}
-      {isMobile && isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
+      <div
+        className={`${
+          isOpen ? "block" : "hidden"
+        } md:hidden fixed inset-0 bg-black bg-opacity-50 z-30`}
+        onClick={() => setIsOpen(false)}
+      />
     </>
   );
 }

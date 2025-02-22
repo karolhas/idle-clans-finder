@@ -4,13 +4,13 @@
 import { useState } from "react";
 import Image from "next/image";
 //api
-import { fetchPlayerProfile } from "@/services/apiService";
+import { fetchPlayerProfile } from "@/lib/api/apiService";
 //components
 import SearchBar from "@/components/SearchBar";
 import SearchResults from "@/components/SearchResults";
 import Sidebar from "@/components/Sidebar";
 //types
-import { Player } from "@/types/player";
+import { Player } from "@/types/player.types";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState<Player | null>(null);

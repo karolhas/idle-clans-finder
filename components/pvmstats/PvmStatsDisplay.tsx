@@ -1,23 +1,21 @@
 //components
 import { BossCategory } from "@/components/pvmstats/BossCategory";
-//lib
-import { bossStatsUtils } from "@/lib/bossStatsUtils";
+
 //types
-import { PvmStats } from "@/types/pvmStats";
+import { PvmStats } from "@/types/pvm.types";
+
+//utils
+import { calculateBossStats } from "@/utils/bosses/calculations/bossStatsCalculator";
+import { getBossColor } from "@/utils/bosses/calculations/bossColor";
+import { formatBossName } from "@/utils/bosses/formatters/bossNameFormatter";
 
 interface PvmStatsDisplayProps {
   stats: PvmStats;
 }
 
 export default function PvmStatsDisplay({ stats }: PvmStatsDisplayProps) {
-  const {
-    categorizedBosses,
-    raidTotal,
-    bossTotal,
-    clanBossTotal,
-    getBossColor,
-    formatBossName,
-  } = bossStatsUtils(stats);
+  const { categorizedBosses, raidTotal, bossTotal, clanBossTotal } =
+    calculateBossStats(stats);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
