@@ -3,12 +3,10 @@ import { UpgradeSection } from "./UpgradeSection";
 //types
 import { Upgrades } from "@/types/upgrades.types";
 //utils
-import {
-  categorizeUpgrades,
-  getMaxTiers,
-  getImagePath,
-} from "@/utils/upgrades/upgradeUtils";
+import { categorizeUpgrades } from "@/utils/upgrades/calculations/upgradeCategorizer";
+import { getImagePath } from "@/utils/upgrades/formatters/upgradeImageFormatter";
 import { formatUpgradeName } from "@/utils/upgrades/formatters/upgradeNameFormatter";
+import { MAX_TIERS } from "@/utils/upgrades/constants/upgradeTiers";
 
 interface UpgradesDisplayProps {
   upgrades: Upgrades;
@@ -22,28 +20,28 @@ export default function UpgradesDisplay({ upgrades }: UpgradesDisplayProps) {
       <UpgradeSection
         title="General"
         upgrades={categorizedUpgrades.general}
-        getMaxTiers={getMaxTiers}
+        getMaxTiers={MAX_TIERS}
         getImagePath={getImagePath}
         formatUpgradeName={formatUpgradeName}
       />
       <UpgradeSection
         title="Skilling"
         upgrades={categorizedUpgrades.skilling}
-        getMaxTiers={getMaxTiers}
+        getMaxTiers={MAX_TIERS}
         getImagePath={getImagePath}
         formatUpgradeName={formatUpgradeName}
       />
       <UpgradeSection
         title="Combat"
         upgrades={categorizedUpgrades.combat}
-        getMaxTiers={getMaxTiers}
+        getMaxTiers={MAX_TIERS}
         getImagePath={getImagePath}
         formatUpgradeName={formatUpgradeName}
       />
       <UpgradeSection
         title="Unlocked with Items"
         upgrades={categorizedUpgrades.unlockedWithItems}
-        getMaxTiers={getMaxTiers}
+        getMaxTiers={MAX_TIERS}
         getImagePath={getImagePath}
         formatUpgradeName={formatUpgradeName}
       />

@@ -1,31 +1,30 @@
 //utils
-import { UPGRADE_CATEGORIES } from "./../constants/upgradeCategories";
+import { Upgrades } from "@/types/upgrades.types";
+import { UPGRADE_CATEGORIES } from "../constants/upgradeCategories";
 
-const initializeCategories = (): typeof UPGRADE_CATEGORIES => ({
-  general: [],
-  skilling: [],
-  combat: [],
-  unlockedWithItems: [],
-});
-
-const findCategoryForUpgrade = (
-  upgradeName: string
-): keyof typeof UPGRADE_CATEGORIES | null => {
-  const [category] = Object.entries(UPGRADE_CATEGORIES).find(([upgrades]) =>
-    upgrades.includes(upgradeName)
-  ) || [null];
-
-  return (category as keyof typeof UPGRADE_CATEGORIES) || null;
+type CategorizedUpgrades = {
+  general: Record<string, number>;
+  skilling: Record<string, number>;
+  combat: Record<string, number>;
+  unlockedWithItems: Record<string, number>;
 };
 
-export const categorizeUpgrades = (
-  upgrades: Record<string, unknown>
-): typeof UPGRADE_CATEGORIES => {
-  return Object.entries(upgrades).reduce((acc, [name]) => {
-    const category = findCategoryForUpgrade(name);
+export const categorizeUpgrades = (upgrades: Upgrades): CategorizedUpgrades => {
+  const result: CategorizedUpgrades = {
+    general: {},
+    skilling: {},
+    combat: {},
+    unlockedWithItems: {},
+  };
+  for (const [name, value] of Object.entries(upgrades)) {
+    const category = Object.entries(UPGRADE_CATEGORIES).find(
+      ([, categoryUpgrades]) => categoryUpgrades.includes(name)
+    )?.[0] as keyof CategorizedUpgrades | undefined;
+
     if (category) {
-      acc[category].push(name);
+      result[category][name] = value;
     }
-    return acc;
-  }, initializeCategories());
+  }
+
+  return result;
 };
