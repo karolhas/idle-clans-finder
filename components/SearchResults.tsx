@@ -1,23 +1,30 @@
-//hooks
+// hooks
 import { useEffect, useState } from "react";
-//api
+// api
 import { fetchClanMembers } from "@/lib/api/apiService";
-//components
+// components
 import PvmStatsDisplay from "@/components/pvmstats/PvmStatsDisplay";
 import SkillDisplay from "@/components/skills/SkillDisplay";
 import UpgradesDisplay from "@/components/upgrades/UpgradesDisplay";
 import ClanInfoModal from "@/components/ClanInfoModal";
-//types
+import AdvancedPlayerInfoModal from "@/components/AdvancedPlayerInfoModal";
+
+// types
 import { Player } from "@/types/player.types";
-//icons
-import {
-  FaGamepad,
-  FaShieldAlt,
-  FaUser,
-  FaUsers,
-  FaInfoCircle,
+
+// icons
+import { 
+  FaGamepad, 
+  FaShieldAlt, 
+  FaUser, 
+  FaUsers, 
+  FaInfoCircle 
 } from "react-icons/fa";
-import { GiSwordsEmblem } from "react-icons/gi";
+import { 
+  GiSwordsEmblem, 
+  GiAlarmClock, 
+  GiWoodAxe 
+} from "react-icons/gi";
 import { getLevel } from "@/utils/common/calculations/xpCalculations";
 
 interface SearchResultsProps {
@@ -28,6 +35,7 @@ interface SearchResultsProps {
 export default function SearchResults({ player, error }: SearchResultsProps) {
   const [memberCount, setMemberCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAdvancedModalOpen, setIsAdvancedModalOpen] = useState(false);
   const [clanData, setClanData] = useState(null);
 
   useEffect(() => {
@@ -59,61 +67,62 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
         <div className="xl:col-span-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4">
           <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
-            <h2 className="text-2xl font-bold mb-4 text-emerald-400">
-              Player Info
-            </h2>
+            <h2 className="text-2xl font-bold mb-4 text-emerald-400">Player Info</h2>
             <p className="flex items-center mb-2 font-light">
-              <FaUser className="mr-1" /> Nickname:{" "}
-              <span className="text-white ml-1 font-semibold">
-                {player.username}
-              </span>
+              <FaUser className="mr-1" /> Nickname:
+              <span className="text-white ml-1 font-semibold">{player.username}</span>
             </p>
             <p className="flex items-center mb-2 font-light">
-              <FaGamepad className="mr-1" /> Game Mode:{" "}
+              <FaGamepad className="mr-1" /> Game Mode:
               <span className="text-white ml-1 font-semibold">
                 {player.gameMode === "default" ? "Normal" : player.gameMode}
               </span>
             </p>
             <p className="flex items-center font-light">
-              <GiSwordsEmblem className="mr-1" /> Total Level:{" "}
+              <GiSwordsEmblem className="mr-1" /> Total Level:
               <span className="text-white ml-1 font-semibold">
-                {Object.values(player.skillExperiences).reduce(
-                  (sum, exp) => sum + getLevel(exp),
-                  0
-                )}
-                /2400
+                {Object.values(player.skillExperiences).reduce((sum, exp) => sum + getLevel(exp), 0)}/2400
               </span>
             </p>
+            <p className="flex items-center font-light">
+              <GiAlarmClock className="mr-1" /> Time Offline:
+              <span className="text-white ml-1 font-semibold">
+                {Math.floor(player.hoursOffline)}h {Math.round((player.hoursOffline % 1) * 60)}m
+              </span>
+            </p>
+            <p className="flex items-center font-light">
+              <GiWoodAxe className="mr-1" /> Last Known Task:
+              <span style={{ textTransform: "capitalize" }} className="text-white ml-1 font-semibold">
+                {player.taskNameOnLogout.replace(/_/g, " ")}
+              </span>
+            </p>
+            <button
+              className="bg-emerald-500 text-white px-4 py-2 mt-4 rounded-lg hover:bg-emerald-600 transition"
+              onClick={() => setIsAdvancedModalOpen(true)}
+            >
+              View Advanced Info
+            </button>
           </div>
 
-          <div
-            className="bg-[#002626] p-6 rounded-lg border border-[#004444] cursor-pointer hover:bg-[#003333] transition-colors"
-            onClick={() => setIsModalOpen(true)}
-          >
+          <div className="bg-[#002626] p-6 rounded-lg border border-[#004444] cursor-pointer hover:bg-[#003333] transition-colors" onClick={() => setIsModalOpen(true)}>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-emerald-400">Clan Info</h2>
               <FaInfoCircle className="text-xl text-emerald-400" />
             </div>
             <p className="flex items-center mb-2 font-light">
-              <FaShieldAlt className="mr-1" /> Clan:{" "}
-              <span className="text-white ml-1 font-semibold">
-                {player.guildName || "No Clan"}
-              </span>
+              <FaShieldAlt className="mr-1" /> Clan:
+              <span className="text-white ml-1 font-semibold">{player.guildName || "No Clan"}</span>
             </p>
             <p className="flex items-center font-light">
-              <FaUsers className="mr-1" /> Members:{" "}
-              <span className="text-white ml-1 font-semibold">
-                {memberCount}/20
-              </span>
+              <FaUsers className="mr-1" /> Members:
+              <span className="text-white ml-1 font-semibold">{memberCount}/20</span>
             </p>
           </div>
         </div>
 
         <div className="col-span-1 md:col-span-2 xl:col-span-2">
           <div className="bg-[#002626] p-4 md:p-6 rounded-lg border border-[#004444] h-full">
-            <h2 className="text-2xl font-bold mb-4 text-emerald-400">
-              PvM Stats
-            </h2>
+            <h2 className="text-2xl font-bold mb-4 text-emerald-400">PvM Stats</h2>
             <PvmStatsDisplay stats={player.pvmStats} />
           </div>
         </div>
@@ -126,28 +135,33 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
         </div>
 
         <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
-          <h2 className="text-2xl font-bold mb-4 text-emerald-400">
-            Local Market Upgrades
-          </h2>
+          <h2 className="text-2xl font-bold mb-4 text-emerald-400">Local Market Upgrades</h2>
           <UpgradesDisplay upgrades={player.upgrades} />
         </div>
       </div>
 
-      <ClanInfoModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        clanName={player.guildName || "No Clan"}
-        memberCount={memberCount}
-        clanData={
-          clanData || {
-            memberlist: [],
-            minimumTotalLevelRequired: 0,
-            isRecruiting: false,
-            recruitmentMessage: "",
-            language: "English",
-          }
-        }
-      />
+      <ClanInfoModal 
+		isOpen={isModalOpen} 
+		onClose={() => setIsModalOpen(false)} 
+		clanName={player.guildName || "No Clan"} 
+		memberCount={memberCount} 
+		clanData={
+		  clanData || { 
+			memberlist: [], 
+			minimumTotalLevelRequired: 0, 
+			isRecruiting: false, 
+			recruitmentMessage: "", 
+			language: "English" 
+		  }
+		} 
+	  />
+
+      <AdvancedPlayerInfoModal 
+		isOpen={isAdvancedModalOpen} 
+		onClose={() => setIsAdvancedModalOpen(false)} 
+		playerData={{ 
+		equipment: player.equipment || {}, 
+		enchantmentBoosts: player.enchantmentBoosts || {} }} />
     </div>
   );
 }
