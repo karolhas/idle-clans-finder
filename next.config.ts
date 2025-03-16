@@ -1,21 +1,18 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+    output: 'standalone',
     images: {
-        unoptimized: true,
+        unoptimized: process.env.NODE_ENV === 'development',
         dangerouslyAllowSVG: true,
         contentDispositionType: 'attachment',
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: '**',
+                hostname: 'idleclansfinder.vercel.app',
             },
         ],
     },
-    // Add assetPrefix for production
-    assetPrefix: process.env.NODE_ENV === 'production' ? '/your-base-path' : '',
-    // Disable image optimization in production
-    output: 'standalone',
 };
 
 export default nextConfig;
