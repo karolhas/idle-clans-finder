@@ -59,6 +59,17 @@ function getDisplayItemName(
     return name;
 }
 
+// Function to safely create image paths with fallback handling
+function createSafeImagePath(name: string | null): string {
+    if (!name) return '/placeholder.png'; // Return a placeholder path that won't be used
+
+    // Clean the name for URL use
+    const cleanName = name.replace(/\s+/g, '_').toLowerCase();
+
+    // Return the path
+    return `/gameimages/${cleanName}.png`;
+}
+
 export default function AdvancedPlayerInfoModal({
     isOpen,
     onClose,
@@ -160,9 +171,7 @@ export default function AdvancedPlayerInfoModal({
 
                                         // Only create image path if we have a valid baseItemName
                                         const imagePath = baseItemName
-                                            ? `/gameimages/${baseItemName
-                                                  .replace(/\s+/g, '_')
-                                                  .toLowerCase()}.png`
+                                            ? createSafeImagePath(baseItemName)
                                             : null;
 
                                         const tooltipId = `tooltip-${slot}`;
@@ -190,6 +199,7 @@ export default function AdvancedPlayerInfoModal({
                                                             height={48}
                                                             className="w-full h-full object-contain"
                                                             unoptimized={true}
+                                                            loading="eager"
                                                             onError={(e) => {
                                                                 // Just hide the image on error without logging
                                                                 e.currentTarget.style.display =
@@ -250,17 +260,15 @@ export default function AdvancedPlayerInfoModal({
                                                 <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center">
                                                     {hasValidName && (
                                                         <Image
-                                                            src={`/gameimages/${boostName
-                                                                .replace(
-                                                                    /\s+/g,
-                                                                    '_'
-                                                                )
-                                                                .toLowerCase()}.png`}
+                                                            src={createSafeImagePath(
+                                                                boostName
+                                                            )}
                                                             alt={boostName}
                                                             width={32}
                                                             height={32}
                                                             className="w-full h-full object-contain"
                                                             unoptimized={true}
+                                                            loading="eager"
                                                             onError={(e) => {
                                                                 // Just hide the image on error without logging
                                                                 e.currentTarget.style.display =
