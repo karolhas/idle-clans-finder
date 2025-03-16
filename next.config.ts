@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    // Add assetPrefix for production
+    assetPrefix: process.env.NODE_ENV === 'production' ? '/your-base-path' : '',
     // Disable image optimization in production
     output: 'standalone',
 };

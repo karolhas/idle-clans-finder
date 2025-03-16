@@ -61,13 +61,10 @@ function getDisplayItemName(
 
 // Function to safely create image paths with fallback handling
 function createSafeImagePath(name: string | null): string {
-    if (!name) return '/placeholder.png'; // Return a placeholder path that won't be used
-
-    // Clean the name for URL use
+    if (!name) return '/placeholder.png';
     const cleanName = name.replace(/\s+/g, '_').toLowerCase();
-
-    // Return the path
-    return `/gameimages/${cleanName}.png`;
+    // Add public prefix
+    return `/public/gameimages/${cleanName}.png`;
 }
 
 export default function AdvancedPlayerInfoModal({
