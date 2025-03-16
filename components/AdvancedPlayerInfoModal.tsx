@@ -134,21 +134,37 @@ export default function AdvancedPlayerInfoModal({
                                     className="flex flex-col gap-2 sm:gap-3 flex-shrink-0"
                                 >
                                     {group.map((slot) => {
-                                        const rawItemName = getItemName(
-                                            playerData.equipment[slot]
-                                        );
-                                        const baseItemName =
-                                            getBaseItemName(rawItemName);
-                                        const displayItemName =
-                                            getDisplayItemName(
-                                                rawItemName,
-                                                slot
-                                            );
+                                        // Only process item details if there's an actual equipment ID
+                                        const equipmentId =
+                                            playerData.equipment[slot];
+
+                                        // Skip processing if no equipment in this slot
+                                        const hasEquipment =
+                                            equipmentId !== undefined &&
+                                            equipmentId !== null &&
+                                            equipmentId !== 0;
+
+                                        // Only get item details if we have equipment
+                                        const rawItemName = hasEquipment
+                                            ? getItemName(equipmentId)
+                                            : null;
+                                        const baseItemName = hasEquipment
+                                            ? getBaseItemName(rawItemName)
+                                            : null;
+                                        const displayItemName = hasEquipment
+                                            ? getDisplayItemName(
+                                                  rawItemName,
+                                                  slot
+                                              )
+                                            : null;
+
+                                        // Only create image path if we have a valid baseItemName
                                         const imagePath = baseItemName
                                             ? `/gameimages/${baseItemName
                                                   .replace(/\s+/g, '_')
                                                   .toLowerCase()}.png`
                                             : null;
+
                                         const tooltipId = `tooltip-${slot}`;
 
                                         return (
@@ -164,31 +180,24 @@ export default function AdvancedPlayerInfoModal({
                                                     data-tooltip-id={tooltipId}
                                                     className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-md flex items-center justify-center mt-1"
                                                 >
-                                                    {imagePath ? (
+                                                    {hasEquipment &&
+                                                    baseItemName &&
+                                                    imagePath ? (
                                                         <Image
                                                             src={imagePath}
-                                                            alt={
-                                                                baseItemName ||
-                                                                'None Equipped'
-                                                            }
+                                                            alt={baseItemName}
                                                             width={48}
                                                             height={48}
                                                             className="w-full h-full object-contain"
+                                                            unoptimized={true}
                                                             onError={(e) => {
-                                                                console.error(
-                                                                    `Failed to load image for ${
-                                                                        baseItemName ||
-                                                                        slot
-                                                                    }`
-                                                                );
+                                                                // Just hide the image on error without logging
                                                                 e.currentTarget.style.display =
                                                                     'none';
                                                             }}
                                                         />
                                                     ) : (
-                                                        <span className="text-xs text-gray-400">
-                                                            Empty
-                                                        </span>
+                                                        <></>
                                                     )}
                                                 </div>
                                                 <Tooltip
@@ -196,7 +205,7 @@ export default function AdvancedPlayerInfoModal({
                                                     place="top"
                                                 >
                                                     {displayItemName ||
-                                                        'Unknown Item'}
+                                                        'Empty slot'}
                                                 </Tooltip>
                                             </div>
                                         );
@@ -227,35 +236,48 @@ export default function AdvancedPlayerInfoModal({
                                 0 ? (
                                 Object.entries(playerData.enchantmentBoosts)
                                     .sort((a, b) => b[1] - a[1])
-                                    .map(([boost, value]) => (
-                                        <div
-                                            key={boost}
-                                            className="flex items-center gap-2 sm:gap-3 p-2 bg-[#004444] rounded-md"
-                                        >
-                                            <Image
-                                                src={`/gameimages/${boost
-                                                    .replace(/\s+/g, '_')
-                                                    .toLowerCase()}.png`}
-                                                alt={boost}
-                                                width={32}
-                                                height={32}
-                                                className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                                                onError={(e) => {
-                                                    console.error(
-                                                        `Failed to load image for ${boost}`
-                                                    );
-                                                    e.currentTarget.style.display =
-                                                        'none';
-                                                }}
-                                            />
-                                            <p className="capitalize text-white font-semibold text-xs sm:text-sm">
-                                                {boost}:
-                                            </p>
-                                            <p className="text-gray-300 text-xs sm:text-sm ml-auto">
-                                                {value}%
-                                            </p>
-                                        </div>
-                                    ))
+                                    .map(([boost, value]) => {
+                                        // Make sure boost name is valid for image path
+                                        const boostName = boost.trim();
+                                        const hasValidName =
+                                            boostName.length > 0;
+
+                                        return (
+                                            <div
+                                                key={boost}
+                                                className="flex items-center gap-2 sm:gap-3 p-2 bg-[#004444] rounded-md"
+                                            >
+                                                <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center">
+                                                    {hasValidName && (
+                                                        <Image
+                                                            src={`/gameimages/${boostName
+                                                                .replace(
+                                                                    /\s+/g,
+                                                                    '_'
+                                                                )
+                                                                .toLowerCase()}.png`}
+                                                            alt={boostName}
+                                                            width={32}
+                                                            height={32}
+                                                            className="w-full h-full object-contain"
+                                                            unoptimized={true}
+                                                            onError={(e) => {
+                                                                // Just hide the image on error without logging
+                                                                e.currentTarget.style.display =
+                                                                    'none';
+                                                            }}
+                                                        />
+                                                    )}
+                                                </div>
+                                                <p className="capitalize text-white font-semibold text-xs sm:text-sm">
+                                                    {boost}:
+                                                </p>
+                                                <p className="text-gray-300 text-xs sm:text-sm ml-auto">
+                                                    {value}%
+                                                </p>
+                                            </div>
+                                        );
+                                    })
                             ) : (
                                 <p className="text-gray-400 text-xs sm:text-sm">
                                     No enchantment boosts available.
