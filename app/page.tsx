@@ -62,7 +62,7 @@ export default function Home() {
             </h1>
           </div>
 
-          <SearchBar onSearch={handleSearch} isLoading={isLoading} searchResult={searchResults ? searchResults.nickname : null} />
+          <SearchBar onSearch={handleSearch} isLoading={isLoading} />
           {(searchResults || error) && (
             <SearchResults
               player={searchResults || ({} as Player)}
