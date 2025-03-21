@@ -14,7 +14,7 @@ import { Player } from "@/types/player.types";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState<Player | null>(null);
-  const [_error, setError] = useState<string | null>(null);
+  const [_error, setError] = useState<string | null>(null); // Renamed 'error' to '_error'
   const [isLoading, setIsLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [showMobileSearches, setShowMobileSearches] = useState(false);
@@ -46,7 +46,7 @@ export default function Home() {
         const newSearches = prev.includes(query) ? prev : [query, ...prev];
         return newSearches.slice(0, 5);
       });
-    } catch (_error: unknown) {
+    } catch (error: unknown) {
       setError("Error fetching player data. Please try again.");
       setSearchResults(null);
     } finally {
@@ -135,16 +135,16 @@ export default function Home() {
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
           
           {/* Search Results */}
-          {(searchResults || error) && (
+          {(searchResults || _error) && (
             <SearchResults
               player={searchResults || ({} as Player)}
-              error={error || undefined}
+              error={_error || undefined}
             />
           )}
         </div>
 
-        {/* Desktop: Recent Searches Sidebar */}
-        <aside className="w-64 p-4 bg-[color] rounded-lg shadow-lg flex flex-col hidden md:flex">
+        {/* Desktop: Recent Searches Sidebar (Unchanged from Before) */}
+        <aside className="w-64 p-4 bg-gray-100 rounded-lg shadow-lg flex flex-col hidden md:flex">
           <h2 className="text-lg font-bold text-emerald-500 mb-2 text-center">
             Player Search History
           </h2>
