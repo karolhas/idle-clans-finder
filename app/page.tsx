@@ -14,7 +14,7 @@ import { Player } from "@/types/player.types";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState<Player | null>(null);
-  const [_error, setError] = useState<string | null>(null); // Renamed 'error' to '_error'
+  const setError = useState<string | null>(null)[1]; // Removed 'error' to fix ESLint issue
   const [isLoading, setIsLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [showMobileSearches, setShowMobileSearches] = useState(false);
@@ -135,10 +135,9 @@ export default function Home() {
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
           
           {/* Search Results */}
-          {(searchResults || _error) && (
+          {searchResults && (
             <SearchResults
               player={searchResults || ({} as Player)}
-              error={_error || undefined}
             />
           )}
         </div>
