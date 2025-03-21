@@ -1,21 +1,39 @@
 "use client";
 
-//hooks
-import { useState } from "react";
+// hooks
+import { useEffect, useState } from "react";
 import Image from "next/image";
-//api
+// api
 import { fetchPlayerProfile } from "@/lib/api/apiService";
-//components
+// components
 import SearchBar from "@/components/SearchBar";
 import SearchResults from "@/components/SearchResults";
 import Sidebar from "@/components/Sidebar";
-//types
+// types
 import { Player } from "@/types/player.types";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState<Player | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+
+  // Load recent searches
+  useEffect(() => {
+    // Retrieve recent searches 
+    const savedSearches = localStorage.getItem("recentSearches");
+    if (savedSearches) {
+      setRecentSearches(JSON.parse(savedSearches));
+    }
+  }, []);
+
+  // Update localStorage whenever search is made
+  useEffect(() => {
+    if (recentSearches.length > 0) {
+
+      localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
+    }
+  }, [recentSearches]);
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
@@ -24,6 +42,12 @@ export default function Home() {
     try {
       const data = await fetchPlayerProfile(query);
       setSearchResults(data);
+
+      // No duplicate searches saved
+      setRecentSearches((prev) => {
+        const newSearches = prev.includes(query) ? prev : [query, ...prev];
+        return newSearches.slice(0, 5); // Max 5 searches shown. Change me as needed
+      });
     } catch (error: unknown) {
       if (
         error instanceof Error &&
@@ -43,11 +67,26 @@ export default function Home() {
     }
   };
 
+  const clearSearches = () => {
+    setRecentSearches([]);
+    localStorage.removeItem("recentSearches"); // Clear from localStorage
+  };
+
+  const removeSearch = (query: string) => {
+    const updatedSearches = recentSearches.filter((search) => search !== query);
+    setRecentSearches(updatedSearches);
+    localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
+  };
+
+  const handleRecentSearchClick = (query: string) => {
+    handleSearch(query); // Trigger the search for that player when clicked
+  };
+
   return (
     <div className="flex">
       <Sidebar />
-      <main className="md:ml-64 flex-1 p-4 md:p-8">
-        <div className="max-w-5xl mx-auto">
+      <main className="md:ml-64 flex-1 p-4 md:p-8 flex">
+        <div className="max-w-5xl mx-auto flex-1">
           <div className="flex items-center mb-8">
             <Image
               src="/logo.png"
@@ -70,6 +109,44 @@ export default function Home() {
             />
           )}
         </div>
+
+        {/* Player Search History Section */}
+        <aside className="w-64 p-4 bg-[color] rounded-lg shadow-lg flex flex-col">
+          <h2 className="text-lg font-bold text-green mb-2 text-center">Player Search History</h2>
+
+          {/* Recent Searches List */}
+          {recentSearches.length > 0 ? (
+            <div className="flex-1 overflow-hidden">
+              <ul className="space-y-2">
+                {recentSearches.map((query, index) => (
+                  <li key={index} className="flex justify-between items-center bg-white p-2 rounded shadow">
+                    {/* Clickable player name */}
+                    <button
+                      className="text-gray-800 text-sm"
+                      onClick={() => handleRecentSearchClick(query)} // Trigger the search on click
+                    >
+                      {query}
+                    </button>
+                    <button
+                      className="text-red-500 text-xs"
+                      onClick={() => removeSearch(query)}
+                    >
+                      ✕
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <button
+                onClick={clearSearches}
+                className="mt-2 w-full text-sm text-red-600 hover:underline"
+              >
+                Clear All
+              </button>
+            </div>
+          ) : (
+            <p className="text-gray-500 text-sm">No recent searches</p>
+          )}
+        </aside>
       </main>
     </div>
   );
