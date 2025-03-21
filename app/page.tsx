@@ -14,7 +14,6 @@ import { Player } from "@/types/player.types";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState<Player | null>(null);
-  const setError = useState<string | null>(null)[1]; // Removed 'error' to fix ESLint issue
   const [isLoading, setIsLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [showMobileSearches, setShowMobileSearches] = useState(false);
@@ -36,7 +35,6 @@ export default function Home() {
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
-    setError(null);
 
     try {
       const data = await fetchPlayerProfile(query);
@@ -47,7 +45,6 @@ export default function Home() {
         return newSearches.slice(0, 5);
       });
     } catch (error: unknown) {
-      setError("Error fetching player data. Please try again.");
       setSearchResults(null);
     } finally {
       setIsLoading(false);
@@ -135,11 +132,7 @@ export default function Home() {
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
           
           {/* Search Results */}
-          {searchResults && (
-            <SearchResults
-              player={searchResults || ({} as Player)}
-            />
-          )}
+          {searchResults && <SearchResults player={searchResults} />}
         </div>
 
         {/* Desktop: Recent Searches Sidebar (Unchanged from Before) */}
