@@ -112,7 +112,7 @@ export default function Home() {
 
         {/* Player Search History Section */}
         <aside className="w-64 p-4 bg-[color] rounded-lg shadow-lg flex flex-col">
-          <h2 className="text-lg font-bold text-green mb-2 text-center">Player Search History</h2>
+          <h2 className="text-lg font-bold text-emerald-500 mb-2 text-center">Player Search History</h2>
 
           {/* Recent Searches List */}
           {recentSearches.length > 0 ? (
@@ -123,7 +123,7 @@ export default function Home() {
                     {/* Clickable player name */}
                     <button
                       className="text-gray-800 text-sm"
-                      onClick={() => handleRecentSearchClick(query)} // Trigger the search on click
+                      onClick={() => handleRecentSearchClick(query)}
                     >
                       {query}
                     </button>
