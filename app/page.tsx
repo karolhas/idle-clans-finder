@@ -46,7 +46,7 @@ export default function Home() {
         const newSearches = prev.includes(query) ? prev : [query, ...prev];
         return newSearches.slice(0, 5);
       });
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
       setError("Error fetching player data. Please try again.");
       setSearchResults(null);
     } finally {
