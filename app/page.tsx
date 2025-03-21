@@ -14,12 +14,13 @@ import { Player } from "@/types/player.types";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState<Player | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [showMobileSearches, setShowMobileSearches] = useState(false);
 
   // Load recent searches
   useEffect(() => {
+    // Retrieve recent searches 
     const savedSearches = localStorage.getItem("recentSearches");
     if (savedSearches) {
       setRecentSearches(JSON.parse(savedSearches));
@@ -29,22 +30,37 @@ export default function Home() {
   // Update localStorage whenever search is made
   useEffect(() => {
     if (recentSearches.length > 0) {
+
       localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
     }
   }, [recentSearches]);
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
+    setError(null);
 
     try {
       const data = await fetchPlayerProfile(query);
       setSearchResults(data);
 
+      // No duplicate searches saved
       setRecentSearches((prev) => {
         const newSearches = prev.includes(query) ? prev : [query, ...prev];
-        return newSearches.slice(0, 5);
+        return newSearches.slice(0, 5); // Max 5 searches shown. Change me as needed
       });
     } catch (error: unknown) {
+      if (
+        error instanceof Error &&
+        "response" in error &&
+        typeof error.response === "object" &&
+        error.response !== null &&
+        "status" in error.response &&
+        error.response.status === 404
+      ) {
+        setError("Player not found");
+      } else {
+        setError("Error fetching player data. Please try again.");
+      }
       setSearchResults(null);
     } finally {
       setIsLoading(false);
@@ -53,7 +69,7 @@ export default function Home() {
 
   const clearSearches = () => {
     setRecentSearches([]);
-    localStorage.removeItem("recentSearches");
+    localStorage.removeItem("recentSearches"); // Clear from localStorage
   };
 
   const removeSearch = (query: string) => {
@@ -62,58 +78,15 @@ export default function Home() {
     localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
   };
 
+  const handleRecentSearchClick = (query: string) => {
+    handleSearch(query); // Trigger the search for that player when clicked
+  };
+
   return (
     <div className="flex">
       <Sidebar />
-
       <main className="md:ml-64 flex-1 p-4 md:p-8 flex">
         <div className="max-w-5xl mx-auto flex-1">
-          {/* Mobile: Recent Searches at the Top */}
-          <div className="md:hidden mb-4">
-            <button
-              onClick={() => setShowMobileSearches(!showMobileSearches)}
-              className="bg-emerald-500 text-white px-4 py-2 rounded shadow w-auto mx-auto"
-            >
-              {showMobileSearches ? "Hide Recent Searches" : "Show Recent Searches"}
-            </button>
-
-            {showMobileSearches && (
-              <div className="bg-gray-100 p-4 rounded shadow mt-2">
-                <h2 className="text-lg font-bold text-emerald-500 mb-2 text-center">
-                  Recent Searches
-                </h2>
-                {recentSearches.length > 0 ? (
-                  <ul className="space-y-2">
-                    {recentSearches.map((query, index) => (
-                      <li
-                        key={index}
-                        className="flex justify-between items-center bg-white p-2 rounded shadow"
-                      >
-                        <button
-                          className="text-gray-800 text-sm"
-                          onClick={() => handleSearch(query)}
-                        >
-                          {query}
-                        </button>
-                        <button
-                          className="text-red-500 text-xs"
-                          onClick={() => removeSearch(query)}
-                        >
-                          ✕
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-gray-500 text-sm text-center">
-                    No recent searches
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Logo & Title */}
           <div className="flex items-center mb-8">
             <Image
               src="/logo.png"
@@ -128,29 +101,29 @@ export default function Home() {
             </h1>
           </div>
 
-          {/* Search Bar */}
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
-          
-          {/* Search Results */}
-          {searchResults && <SearchResults player={searchResults} />}
+          {(searchResults || error) && (
+            <SearchResults
+              player={searchResults || ({} as Player)}
+              error={error || undefined}
+            />
+          )}
         </div>
 
-        {/* Desktop: Recent Searches Sidebar (Unchanged from Before) */}
-        <aside className="w-64 p-4 bg-gray-100 rounded-lg shadow-lg flex flex-col hidden md:flex">
-          <h2 className="text-lg font-bold text-emerald-500 mb-2 text-center">
-            Player Search History
-          </h2>
+        {/* Player Search History Section */}
+        <aside className="w-64 p-4 bg-[color] rounded-lg shadow-lg flex flex-col">
+          <h2 className="text-lg font-bold text-emerald-500 mb-2 text-center">Player Search History</h2>
+
+          {/* Recent Searches List */}
           {recentSearches.length > 0 ? (
             <div className="flex-1 overflow-hidden">
               <ul className="space-y-2">
                 {recentSearches.map((query, index) => (
-                  <li
-                    key={index}
-                    className="flex justify-between items-center bg-white p-2 rounded shadow"
-                  >
+                  <li key={index} className="flex justify-between items-center bg-white p-2 rounded shadow">
+                    {/* Clickable player name */}
                     <button
                       className="text-gray-800 text-sm"
-                      onClick={() => handleSearch(query)}
+                      onClick={() => handleRecentSearchClick(query)}
                     >
                       {query}
                     </button>
