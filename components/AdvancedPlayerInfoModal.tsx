@@ -41,10 +41,22 @@ const equipmentNames: { [key: string]: string } = {
 
 function getBaseItemName(itemName: string | null): string | null {
     if (!itemName) return null;
-    return itemName
-        .replace(/enchanted/i, '')
-        .replace(/ \+\d+$/, '')
+
+    // Check if the name contains the word "enchanted" and store it
+    const isEnchanted = /enchanted/i.test(itemName);
+
+    // Clean the item name by removing the word "enchanted" and any enchantment level suffix
+    let cleanName = itemName
+        .replace(/enchanted/i, '')  // Remove any occurrence of 'enchanted'
+        .replace(/ \+\d+$/, '')     // Remove any enchantment level (e.g., " +5")
         .trim();
+
+    // If the item was enchanted, prepend "Enchanted" to the base name
+    if (isEnchanted) {
+        cleanName = `Enchanted ${cleanName}`;
+    }
+
+    return cleanName;
 }
 
 function getDisplayItemName(
@@ -52,10 +64,14 @@ function getDisplayItemName(
     slot: string
 ): string | null {
     if (!itemName) return null;
+    
     let name = getBaseItemName(itemName);
+    
+    // Handle the pet slot by removing the word "pet" if it's present
     if (name && slot === 'pet') {
         name = name.replace(/\bpet\b/gi, '').trim();
     }
+    
     return name;
 }
 
@@ -131,7 +147,7 @@ export default function AdvancedPlayerInfoModal({
                     </button>
                     {showEquipment && (
                         <div className="bg-[#003333] p-2 sm:p-3 rounded-lg text-gray-200 flex gap-2 sm:gap-4 justify-center max-w-lg mx-auto overflow-x-auto">
-                            {[
+                            {[ 
                                 equipmentSlots.slice(0, 5),
                                 equipmentSlots.slice(5, 8),
                                 equipmentSlots.slice(8, 11),
