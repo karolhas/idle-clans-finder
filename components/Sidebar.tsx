@@ -8,24 +8,7 @@ import { RxHamburgerMenu, RxCross2 } from 'react-icons/rx';
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [playerCount, setPlayerCount] = useState(null);
     const pathname = usePathname();
-
-    // Fetch Steam player count
-    useEffect(() => {
-        const fetchPlayerCount = async () => {
-            try {
-                const response = await fetch(
-                    'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=2103530'
-                );
-                const data = await response.json();
-                setPlayerCount(data.response?.player_count || 'N/A');
-            } catch (error) {
-                console.error('Error fetching player count:', error);
-            }
-        };
-        fetchPlayerCount();
-    }, []);
 
     // Handle window resize to close menu on desktop
     useEffect(() => {
@@ -66,11 +49,6 @@ export default function Sidebar() {
             >
                 <div className="mb-8 mt-14 md:mt-0">
                     <h1 className="text-xl font-bold text-white">Dashboard</h1>
-                </div>
-
-                {/* Steam Player Count */}
-                <div className="text-gray-400 text-sm mb-4">
-                    Current Players: {playerCount}
                 </div>
 
                 <nav className="space-y-4">
