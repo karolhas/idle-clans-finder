@@ -13,19 +13,19 @@ A powerful web application for searching and viewing detailed player statistics,
 
 ## ✨ Features
 
-- 🔍 **Player Search**: Quick and easy player lookup by nickname
-- 📊 **Detailed Statistics**: View comprehensive player information including:
-  - Player profile and clan affiliation
-  - PvM statystics showing total boss kills
-  - Skill levels and experience
-  - Local market upgrade progression
-- 📱 **Responsive Design**: Fully optimized for both desktop and mobile devices
-- 🎯 **Real-time Data**: Direct integration with Idle Clans API
-- 🌙 **Dark Theme**: Eye-friendly dark mode interface
+- 🔍 **Player Search by Nickname with Search History**
+- 📊 **Detailed Statistics**:
+  - Advanced Player Info *(gamemode, total level, time offline, last task, equipment, enchantment boosts)*
+  - Advanced Clan Info *(name, members with detailed list (leader, deputy etc), clan details (recruitment message, min. level, language))*
+  - PvM statystics showing total boss kills *(raids, clan bosses, valley bosses)*
+  - Skill levels and experience *(display colors depends on tier)*
+  - Local market upgrade progression 
+- 🎯 **Direct Integration with Idle Clans API**
+- 📱 **Responsive Design**
+- 🌙 **Dark Theme**
 
 ## 💎 Future Enhancements
 
-- 🤝 **More Clan Information**
 - 📈 **Ranking with filters**
 - 🧮 **Calculators**
 
