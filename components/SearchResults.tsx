@@ -166,6 +166,14 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
                     <h2 className="text-2xl font-bold mb-4 text-emerald-400">
                         Skills
                     </h2>
+                    <p className="text-white mb-4">
+                        Total XP:{' '}
+                        <span className="font-semibold text-emerald-300">
+                            {Object.values(player.skillExperiences)
+                                .reduce((sum, xp) => sum + xp, 0)
+                                .toLocaleString()}
+                        </span>
+                    </p>
                     <SkillDisplay skills={player.skillExperiences} />
                 </div>
 
