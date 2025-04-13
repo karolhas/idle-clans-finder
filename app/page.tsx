@@ -18,6 +18,7 @@ export default function Home() {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [recentSearches, setRecentSearches] = useState<string[]>([]);
+    const [currentSearchQuery, setCurrentSearchQuery] = useState<string>('');
 
     // Load recent searches
     useEffect(() => {
@@ -39,6 +40,7 @@ export default function Home() {
     }, [recentSearches]);
 
     const handleSearch = async (query: string) => {
+        setCurrentSearchQuery(query); // Update the current search query
         setIsLoading(true);
         setError(null);
 
@@ -108,11 +110,16 @@ export default function Home() {
                         </h1>
                     </div>
 
-                    <SearchBar onSearch={handleSearch} isLoading={isLoading} />
+                    <SearchBar
+                        onSearch={handleSearch}
+                        isLoading={isLoading}
+                        searchQuery={currentSearchQuery}
+                    />
                     {(searchResults || error) && (
                         <SearchResults
                             player={searchResults || ({} as Player)}
                             error={error || undefined}
+                            onSearchMember={handleSearch}
                         />
                     )}
                     <SearchHistory

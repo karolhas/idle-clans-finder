@@ -15,6 +15,7 @@ interface ClanInfoModalProps {
     clanName: string;
     memberCount: number;
     clanData: ClanData;
+    onSearchMember?: (memberName: string) => void;
 }
 
 export default function ClanInfoModal({
@@ -23,6 +24,7 @@ export default function ClanInfoModal({
     clanName,
     memberCount,
     clanData,
+    onSearchMember,
 }: ClanInfoModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
 
@@ -121,7 +123,21 @@ export default function ClanInfoModal({
                                         {index + 1}.
                                     </span>
                                     {getRankIcon(member.rank)}
-                                    <span className="text-white">
+                                    <span
+                                        className={`text-white ${
+                                            onSearchMember
+                                                ? 'cursor-pointer hover:text-emerald-400 hover:underline'
+                                                : ''
+                                        }`}
+                                        onClick={() => {
+                                            if (onSearchMember) {
+                                                onSearchMember(
+                                                    member.memberName
+                                                );
+                                                onClose();
+                                            }
+                                        }}
+                                    >
                                         {member.memberName}
                                     </span>
                                     <span className="ml-2 text-gray-400">

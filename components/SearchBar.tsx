@@ -1,15 +1,26 @@
 //hooks
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 //icons
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 
 interface SearchBarProps {
     onSearch: (query: string) => void;
     isLoading: boolean;
+    searchQuery?: string;
 }
 
-export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
-    const [query, setQuery] = useState('');
+export default function SearchBar({
+    onSearch,
+    isLoading,
+    searchQuery,
+}: SearchBarProps) {
+    const [query, setQuery] = useState(searchQuery || '');
+
+    useEffect(() => {
+        if (searchQuery !== undefined) {
+            setQuery(searchQuery);
+        }
+    }, [searchQuery]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,14 +30,26 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
 
     return (
         <form onSubmit={handleSubmit} className="flex gap-2 max-w-5xl">
-            <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search for a player (nickname)"
-                className="flex-1 px-4 py-2 border text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600"
-                disabled={isLoading}
-            />
+            <div className="relative flex-1">
+                <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search for a player (nickname)"
+                    className="w-full px-4 py-2 border text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                    disabled={isLoading}
+                />
+                {query && (
+                    <button
+                        type="button"
+                        onClick={() => setQuery('')}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        aria-label="Clear search"
+                    >
+                        <FaTimes className="w-4 h-4" />
+                    </button>
+                )}
+            </div>
             <button
                 type="submit"
                 disabled={isLoading || !query.trim()}

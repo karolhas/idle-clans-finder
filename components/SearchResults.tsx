@@ -27,9 +27,14 @@ import { getLevel } from '@/utils/common/calculations/xpCalculations';
 interface SearchResultsProps {
     player: Player;
     error?: string;
+    onSearchMember?: (memberName: string) => void;
 }
 
-export default function SearchResults({ player, error }: SearchResultsProps) {
+export default function SearchResults({
+    player,
+    error,
+    onSearchMember,
+}: SearchResultsProps) {
     const [memberCount, setMemberCount] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAdvancedModalOpen, setIsAdvancedModalOpen] = useState(false);
@@ -203,6 +208,7 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
                         language: 'English',
                     }
                 }
+                onSearchMember={onSearchMember}
             />
 
             <AdvancedPlayerInfoModal
