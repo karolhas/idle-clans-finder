@@ -67,6 +67,8 @@ export default function ClanPage() {
     const handleSearch = (query: string) => {
         const trimmed = query.trim();
         if (!trimmed) return;
+
+        // Player redirect since clan and player share the searchbar
         router.push(`/player/${encodeURIComponent(trimmed)}`);
     };
 
@@ -91,7 +93,7 @@ export default function ClanPage() {
 
             <main className="flex-1 p-4 md:ml-64 md:p-8">
                 <div className="max-w-5xl mx-auto">
-                    {/* === Header + Search === */}
+                    {/* Header */}
                     <div className="flex items-center mb-8">
                         <Image
                             src="/logo.png"
@@ -106,7 +108,11 @@ export default function ClanPage() {
                         </h1>
                     </div>
 
-                    <SearchBar onSearch={handleSearch} isLoading={loading} />
+                    <SearchBar
+                        onSearch={handleSearch}
+                        isLoading={loading}
+                        searchQuery={''} 
+                    />
 
                     <SearchHistory
                         recentSearches={recentSearches}
