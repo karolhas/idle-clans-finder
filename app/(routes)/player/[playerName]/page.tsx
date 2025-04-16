@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams, useRouter, usePathname } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
@@ -15,7 +15,6 @@ import { Player } from '@/types/player.types';
 export default function PlayerPage() {
     const { playerName } = useParams<{ playerName: string }>();
     const router = useRouter();
-    const pathname = usePathname();
 
     const [player, setPlayer] = useState<Player | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -51,7 +50,7 @@ export default function PlayerPage() {
                 const updated = prev.includes(name) ? prev : [name, ...prev];
                 return updated.slice(0, 5); // Limit to 5 entries
             });
-        } catch (err) {
+        } catch {
             setError('Player not found');
             setPlayer(null);
         } finally {
@@ -68,7 +67,6 @@ export default function PlayerPage() {
 
     const handleRecentSearchClick = (name: string) => {
         router.push(`/player/${encodeURIComponent(name)}`);
-        // fetchData(name); ← Was a test idea. Figured would keep for nostalgia
     };
 
     const removeSearch = (name: string) => {
