@@ -1,8 +1,7 @@
 'use client';
 
-// hooks
 import { useState, useEffect } from 'react';
-// icons
+import { useNavigate } from 'react-router-dom';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 
 interface SearchBarProps {
@@ -17,6 +16,7 @@ export default function SearchBar({
   searchQuery,
 }: SearchBarProps) {
   const [query, setQuery] = useState(searchQuery || '');
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (searchQuery !== undefined) {
@@ -28,12 +28,15 @@ export default function SearchBar({
     e.preventDefault();
     const trimmed = query.trim();
     if (!trimmed) return;
+
+    navigate(`/?player=${encodeURIComponent(trimmed)}`);
+
     onSearch(trimmed);
   };
 
   const handleClear = () => {
     setQuery('');
-    // Don't call onSearch here — we only clear the input
+    // Optional: you could also clear the URL here if you want
   };
 
   return (
