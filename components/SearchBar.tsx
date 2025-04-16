@@ -1,125 +1,67 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 
-import { fetchPlayerProfile } from '@/lib/api/apiService';
-import SearchResults from '@/components/SearchResults';
-import SearchBar from '@/components/SearchBar';
-import Sidebar from '@/components/Sidebar';
-import SearchHistory from '@/components/SearchHistory';
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+  isLoading: boolean;
+  searchQuery?: string;
+}
 
-import { Player } from '@/types/player.types';
+export default function SearchBar({
+  onSearch,
+  isLoading,
+  searchQuery = '',
+}: SearchBarProps) {
+  const [query, setQuery] = useState(searchQuery);
 
-export default function PlayerPage() {
-    const { playerName } = useParams<{ playerName: string }>();
-    const router = useRouter();
+  useEffect(() => {
+    setQuery(searchQuery);
+  }, [searchQuery]);
 
-    const [player, setPlayer] = useState<Player | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    onSearch(query.trim());
+  };
 
-    // Load recent searches from localStorage
-    useEffect(() => {
-        const saved = localStorage.getItem('recentSearches');
-        if (saved) {
-            setRecentSearches(JSON.parse(saved));
-        }
-    }, []);
-
-    // Save to localStorage on update
-    useEffect(() => {
-        if (recentSearches.length > 0) {
-            localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
-        }
-    }, [recentSearches]);
-
-    const fetchData = async (name: string) => {
-        if (!name) return;
-
-        setIsLoading(true);
-        setError(null);
-
-        try {
-            const data = await fetchPlayerProfile(name);
-            setPlayer(data);
-
-            setRecentSearches((prev) => {
-                const updated = prev.includes(name) ? prev : [name, ...prev];
-                return updated.slice(0, 5); // Limit to 5 entries
-            });
-        } catch {
-            setError('Player not found');
-            setPlayer(null);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    // Fetch when route param changes
-    useEffect(() => {
-        if (playerName) {
-            fetchData(playerName);
-        }
-    }, [playerName]);
-
-    const handleRecentSearchClick = (name: string) => {
-        router.push(`/player/${encodeURIComponent(name)}`);
-    };
-
-    const removeSearch = (name: string) => {
-        const filtered = recentSearches.filter((q) => q !== name);
-        setRecentSearches(filtered);
-        localStorage.setItem('recentSearches', JSON.stringify(filtered));
-    };
-
-    const clearSearches = () => {
-        setRecentSearches([]);
-        localStorage.removeItem('recentSearches');
-    };
-
-    return (
-        <div className="flex">
-            <Sidebar />
-            <main className="flex-1 p-4 md:ml-64 md:p-8">
-                <div className="max-w-5xl mx-auto">
-                    <div className="flex items-center mb-8">
-                        <Image
-                            src="/logo.png"
-                            alt="logo idle clans"
-                            height={30}
-                            width={30}
-                            className="mr-2"
-                            priority
-                        />
-                        <h1 className="text-3xl font-bold text-emerald-400">
-                            Idle Clans Finder
-                        </h1>
-                    </div>
-
-                    <SearchBar
-                        onSearch={(query) => fetchData(query)}
-                        isLoading={isLoading}
-                    />
-
-                    {(player || error) && (
-                        <SearchResults
-                            player={player || ({} as Player)}
-                            error={error || undefined}
-                            onSearchMember={(name) => fetchData(name)}
-                        />
-                    )}
-
-                    <SearchHistory
-                        recentSearches={recentSearches}
-                        onSearchClick={handleRecentSearchClick}
-                        onRemoveSearch={removeSearch}
-                        onClearAll={clearSearches}
-                    />
-                </div>
-            </main>
-        </div>
-    );
+  return (
+    <form onSubmit={handleSubmit} className="flex gap-2 max-w-5xl">
+      <div className="relative flex-1">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for a player or clan..."
+          className="w-full px-4 py-2 border text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600"
+          disabled={isLoading}
+        />
+        {query && (
+          <button
+            type="button"
+            onClick={() => setQuery('')}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            aria-label="Clear search"
+          >
+            <FaTimes className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+      <button
+        type="submit"
+        disabled={isLoading || !query.trim()}
+        className={`px-4 py-2 bg-emerald-500 text-white rounded-lg transition-colors cursor-pointer ${
+          isLoading ? 'opacity-50' : 'hover:bg-emerald-600'
+        }`}
+        aria-label="search-button"
+      >
+        {isLoading ? (
+          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        ) : (
+          <FaSearch className="w-5 h-5" />
+        )}
+      </button>
+    </form>
+  );
 }
