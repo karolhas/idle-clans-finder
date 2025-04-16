@@ -97,17 +97,21 @@ export default function ClanInfoModal({
       {/* Clan Name + Tag */}
       <div className="mb-6 space-y-4">
         <div className="flex items-center">
-          <FaShieldAlt className="mr-2 text-emerald-400" />
-          <span>Clan Name:</span>
-          <span className="ml-2 text-white font-semibold flex items-center gap-2">
-            {clanName || 'No Clan'}
-            {standalone && clanData.tag && (
-              <span className="bg-emerald-800 text-emerald-100 px-2 py-0.5 rounded-md text-xs font-medium">
-                [{clanData.tag}]
-              </span>
-            )}
-          </span>
-        </div>
+  <FaShieldAlt className="mr-2 text-emerald-400" />
+  <span>Clan Name:</span>
+  {standalone ? (
+    <span className="ml-2 text-white font-semibold">
+      {clanName || 'No Clan'}
+    </span>
+  ) : (
+    <span
+      className="ml-2 text-white font-semibold cursor-pointer hover:text-emerald-400 hover:underline"
+      onClick={() => router.push(`/clan/${encodeURIComponent(clanName)}`)}
+    >
+      {clanName || 'No Clan'}
+    </span>
+  )}
+</div>
         <div className="flex items-center">
           <FaUsers className="mr-2 text-emerald-400" />
           <span>Members:</span>
