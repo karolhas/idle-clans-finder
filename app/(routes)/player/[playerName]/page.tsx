@@ -42,7 +42,6 @@ export default function PlayerPage() {
 
         const trimmed = name.trim();
 
-        // 🧠 Intercept @clan search here so we don’t fetch as player
         if (trimmed.toLowerCase().startsWith('@clan ')) {
             const clanName = trimmed.substring(6).trim();
             if (clanName) {
