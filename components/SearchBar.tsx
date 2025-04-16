@@ -53,7 +53,7 @@ export default function SearchBar({
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for a player or @clan (nickname)"
+          placeholder="Search for a player or @clan [Clan Name]"
           className="w-full px-4 py-2 border text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600"
           disabled={isLoading}
         />
