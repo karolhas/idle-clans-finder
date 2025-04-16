@@ -1,6 +1,8 @@
 'use client';
 
+// hooks
 import { useState, useEffect } from 'react';
+// icons
 import { FaSearch, FaTimes } from 'react-icons/fa';
 
 interface SearchBarProps {
@@ -12,18 +14,26 @@ interface SearchBarProps {
 export default function SearchBar({
   onSearch,
   isLoading,
-  searchQuery = '',
+  searchQuery,
 }: SearchBarProps) {
-  const [query, setQuery] = useState(searchQuery);
+  const [query, setQuery] = useState(searchQuery || '');
 
   useEffect(() => {
-    setQuery(searchQuery);
+    if (searchQuery !== undefined) {
+      setQuery(searchQuery);
+    }
   }, [searchQuery]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!query.trim()) return;
-    onSearch(query.trim());
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    onSearch(trimmed);
+  };
+
+  const handleClear = () => {
+    setQuery('');
+    // Don't call onSearch here — we only clear the input
   };
 
   return (
@@ -33,14 +43,14 @@ export default function SearchBar({
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for a player or @clan name..."
+          placeholder="Search for a player or @clan (nickname)"
           className="w-full px-4 py-2 border text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600"
           disabled={isLoading}
         />
         {query && (
           <button
             type="button"
-            onClick={() => setQuery('')}
+            onClick={handleClear}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
             aria-label="Clear search"
           >
@@ -51,9 +61,8 @@ export default function SearchBar({
       <button
         type="submit"
         disabled={isLoading || !query.trim()}
-        className={`px-4 py-2 bg-emerald-500 text-white rounded-lg transition-colors cursor-pointer ${
-          isLoading ? 'opacity-50' : 'hover:bg-emerald-600'
-        }`}
+        className={`px-4 py-2 bg-emerald-500 text-white rounded-lg transition-colors cursor-pointer
+          ${isLoading ? 'opacity-50' : 'hover:bg-emerald-600'}`}
         aria-label="search-button"
       >
         {isLoading ? (
