@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation'; // ✅ Next.js navigation
 import { FaSearch, FaTimes } from 'react-icons/fa';
 
 interface SearchBarProps {
@@ -16,7 +16,7 @@ export default function SearchBar({
   searchQuery,
 }: SearchBarProps) {
   const [query, setQuery] = useState(searchQuery || '');
-  const navigate = useNavigate(); 
+  const router = useRouter(); // ✅
 
   useEffect(() => {
     if (searchQuery !== undefined) {
@@ -29,14 +29,15 @@ export default function SearchBar({
     const trimmed = query.trim();
     if (!trimmed) return;
 
-    navigate(`/?player=${encodeURIComponent(trimmed)}`);
+    // ✅ Update URL via Next.js router
+    router.push(`/?player=${encodeURIComponent(trimmed)}`);
 
     onSearch(trimmed);
   };
 
   const handleClear = () => {
     setQuery('');
-    // Optional: you could also clear the URL here if you want
+    // Optional: clear URL here if you want
   };
 
   return (
