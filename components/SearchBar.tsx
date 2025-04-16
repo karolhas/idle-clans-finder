@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // ✅ Next.js navigation
+import { useRouter } from 'next/navigation';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 
 interface SearchBarProps {
@@ -16,7 +16,7 @@ export default function SearchBar({
   searchQuery,
 }: SearchBarProps) {
   const [query, setQuery] = useState(searchQuery || '');
-  const router = useRouter(); // ✅
+  const router = useRouter();
 
   useEffect(() => {
     if (searchQuery !== undefined) {
@@ -29,15 +29,21 @@ export default function SearchBar({
     const trimmed = query.trim();
     if (!trimmed) return;
 
-    // ✅ Update URL via Next.js router
-    router.push(`/?player=${encodeURIComponent(trimmed)}`);
+    // Determine if it's a clan or player
+    if (trimmed.startsWith('@clan')) {
+      const clanName = trimmed.replace('@clan', '').trim();
+      if (clanName) {
+        router.push(`/clan/${encodeURIComponent(clanName)}`);
+      }
+    } else {
+      router.push(`/player/${encodeURIComponent(trimmed)}`);
+    }
 
     onSearch(trimmed);
   };
 
   const handleClear = () => {
     setQuery('');
-    // Optional: clear URL here if you want
   };
 
   return (
