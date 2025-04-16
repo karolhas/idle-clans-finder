@@ -19,6 +19,7 @@ interface ClanInfoModalProps {
   memberCount: number;
   clanData: ClanData;
   standalone?: boolean;
+  onSearchMember?: (memberName: string) => void;
 }
 
 export default function ClanInfoModal({
