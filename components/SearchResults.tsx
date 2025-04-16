@@ -27,9 +27,14 @@ import { getLevel } from '@/utils/common/calculations/xpCalculations';
 interface SearchResultsProps {
     player: Player;
     error?: string;
+    onSearchMember?: (memberName: string) => void;
 }
 
-export default function SearchResults({ player, error }: SearchResultsProps) {
+export default function SearchResults({
+    player,
+    error,
+    onSearchMember,
+}: SearchResultsProps) {
     const [memberCount, setMemberCount] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAdvancedModalOpen, setIsAdvancedModalOpen] = useState(false);
@@ -59,6 +64,22 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
         );
     }
 
+    // Custom tag for special members
+    const getPlayerTag = (name: string) => {
+        switch (name) {
+            case 'Temsei':
+                return { label: 'Game Dev', color: 'bg-emerald-500' };
+            case 'HSK':
+                return { label: 'Site Creator', color: 'bg-red-500' };
+            case 'ZoEzi':
+                return { label: 'Artist', color: 'bg-green-500' };
+            default:
+                return null;
+        }
+    };
+
+    const tag = getPlayerTag(player.username);
+
     return (
         <div className="mt-8">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
@@ -67,12 +88,22 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
                         <h2 className="text-2xl font-bold mb-4 text-emerald-400">
                             Player Info
                         </h2>
+
+                        {/* Special Member Tag */}
                         <p className="flex items-center mb-2 font-light">
                             <FaUser className="mr-1" /> Nickname:
                             <span className="text-white ml-1 font-semibold">
                                 {player.username}
                             </span>
+                            {tag && (
+                                <span
+                                    className={`ml-2 px-2 py-0.5 ${tag.color} text-white text-xs rounded-full`}
+                                >
+                                    {tag.label}
+                                </span>
+                            )}
                         </p>
+
                         <p className="flex items-center mb-2 font-light">
                             <FaGamepad className="mr-1" /> Game Mode:
                             <span className="text-white ml-1 font-semibold">
@@ -169,9 +200,12 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
                     <p className="text-white mb-4">
                         Total XP:{' '}
                         <span className="font-semibold text-emerald-300">
-                            {Object.values(player.skillExperiences)
-                                .reduce((sum, xp) => sum + xp, 0)
-                                .toLocaleString()}
+                            {Math.floor(
+                                Object.values(player.skillExperiences).reduce(
+                                    (sum, xp) => sum + xp,
+                                    0
+                                )
+                            ).toLocaleString()}
                         </span>
                     </p>
                     <SkillDisplay skills={player.skillExperiences} />
@@ -200,6 +234,7 @@ export default function SearchResults({ player, error }: SearchResultsProps) {
                         language: 'English',
                     }
                 }
+                onSearchMember={onSearchMember}
             />
 
             <AdvancedPlayerInfoModal
