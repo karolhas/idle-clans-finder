@@ -71,8 +71,9 @@ export default function SearchBar({
       <button
         type="submit"
         disabled={isLoading || !query.trim()}
-        className={`px-4 py-2 bg-emerald-500 text-white rounded-lg transition-colors cursor-pointer
-          ${isLoading ? 'opacity-50' : 'hover:bg-emerald-600'}`}
+        className={`px-4 py-2 bg-emerald-500 text-white rounded-lg transition-colors cursor-pointer ${
+          isLoading ? 'opacity-50' : 'hover:bg-emerald-600'
+        }`}
         aria-label="search-button"
       >
         {isLoading ? (

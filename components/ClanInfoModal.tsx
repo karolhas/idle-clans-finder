@@ -29,6 +29,7 @@ export default function ClanInfoModal({
   memberCount,
   clanData,
   standalone = false,
+  onSearchMember,
 }: ClanInfoModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -53,10 +54,15 @@ export default function ClanInfoModal({
 
   const handleMemberClick = useCallback(
     (memberName: string) => {
-      router.push(`/player/${encodeURIComponent(memberName)}`);
-      if (!standalone) onClose();
+      if (onSearchMember) {
+        onSearchMember(memberName);
+        onClose();
+      } else {
+        router.push(`/player/${encodeURIComponent(memberName)}`);
+        if (!standalone) onClose();
+      }
     },
-    [router, onClose, standalone]
+    [router, onClose, onSearchMember, standalone]
   );
 
   if (!isOpen && !standalone) return null;
@@ -94,24 +100,24 @@ export default function ClanInfoModal({
         </div>
       )}
 
-      {/* Clan Name + Tag */}
+      {/* Clan Name + Member Count */}
       <div className="mb-6 space-y-4">
         <div className="flex items-center">
-  <FaShieldAlt className="mr-2 text-emerald-400" />
-  <span>Clan Name:</span>
-  {standalone ? (
-    <span className="ml-2 text-white font-semibold">
-      {clanName || 'No Clan'}
-    </span>
-  ) : (
-    <span
-      className="ml-2 text-white font-semibold cursor-pointer hover:text-emerald-400 hover:underline"
-      onClick={() => router.push(`/clan/${encodeURIComponent(clanName)}`)}
-    >
-      {clanName || 'No Clan'}
-    </span>
-  )}
-</div>
+          <FaShieldAlt className="mr-2 text-emerald-400" />
+          <span>Clan Name:</span>
+          {standalone ? (
+            <span className="ml-2 text-white font-semibold">
+              {clanName || 'No Clan'}
+            </span>
+          ) : (
+            <span
+              className="ml-2 text-white font-semibold cursor-pointer hover:text-emerald-400 hover:underline"
+              onClick={() => router.push(`/clan/${encodeURIComponent(clanName)}`)}
+            >
+              {clanName || 'No Clan'}
+            </span>
+          )}
+        </div>
         <div className="flex items-center">
           <FaUsers className="mr-2 text-emerald-400" />
           <span>Members:</span>
@@ -121,9 +127,9 @@ export default function ClanInfoModal({
         </div>
       </div>
 
-      {/* Member List & Details */}
+      {/* Main Grid */}
       <div className="md:grid md:grid-cols-2 md:gap-8">
-        {/* Members */}
+        {/* Member List */}
         <div>
           <h3 className="text-xl font-bold text-emerald-400 mb-2">
             Members List
@@ -138,7 +144,11 @@ export default function ClanInfoModal({
                   <span className="w-6 text-gray-400 mr-2">{index + 1}.</span>
                   {getRankIcon(member.rank)}
                   <span
-                    className="text-white cursor-pointer hover:text-emerald-400 hover:underline"
+                    className={`text-white ${
+                      onSearchMember || !standalone
+                        ? 'cursor-pointer hover:text-emerald-400 hover:underline'
+                        : ''
+                    }`}
                     onClick={() => handleMemberClick(member.memberName)}
                   >
                     {member.memberName}
@@ -167,7 +177,6 @@ export default function ClanInfoModal({
                 </p>
               </div>
             )}
-
             <div className="flex items-center">
               <span>Min. Total Level:</span>
               <span className="ml-2 text-white font-semibold">
