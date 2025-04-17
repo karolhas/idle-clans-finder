@@ -1,8 +1,6 @@
-//hooks
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-//icons
 import { FaHome, FaChartBar } from 'react-icons/fa';
 import { RxHamburgerMenu, RxCross2 } from 'react-icons/rx';
 
@@ -10,14 +8,12 @@ export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
 
-    // Handle window resize to close menu on desktop
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth >= 768) {
                 setIsOpen(false);
             }
         };
-
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -27,7 +23,7 @@ export default function Sidebar() {
     };
 
     return (
-        <>
+        <div>
             {/* Mobile Hamburger Button */}
             <button
                 className="md:hidden fixed top-4 right-4 z-50 text-white p-2 rounded-lg transition-colors bg-[#003333] hover:bg-[#004444]"
@@ -66,9 +62,7 @@ export default function Sidebar() {
                     <Link
                         href="/ranking"
                         className={`flex items-center gap-3 text-gray-300 hover:text-white hover:bg-[#003333] p-2 rounded-lg transition-colors ${
-                            pathname === '/ranking'
-                                ? 'bg-[#003333] text-white'
-                                : ''
+                            pathname === '/ranking' ? 'bg-[#003333] text-white' : ''
                         }`}
                         onClick={handleLinkClick}
                     >
@@ -76,6 +70,46 @@ export default function Sidebar() {
                         <span>Ranking</span>
                     </Link>
                 </nav>
+
+                {/* Links to IdleClans Discord and Wiki */}
+                <div className="absolute bottom-6 left-0 w-full flex justify-center gap-6">
+                    {/* Discord */}
+                    <div className="relative group">
+                        <Link
+                            href="https://discord.com/invite/MnagNdgrQg"
+                            target="_blank"
+                            className="hover:opacity-80 transition-opacity"
+                            onClick={handleLinkClick}
+                        >
+                            <img
+                                src="/discord-logo.png"
+                                alt="Discord"
+                                className="w-8 h-8"
+                            />
+                        </Link>
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm text-white bg-black rounded shadow opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                            Idle Clans Discord Server
+                        </div>
+                    </div>
+
+                    {/* Wiki */}
+                    <div className="relative group">
+                        <Link
+                            href="https://wiki.idleclans.com/index.php/Main_Page"
+                            className="hover:opacity-80 transition-opacity"
+                            onClick={handleLinkClick}
+                        >
+                            <img
+                                src="/logo.png"
+                                alt="Clan"
+                                className="w-8 h-8"
+                            />
+                        </Link>
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 px-2 py-1 text-sm text-white bg-black rounded shadow opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                            Idle Clans Wiki
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Overlay for mobile */}
@@ -85,6 +119,6 @@ export default function Sidebar() {
                 } md:hidden fixed inset-0 bg-black bg-opacity-50 z-30`}
                 onClick={() => setIsOpen(false)}
             />
-        </>
+        </div>
     );
 }
