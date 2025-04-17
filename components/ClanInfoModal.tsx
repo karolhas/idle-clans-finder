@@ -19,7 +19,6 @@ interface ClanInfoModalProps {
   memberCount: number;
   clanData: ClanData;
   standalone?: boolean;
-  onSearchMember?: (memberName: string) => void;
 }
 
 export default function ClanInfoModal({
@@ -33,24 +32,26 @@ export default function ClanInfoModal({
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  // Handle closing modal when clicking outside of content (modal-only)
   useEffect(() => {
-    if (standalone) return;
+    if (!isOpen || standalone) return;
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         onClose();
       }
     };
 
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen, onClose, standalone]);
 
+  // Navigate to player page on name click
   const handleMemberClick = useCallback(
     (memberName: string) => {
       router.push(`/player/${encodeURIComponent(memberName)}`);
@@ -59,59 +60,71 @@ export default function ClanInfoModal({
     [router, onClose, standalone]
   );
 
-  if (!isOpen && !standalone) return null;
-
   const getRankTitle = (rank: number) => {
     switch (rank) {
-      case 2: return 'Leader';
-      case 1: return 'Deputy';
-      default: return 'Member';
+      case 2:
+        return 'Leader';
+      case 1:
+        return 'Deputy';
+      default:
+        return 'Member';
     }
   };
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
-      case 2: return <FaCrown className="w-4 h-4 mr-2 text-yellow-400" />;
-      case 1: return <FaUserTie className="w-4 h-4 mr-2 text-blue-400" />;
-      default: return <FaUser className="w-4 h-4 mr-2 text-gray-400" />;
+      case 2:
+        return <FaCrown className="w-4 h-4 mr-2 text-yellow-400" />;
+      case 1:
+        return <FaUserTie className="w-4 h-4 mr-2 text-blue-400" />;
+      default:
+        return <FaUser className="w-4 h-4 mr-2 text-gray-400" />;
     }
   };
+
+  // Return null if modal is not open and not in standalone mode
+  if (!isOpen && !standalone) return null;
 
   const content = (
     <div
       ref={modalRef}
-      className="bg-[#002626] p-6 rounded-lg border border-[#004444] max-w-4xl w-full mx-auto"
+      className="relative bg-[#002626] p-6 md:p-8 rounded-lg border border-[#004444] w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl"
     >
+      {/* Top right close button (only in modal mode) */}
       {!standalone && (
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-emerald-400">Clan Details</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-100 hover:text-white transition-colors"
-          >
-            <FaTimes className="w-6 h-6" />
-          </button>
-        </div>
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-white hover:text-red-400 z-20"
+          aria-label="Close"
+        >
+          <FaTimes className="w-5 h-5" />
+        </button>
       )}
 
-      {/* Clan Name + Tag */}
+      {/* Header Info */}
       <div className="mb-6 space-y-4">
         <div className="flex items-center">
-  <FaShieldAlt className="mr-2 text-emerald-400" />
-  <span>Clan Name:</span>
-  {standalone ? (
-    <span className="ml-2 text-white font-semibold">
-      {clanName || 'No Clan'}
-    </span>
-  ) : (
-    <span
-      className="ml-2 text-white font-semibold cursor-pointer hover:text-emerald-400 hover:underline"
-      onClick={() => router.push(`/clan/${encodeURIComponent(clanName)}`)}
-    >
-      {clanName || 'No Clan'}
-    </span>
-  )}
-</div>
+          <FaShieldAlt className="mr-2 text-emerald-400" />
+          <span>Clan Name:</span>
+          <span
+            className={`ml-2 font-semibold ${
+              !standalone ? 'cursor-pointer text-white hover:text-emerald-400 hover:underline' : 'text-white'
+            }`}
+            onClick={() => {
+              if (!standalone) {
+                router.push(`/clan/${encodeURIComponent(clanName)}`);
+                onClose();
+              }
+            }}
+          >
+            {clanName || 'No Clan'}
+          </span>
+          {standalone && clanData.tag && (
+            <span className="ml-2 px-2 py-0.5 text-sm bg-emerald-700 text-white rounded-lg">
+              {clanData.tag}
+            </span>
+          )}
+        </div>
         <div className="flex items-center">
           <FaUsers className="mr-2 text-emerald-400" />
           <span>Members:</span>
@@ -121,7 +134,7 @@ export default function ClanInfoModal({
         </div>
       </div>
 
-      {/* Member List & Details */}
+      {/* Body Columns */}
       <div className="md:grid md:grid-cols-2 md:gap-8">
         {/* Members */}
         <div>
@@ -129,29 +142,28 @@ export default function ClanInfoModal({
             Members List
           </h3>
           <div className="space-y-1">
-            {Array.isArray(clanData.memberlist) &&
-              clanData.memberlist.map((member, index) => (
-                <div
-                  key={member.memberName}
-                  className="flex items-center text-right"
+            {clanData.memberlist?.map((member, index) => (
+              <div
+                key={member.memberName}
+                className="flex items-center text-right"
+              >
+                <span className="w-6 text-gray-400 mr-2">{index + 1}.</span>
+                {getRankIcon(member.rank)}
+                <span
+                  className="text-white cursor-pointer hover:text-emerald-400 hover:underline"
+                  onClick={() => handleMemberClick(member.memberName)}
                 >
-                  <span className="w-6 text-gray-400 mr-2">{index + 1}.</span>
-                  {getRankIcon(member.rank)}
-                  <span
-                    className="text-white cursor-pointer hover:text-emerald-400 hover:underline"
-                    onClick={() => handleMemberClick(member.memberName)}
-                  >
-                    {member.memberName}
-                  </span>
-                  <span className="ml-2 text-gray-400">
-                    - {getRankTitle(member.rank)}
-                  </span>
-                </div>
-              ))}
+                  {member.memberName}
+                </span>
+                <span className="ml-2 text-gray-400">
+                  - {getRankTitle(member.rank)}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Clan Details */}
+        {/* Details */}
         <div>
           <h3 className="text-xl font-bold text-emerald-400 mb-2 mt-6 md:mt-0">
             Clan Details
@@ -196,8 +208,11 @@ export default function ClanInfoModal({
     </div>
   );
 
-  return standalone ? content : (
-    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 overflow-y-auto">
+  // Return modal overlay in modal mode, plain card in standalone mode
+  return standalone ? (
+    content
+  ) : (
+    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
       {content}
     </div>
   );
