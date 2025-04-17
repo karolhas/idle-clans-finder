@@ -19,6 +19,7 @@ interface ClanInfoModalProps {
   memberCount: number;
   clanData: ClanData;
   standalone?: boolean;
+  onSearchMember?: (memberName: string) => void;
 }
 
 export default function ClanInfoModal({
@@ -28,11 +29,12 @@ export default function ClanInfoModal({
   memberCount,
   clanData,
   standalone = false,
+  onSearchMember,
 }: ClanInfoModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Handle closing modal when clicking outside of content (modal-only)
+  // Handle outside click to close modal (only in popup mode)
   useEffect(() => {
     if (!isOpen || standalone) return;
 
@@ -51,38 +53,35 @@ export default function ClanInfoModal({
     };
   }, [isOpen, onClose, standalone]);
 
-  // Navigate to player page on name click
   const handleMemberClick = useCallback(
     (memberName: string) => {
-      router.push(`/player/${encodeURIComponent(memberName)}`);
-      if (!standalone) onClose();
+      if (onSearchMember) {
+        onSearchMember(memberName);
+        if (!standalone) onClose();
+      } else {
+        router.push(`/player/${encodeURIComponent(memberName)}`);
+        if (!standalone) onClose();
+      }
     },
-    [router, onClose, standalone]
+    [onSearchMember, standalone, router, onClose]
   );
 
   const getRankTitle = (rank: number) => {
     switch (rank) {
-      case 2:
-        return 'Leader';
-      case 1:
-        return 'Deputy';
-      default:
-        return 'Member';
+      case 2: return 'Leader';
+      case 1: return 'Deputy';
+      default: return 'Member';
     }
   };
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
-      case 2:
-        return <FaCrown className="w-4 h-4 mr-2 text-yellow-400" />;
-      case 1:
-        return <FaUserTie className="w-4 h-4 mr-2 text-blue-400" />;
-      default:
-        return <FaUser className="w-4 h-4 mr-2 text-gray-400" />;
+      case 2: return <FaCrown className="w-4 h-4 mr-2 text-yellow-400" />;
+      case 1: return <FaUserTie className="w-4 h-4 mr-2 text-blue-400" />;
+      default: return <FaUser className="w-4 h-4 mr-2 text-gray-400" />;
     }
   };
 
-  // Return null if modal is not open and not in standalone mode
   if (!isOpen && !standalone) return null;
 
   const content = (
@@ -90,7 +89,7 @@ export default function ClanInfoModal({
       ref={modalRef}
       className="relative bg-[#002626] p-6 md:p-8 rounded-lg border border-[#004444] w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl"
     >
-      {/* Top right close button (only in modal mode) */}
+      {/* Close Button for Modal */}
       {!standalone && (
         <button
           onClick={onClose}
@@ -101,14 +100,16 @@ export default function ClanInfoModal({
         </button>
       )}
 
-      {/* Header Info */}
+      {/* Clan Info Header */}
       <div className="mb-6 space-y-4">
-        <div className="flex items-center">
+        <div className="flex items-center flex-wrap gap-2">
           <FaShieldAlt className="mr-2 text-emerald-400" />
           <span>Clan Name:</span>
           <span
             className={`ml-2 font-semibold ${
-              !standalone ? 'cursor-pointer text-white hover:text-emerald-400 hover:underline' : 'text-white'
+              !standalone
+                ? 'cursor-pointer text-white hover:text-emerald-400 hover:underline'
+                : 'text-white'
             }`}
             onClick={() => {
               if (!standalone) {
@@ -134,32 +135,33 @@ export default function ClanInfoModal({
         </div>
       </div>
 
-      {/* Body Columns */}
+      {/* Columns */}
       <div className="md:grid md:grid-cols-2 md:gap-8">
-        {/* Members */}
+        {/* Member List */}
         <div>
           <h3 className="text-xl font-bold text-emerald-400 mb-2">
             Members List
           </h3>
           <div className="space-y-1">
-            {clanData.memberlist?.map((member, index) => (
-              <div
-                key={member.memberName}
-                className="flex items-center text-right"
-              >
-                <span className="w-6 text-gray-400 mr-2">{index + 1}.</span>
-                {getRankIcon(member.rank)}
-                <span
-                  className="text-white cursor-pointer hover:text-emerald-400 hover:underline"
-                  onClick={() => handleMemberClick(member.memberName)}
+            {Array.isArray(clanData.memberlist) &&
+              clanData.memberlist.map((member, index) => (
+                <div
+                  key={member.memberName}
+                  className="flex items-center text-right"
                 >
-                  {member.memberName}
-                </span>
-                <span className="ml-2 text-gray-400">
-                  - {getRankTitle(member.rank)}
-                </span>
-              </div>
-            ))}
+                  <span className="w-6 text-gray-400 mr-2">{index + 1}.</span>
+                  {getRankIcon(member.rank)}
+                  <span
+                    className="text-white cursor-pointer hover:text-emerald-400 hover:underline"
+                    onClick={() => handleMemberClick(member.memberName)}
+                  >
+                    {member.memberName}
+                  </span>
+                  <span className="ml-2 text-gray-400">
+                    - {getRankTitle(member.rank)}
+                  </span>
+                </div>
+              ))}
           </div>
         </div>
 
@@ -179,7 +181,6 @@ export default function ClanInfoModal({
                 </p>
               </div>
             )}
-
             <div className="flex items-center">
               <span>Min. Total Level:</span>
               <span className="ml-2 text-white font-semibold">
@@ -208,7 +209,6 @@ export default function ClanInfoModal({
     </div>
   );
 
-  // Return modal overlay in modal mode, plain card in standalone mode
   return standalone ? (
     content
   ) : (
