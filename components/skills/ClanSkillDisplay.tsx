@@ -1,7 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { getLevel, getXpForLevel } from '@/utils/common/calculations/xpCalculations';
+import {
+    getLevel,
+    getXpForLevel,
+} from '@/utils/common/calculations/xpCalculations';
 
 interface ClanSkillDisplayProps {
     skills: {
@@ -40,14 +43,18 @@ export default function ClanSkillDisplay({ skills }: ClanSkillDisplayProps) {
                             className="bg-[#003333] p-4 rounded-lg border border-[#004444] flex flex-col items-center"
                         >
                             <Image
-                                src={`/gameimages/${normalized}.png`}
+                                src={`/skills/${normalized}.png`}
                                 alt={name}
                                 width={40}
                                 height={40}
                                 className="mb-2"
                             />
-                            <p className="text-white font-semibold text-sm mb-1">{name}</p>
-                            <p className="text-emerald-300 text-sm mb-1">Level {level}</p>
+                            <p className="text-white font-semibold text-sm mb-1">
+                                {name}
+                            </p>
+                            <p className="text-emerald-300 text-sm mb-1">
+                                Level {level}
+                            </p>
                             <p className="text-gray-300 text-xs mb-1">
                                 {Math.floor(xp).toLocaleString()} XP
                             </p>
@@ -58,7 +65,10 @@ export default function ClanSkillDisplay({ skills }: ClanSkillDisplayProps) {
                                 />
                             </div>
                             <p className="text-gray-400 text-[11px]">
-                                {Math.ceil(xpToNext - currentXp).toLocaleString()} to level {nextLevel}
+                                {Math.ceil(
+                                    xpToNext - currentXp
+                                ).toLocaleString()}{' '}
+                                to level {nextLevel}
                             </p>
                         </div>
                     );
