@@ -4,11 +4,6 @@ import { ClanData } from '@/types/clan.types';
 
 const BASE_URL = 'https://query.idleclans.com/api';
 
-/**
- * Fetches a player's profile from the Idle Clans API
- * @param username The player's username
- * @returns Player data
- */
 export const fetchPlayerProfile = async (username: string): Promise<Player> => {
     try {
         const response = await axios.get(
@@ -19,7 +14,6 @@ export const fetchPlayerProfile = async (username: string): Promise<Player> => {
         throw error;
     }
 };
-
 
 export const fetchClanMembers = async (clanName: string): Promise<ClanData> => {
     try {
@@ -32,7 +26,6 @@ export const fetchClanMembers = async (clanName: string): Promise<ClanData> => {
     }
 };
 
-// New function for use in /clan/[clanName] page
 export const fetchClanByName = async (clanName: string): Promise<ClanData> => {
     try {
         const response = await axios.get(

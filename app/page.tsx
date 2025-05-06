@@ -2,16 +2,15 @@
 
 // hooks
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 // api
 import { fetchPlayerProfile } from '@/lib/api/apiService';
 // components
 import SearchBar from '@/components/SearchBar';
 import SearchResults from '@/components/SearchResults';
-import Sidebar from '@/components/Sidebar';
 import SearchHistory from '@/components/SearchHistory';
 // types
 import { Player } from '@/types/player.types';
+import { FaSearch } from 'react-icons/fa';
 
 export default function Home() {
     const [searchResults, setSearchResults] = useState<Player | null>(null);
@@ -92,44 +91,34 @@ export default function Home() {
     };
 
     return (
-        <div className="flex">
-            <Sidebar />
-            <main className="flex-1 p-4 md:ml-64 md:p-8">
-                <div className="max-w-5xl mx-auto">
-                    <div className="flex items-center mb-8">
-                        <Image
-                            src="/logo.png"
-                            alt="logo idle clans"
-                            height={30}
-                            width={30}
-                            className="mr-2"
-                            priority
-                        />
-                        <h1 className="text-3xl font-bold text-emerald-400">
-                            Idle Clans Finder
-                        </h1>
-                    </div>
-
-                    <SearchBar
-                        onSearch={handleSearch}
-                        isLoading={isLoading}
-                        searchQuery={currentSearchQuery}
-                    />
-                    {(searchResults || error) && (
-                        <SearchResults
-                            player={searchResults || ({} as Player)}
-                            error={error || undefined}
-                            onSearchMember={handleSearch}
-                        />
-                    )}
-                    <SearchHistory
-                        recentSearches={recentSearches}
-                        onSearchClick={handleRecentSearchClick}
-                        onRemoveSearch={removeSearch}
-                        onClearAll={clearSearches}
-                    />
+        <main className="p-4 sm:p-8">
+            <div className="max-w-5xl mx-auto">
+                <div className="flex items-center mb-8">
+                    <h1 className="text-2xl font-bold text-emerald-400 flex items-center">
+                        <FaSearch className="mr-3" />
+                        Search for a player or clan
+                    </h1>
                 </div>
-            </main>
-        </div>
+
+                <SearchBar
+                    onSearch={handleSearch}
+                    isLoading={isLoading}
+                    searchQuery={currentSearchQuery}
+                />
+                {(searchResults || error) && (
+                    <SearchResults
+                        player={searchResults || ({} as Player)}
+                        error={error || undefined}
+                        onSearchMember={handleSearch}
+                    />
+                )}
+                <SearchHistory
+                    recentSearches={recentSearches}
+                    onSearchClick={handleRecentSearchClick}
+                    onRemoveSearch={removeSearch}
+                    onClearAll={clearSearches}
+                />
+            </div>
+        </main>
     );
 }
