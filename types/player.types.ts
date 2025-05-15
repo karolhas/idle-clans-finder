@@ -11,6 +11,12 @@ export interface EnchantmentBoosts {
     [key: string]: number;
 }
 
+export interface PlayerClan {
+    [key: string]: unknown;
+    serializedUpgrades?: string | number[];
+    upgrades?: Record<string, number>;
+}
+
 export interface Player {
     memberlist?: Clan[];
     upgrades: Upgrades;
@@ -29,4 +35,5 @@ export interface Player {
     taskNameOnLogout?: string;
     equipment?: Equipment;
     enchantmentBoosts?: EnchantmentBoosts;
+    clan?: PlayerClan;
 }

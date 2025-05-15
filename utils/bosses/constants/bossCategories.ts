@@ -1,10 +1,11 @@
 export const RAID_BOSSES = [
-  "ReckoningOfTheGods",
-  "GuardiansOfTheCitadel",
+    'ReckoningOfTheGods',
+    'GuardiansOfTheCitadel',
+    'BloodmoonMassacre',
 ] as const;
 
 export const CLAN_BOSSES = [
-  "MalignantSpider",
-  "SkeletonWarrior",
-  "OtherworldlyGolem",
+    'MalignantSpider',
+    'SkeletonWarrior',
+    'OtherworldlyGolem',
 ] as const;
