@@ -19,7 +19,7 @@ export function BossRow({
     let label = 'kills';
     if (isRaid) {
         if (name === 'BloodmoonMassacre') {
-            label = 'wave';
+            label = kills === 1 ? 'wave' : 'waves';
         } else {
             label = kills === 1 ? 'kill' : 'kills';
         }

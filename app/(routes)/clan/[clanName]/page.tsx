@@ -72,68 +72,11 @@ export default function ClanPage() {
     }, [clanName]);
 
     useEffect(() => {
-        if (clanSearchQuery) {
-            router.push(`/clan/${clanSearchQuery}`);
-        }
-    }, [clanSearchQuery, router]);
-
-    useEffect(() => {
         const cached = getCachedClan(clanName);
         if (cached) {
             setCachedClan(clanName, cached);
         }
     }, [clanName, getCachedClan, setCachedClan]);
-
-    useEffect(() => {
-        if (!clanName) return;
-
-        const loadClan = async () => {
-            setLoading(true);
-            try {
-                // Check cache first
-                const cachedData = getCachedClan(clanName);
-                if (cachedData) {
-                    setClanData(cachedData);
-                    setLoading(false);
-                    return;
-                }
-
-                const rawData = await fetchClanByName(clanName);
-
-                let parsedSkills = undefined;
-                if (rawData.serializedSkills) {
-                    try {
-                        parsedSkills = JSON.parse(rawData.serializedSkills);
-                    } catch (err) {
-                        console.error('Error parsing skills:', err);
-                    }
-                }
-
-                const mergedData: ClanData = {
-                    ...rawData,
-                    skills: parsedSkills,
-                };
-
-                setClanData(mergedData);
-                setCachedClan(clanName, mergedData);
-                setError(null);
-
-                setClanRecentSearches((prev) => {
-                    const updated = prev.includes(clanName)
-                        ? prev
-                        : [clanName, ...prev];
-                    return updated.slice(0, 5);
-                });
-            } catch {
-                setError('Clan not found.');
-                setClanData(null);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadClan();
-    }, [clanName]);
 
     const handleTabChange = (tab: 'player' | 'clan') => {
         setActiveTab(tab);
@@ -165,10 +108,52 @@ export default function ClanPage() {
         setClanSearchQuery(trimmed);
         router.push(`/clan/${encodeURIComponent(trimmed)}`);
 
-        setClanRecentSearches((prev) => {
-            const updated = prev.includes(trimmed) ? prev : [trimmed, ...prev];
-            return updated.slice(0, 5);
-        });
+        const loadClan = async () => {
+            setLoading(true);
+            try {
+                // Check cache first
+                const cachedData = getCachedClan(trimmed);
+                if (cachedData) {
+                    setClanData(cachedData);
+                    setLoading(false);
+                    return;
+                }
+
+                const rawData = await fetchClanByName(trimmed);
+
+                let parsedSkills = undefined;
+                if (rawData.serializedSkills) {
+                    try {
+                        parsedSkills = JSON.parse(rawData.serializedSkills);
+                    } catch (err) {
+                        console.error('Error parsing skills:', err);
+                    }
+                }
+
+                const mergedData: ClanData = {
+                    ...rawData,
+                    skills: parsedSkills,
+                };
+
+                setClanData(mergedData);
+                setCachedClan(trimmed, mergedData);
+                setError(null);
+
+                setClanRecentSearches((prev) => {
+                    const updated = prev.includes(trimmed)
+                        ? prev
+                        : [trimmed, ...prev];
+                    return updated.slice(0, 5);
+                });
+            } catch {
+                setError('Clan not found.');
+                setClanData(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadClan();
     };
 
     const handleRecentPlayerSearchClick = (name: string) => {

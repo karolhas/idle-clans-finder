@@ -72,13 +72,6 @@ export default function PlayerPage() {
         }
     }, [playerName, getCachedPlayer, setCachedPlayer]);
 
-    // Update URL when search query changes
-    useEffect(() => {
-        if (playerSearchQuery) {
-            router.push(`/player/${playerSearchQuery}`);
-        }
-    }, [playerSearchQuery, router]);
-
     const fetchData = async (name: string) => {
         if (!name) return;
 
@@ -135,6 +128,7 @@ export default function PlayerPage() {
 
         setPlayerSearchQuery(trimmed);
         router.push(`/player/${encodeURIComponent(trimmed)}`);
+        fetchData(trimmed);
 
         setPlayerRecentSearches((prev) => {
             const updated = prev.includes(trimmed) ? prev : [trimmed, ...prev];
