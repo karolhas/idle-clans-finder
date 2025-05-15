@@ -72,6 +72,19 @@ export default function ClanPage() {
     }, [clanName]);
 
     useEffect(() => {
+        if (clanSearchQuery) {
+            router.push(`/clan/${clanSearchQuery}`);
+        }
+    }, [clanSearchQuery, router]);
+
+    useEffect(() => {
+        const cached = getCachedClan(clanName);
+        if (cached) {
+            setCachedClan(clanName, cached);
+        }
+    }, [clanName, getCachedClan, setCachedClan]);
+
+    useEffect(() => {
         if (!clanName) return;
 
         const loadClan = async () => {

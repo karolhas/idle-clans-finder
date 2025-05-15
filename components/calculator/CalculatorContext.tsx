@@ -93,38 +93,44 @@ export function CalculatorProvider({
     const [state, setState] = useState<CalculatorState>(initialState);
 
     // Setters
-    const setGeneralBuff = (
-        key: keyof GeneralBuffs,
-        value: string | boolean
-    ) => {
-        setState((prev) => ({
-            ...prev,
-            generalBuffs: {
-                ...prev.generalBuffs,
-                [key]: value,
-            },
-        }));
-    };
+    const setGeneralBuff = useCallback(
+        (key: keyof GeneralBuffs, value: string | boolean) => {
+            setState((prev) => ({
+                ...prev,
+                generalBuffs: {
+                    ...prev.generalBuffs,
+                    [key]: value,
+                },
+            }));
+        },
+        []
+    );
 
-    const setGatheringBuff = (key: keyof GatheringBuffs, value: number) => {
-        setState((prev) => ({
-            ...prev,
-            gatheringBuffs: {
-                ...prev.gatheringBuffs,
-                [key]: value,
-            },
-        }));
-    };
+    const setGatheringBuff = useCallback(
+        (key: keyof GatheringBuffs, value: number) => {
+            setState((prev) => ({
+                ...prev,
+                gatheringBuffs: {
+                    ...prev.gatheringBuffs,
+                    [key]: value,
+                },
+            }));
+        },
+        []
+    );
 
-    const setUpgradeBuff = (key: keyof UpgradeBuffs, value: boolean) => {
-        setState((prev) => ({
-            ...prev,
-            upgradeBuffs: {
-                ...prev.upgradeBuffs,
-                [key]: value,
-            },
-        }));
-    };
+    const setUpgradeBuff = useCallback(
+        (key: keyof UpgradeBuffs, value: boolean) => {
+            setState((prev) => ({
+                ...prev,
+                upgradeBuffs: {
+                    ...prev.upgradeBuffs,
+                    [key]: value,
+                },
+            }));
+        },
+        []
+    );
 
     const setPotion = (
         potionName: keyof PotionsState,
@@ -275,7 +281,7 @@ export function CalculatorProvider({
                 // For powerFarmHand, we'll reuse the farming trickery tier
                 // since it's not directly available in the API
                 setGatheringBuff(
-                    'powerFarmHand',
+                    'farmingTrickery',
                     playerData.upgrades.farmingTrickery || 0
                 );
 

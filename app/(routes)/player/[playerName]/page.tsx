@@ -64,6 +64,21 @@ export default function PlayerPage() {
         }
     }, [clanRecentSearches]);
 
+    // Load cached data on mount
+    useEffect(() => {
+        const cached = getCachedPlayer(playerName);
+        if (cached) {
+            setCachedPlayer(playerName, cached);
+        }
+    }, [playerName, getCachedPlayer, setCachedPlayer]);
+
+    // Update URL when search query changes
+    useEffect(() => {
+        if (playerSearchQuery) {
+            router.push(`/player/${playerSearchQuery}`);
+        }
+    }, [playerSearchQuery, router]);
+
     const fetchData = async (name: string) => {
         if (!name) return;
 
