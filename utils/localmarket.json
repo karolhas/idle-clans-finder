@@ -1,0 +1,1987 @@
+{
+    "House upgrade": [
+        {
+            "name": "House upgrade",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": "Cardboard box",
+                    "cost": null,
+                    "effect": "5% Skill XP boost"
+                },
+                {
+                    "tier": 2,
+                    "name": "Tent",
+                    "cost": null,
+                    "effect": "10% Skill XP boost"
+                },
+                {
+                    "tier": 3,
+                    "name": "Van Down by the River",
+                    "cost": null,
+                    "effect": "15% Skill XP boost"
+                },
+                {
+                    "tier": 4,
+                    "name": "Small cabin",
+                    "cost": null,
+                    "effect": "20% Skill XP boost"
+                },
+                {
+                    "tier": 5,
+                    "name": "House",
+                    "cost": null,
+                    "effect": "25% Skill XP boost"
+                }
+            ],
+            "maxTier": 5
+        }
+    ],
+    "Clan House upgrade": [
+        {
+            "name": "Clan House upgrade",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": "Tent (Clan)",
+                    "cost": null,
+                    "effect": "5% Skill XP boost"
+                },
+                {
+                    "tier": 2,
+                    "name": "Barn",
+                    "cost": null,
+                    "effect": "10% Skill XP boost"
+                },
+                {
+                    "tier": 3,
+                    "name": "Windmill",
+                    "cost": null,
+                    "effect": "15% Skill XP boost"
+                },
+                {
+                    "tier": 4,
+                    "name": "House (Clan)",
+                    "cost": null,
+                    "effect": "20% Skill XP boost"
+                },
+                {
+                    "tier": 5,
+                    "name": "Manor",
+                    "cost": null,
+                    "effect": "25% Skill XP boost"
+                },
+                {
+                    "tier": 6,
+                    "name": "Castle",
+                    "cost": null,
+                    "effect": "30% Skill XP boost"
+                }
+            ],
+            "maxTier": 6
+        }
+    ],
+    "General": [
+        {
+            "name": "Keep it spacious",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 5,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 6,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 7,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 8,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 9,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 10,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 11,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 12,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 13,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 14,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 15,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 16,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 17,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 18,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 19,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 20,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 21,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 22,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 23,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 24,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 25,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 26,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 27,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 28,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 29,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 30,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 31,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 32,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 33,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 34,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 35,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 36,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 37,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 38,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 39,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 40,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 41,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 42,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 43,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 44,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 45,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 46,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 47,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 48,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 49,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 50,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 51,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 52,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 53,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 54,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 55,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 56,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 57,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 58,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 59,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 60,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 61,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 62,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 63,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 64,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 65,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 66,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 67,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 68,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 69,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 70,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 71,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 72,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 73,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 74,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 75,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 76,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 77,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 78,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 79,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 80,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 81,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 82,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 83,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 84,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 85,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 86,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 87,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 88,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 89,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 90,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 91,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 92,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 93,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 94,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 95,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 96,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 97,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 98,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 99,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 100,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 101,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 102,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 103,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 104,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 105,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 106,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 107,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 108,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 109,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 110,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 111,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 112,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 113,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 114,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 115,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 116,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 117,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 118,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 119,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 120,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 121,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 122,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 123,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 124,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 125,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 126,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 127,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 128,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 129,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 130,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 131,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 132,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 133,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 134,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 135,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 136,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 137,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 138,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 139,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 140,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 141,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 142,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 143,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 144,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 145,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 146,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 147,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 148,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 149,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 150,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 151,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 152,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 153,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 154,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 155,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 156,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 157,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 158,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 159,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 160,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 161,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 162,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 163,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 164,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 165,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 166,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 167,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 168,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 169,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 170,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 171,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 172,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 173,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 174,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 175,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 176,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 177,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 178,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 179,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 180,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 181,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 182,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 183,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 184,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 185,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 186,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 187,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 188,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                },
+                {
+                    "tier": 189,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Increases inventory space"
+                }
+            ],
+            "maxTier": 189
+        },
+        {
+            "name": "Valued clan member",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 50000,
+                    "effect": "50% chance to keep items sent to Clan Quests"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Personal Housing",
+            "tiers": [
+                { "tier": 1, "name": null, "cost": null, "effect": "" },
+                { "tier": 2, "name": null, "cost": null, "effect": "" },
+                { "tier": 3, "name": null, "cost": null, "effect": "" },
+                { "tier": 4, "name": null, "cost": null, "effect": "" },
+                { "tier": 5, "name": null, "cost": null, "effect": "" }
+            ],
+            "maxTier": 5
+        },
+        {
+            "name": "Lazy raider",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 3000000,
+                    "effect": "Automatically continue previous preparation phase tasks"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Extra loadouts",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 5,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 6,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 7,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 8,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 9,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 10,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 11,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 12,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 13,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 14,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                },
+                {
+                    "tier": 15,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Unlocks a loadout slot"
+                }
+            ],
+            "maxTier": 15
+        },
+        {
+            "name": "Offline progress",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 200000,
+                    "effect": "Adds an hour to offline progress cap"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "Adds an hour to offline progress cap"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 3000000,
+                    "effect": "Adds an hour to offline progress cap"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": 5000000,
+                    "effect": "Adds an hour to offline progress cap"
+                },
+                {
+                    "tier": 5,
+                    "name": null,
+                    "cost": 10000000,
+                    "effect": "Adds an hour to offline progress cap"
+                },
+                {
+                    "tier": 6,
+                    "name": null,
+                    "cost": 25000000,
+                    "effect": "Adds an hour to offline progress cap"
+                }
+            ],
+            "maxTier": 6
+        },
+        {
+            "name": "Toolbelt upgrade",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": "Toolbelt Tier 1",
+                    "cost": 500000,
+                    "effect": "Allows storing Hatchet, Fishing Rod"
+                },
+                {
+                    "tier": 2,
+                    "name": "Toolbelt Tier 2",
+                    "cost": 1000000,
+                    "effect": "Allows storing Pickaxe, Hammer"
+                },
+                {
+                    "tier": 3,
+                    "name": "Toolbelt Tier 3",
+                    "cost": 2000000,
+                    "effect": "Allows storing Cooking Pan, Crafting Needle"
+                },
+                {
+                    "tier": 4,
+                    "name": "Toolbelt Tier 4",
+                    "cost": 3000000,
+                    "effect": "Allows storing Jumping Rope, Lockpicks"
+                },
+                {
+                    "tier": 5,
+                    "name": "Toolbelt Tier 5",
+                    "cost": 4000000,
+                    "effect": "Allows storing Secateurs, Rake"
+                },
+                {
+                    "tier": 6,
+                    "name": "Toolbelt Tier 6",
+                    "cost": 5000000,
+                    "effect": "Allows storing Philosopher's stone, Saw"
+                }
+            ],
+            "maxTier": 6
+        }
+    ],
+    "Skilling": [
+        {
+            "name": "Ancient wisdom",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 5000000,
+                    "effect": "Allows reading multiple Enchantment scrolls at once"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Master crafter",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 5000000,
+                    "effect": "Allows breaking gemstones for crafting XP"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Most efficient fisherman",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "10% chance to cook fish"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 2000000,
+                    "effect": "20% chance to cook fish"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 4000000,
+                    "effect": "30% chance to cook fish"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": 7500000,
+                    "effect": "40% chance to cook fish"
+                },
+                {
+                    "tier": 5,
+                    "name": null,
+                    "cost": 10000000,
+                    "effect": "50% chance to cook fish"
+                }
+            ],
+            "maxTier": 5
+        },
+        {
+            "name": "Farming trickery",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 250000,
+                    "effect": "10% chance to save seeds"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "20% chance to save seeds"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 3000000,
+                    "effect": "30% chance to save seeds"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": 10000000,
+                    "effect": "40% chance to save seeds"
+                },
+                {
+                    "tier": 5,
+                    "name": null,
+                    "cost": 25000000,
+                    "effect": "50% chance to save seeds"
+                }
+            ],
+            "maxTier": 5
+        },
+        {
+            "name": "The fisherman",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 100000,
+                    "effect": "20% chance to double fish"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 250000,
+                    "effect": "40% chance to double fish"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "60% chance to double fish"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": 5000000,
+                    "effect": "80% chance to double fish"
+                },
+                {
+                    "tier": 5,
+                    "name": null,
+                    "cost": 20000000,
+                    "effect": "100% chance to double fish"
+                }
+            ],
+            "maxTier": 5
+        },
+        {
+            "name": "Power forager",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 200000,
+                    "effect": "10% chance to double foraged"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 600000,
+                    "effect": "20% chance to double foraged"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 1500000,
+                    "effect": "30% chance to double foraged"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": 5000000,
+                    "effect": "40% chance to double foraged"
+                },
+                {
+                    "tier": 5,
+                    "name": null,
+                    "cost": 10000000,
+                    "effect": "50% chance to double foraged"
+                }
+            ],
+            "maxTier": 5
+        },
+        {
+            "name": "Plank bargain",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 500000,
+                    "effect": "-30% carpentry task cost"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "-60% carpentry task cost"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 2000000,
+                    "effect": "-100% carpentry task cost"
+                }
+            ],
+            "maxTier": 3
+        },
+        {
+            "name": "Smelting magic",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 750000,
+                    "effect": "10% chance to save ore"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 2500000,
+                    "effect": "20% chance to save ore"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 10000000,
+                    "effect": "30% chance to save ore"
+                }
+            ],
+            "maxTier": 3
+        },
+        {
+            "name": "The lumberjack",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 100000,
+                    "effect": "20% chance to double logs"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 250000,
+                    "effect": "40% chance to double logs"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 1000000,
+                    "effect": "60% chance to double logs"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": 5000000,
+                    "effect": "80% chance to double logs"
+                },
+                {
+                    "tier": 5,
+                    "name": null,
+                    "cost": 20000000,
+                    "effect": "100% chance to double logs"
+                }
+            ],
+            "maxTier": 5
+        }
+    ],
+    "Combat": [
+        {
+            "name": "Auto eating",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 100000,
+                    "effect": "Unlocks automatic eating in combat"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Auto looting",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 100000,
+                    "effect": "Loot from combat goes directly to inventory"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Boss slayer",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 25000000,
+                    "effect": "Stay in boss fights until keys run out"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Ninja",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 500000,
+                    "effect": "5% chance to completely dodge attacks"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 1500000,
+                    "effect": "10% chance to completely dodge attacks"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 5000000,
+                    "effect": "15% chance to completely dodge attacks"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": 10000000,
+                    "effect": "20% chance to completely dodge attacks"
+                }
+            ],
+            "maxTier": 4
+        },
+        {
+            "name": "Monster hunter",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 50000,
+                    "effect": "Quest monsters take 20% increased damage"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Show us the money",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 15000000,
+                    "effect": "25% chance an ally receives loot when defeating Kronos"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Kronos who?",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 15000000,
+                    "effect": "Automatically use correct protection against Kronos"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Picky eater",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 10000000,
+                    "effect": "Eat food healing closest to missing health when damaged"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Ammo saver",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 150000,
+                    "effect": "15% chance to save ammo in combat"
+                },
+                {
+                    "tier": 2,
+                    "name": null,
+                    "cost": 750000,
+                    "effect": "30% chance to save ammo in combat"
+                },
+                {
+                    "tier": 3,
+                    "name": null,
+                    "cost": 2500000,
+                    "effect": "45% chance to save ammo in combat"
+                },
+                {
+                    "tier": 4,
+                    "name": null,
+                    "cost": 7500000,
+                    "effect": "60% chance to save ammo in combat"
+                },
+                {
+                    "tier": 5,
+                    "name": null,
+                    "cost": 20000000,
+                    "effect": "75% chance to save ammo in combat"
+                },
+                {
+                    "tier": 6,
+                    "name": null,
+                    "cost": 50000000,
+                    "effect": "90% chance to save ammo in combat"
+                }
+            ],
+            "maxTier": 6
+        },
+        {
+            "name": "Teamwork",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": 75000,
+                    "effect": "Gain 8% bonus XP when in group combat"
+                }
+            ],
+            "maxTier": 1
+        }
+    ],
+    "Unlocked with items": [
+        {
+            "name": "Arrow crafter",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "+10% to crafted arrow quantities"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Keep it burning",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Automatically cook meat obtained from combat"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Better skinner",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Double leather drops from combat"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Delicate manufacturing",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Use 20% less flax in non-astral fabric crafting"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Getting in sync",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Receive 10% more XP from clan skilling events"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Last negotiation",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Permanent effect of potion of negotiation"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Prestigious woodworking",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Receive 10% more gold selling planks"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Responsible drinking",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Potion effects last 10% longer"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Better fisherman",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Receive 25% XP from fish caught with The fisherman"
+                }
+            ],
+            "maxTier": 1
+        },
+        {
+            "name": "Better lumberjack",
+            "tiers": [
+                {
+                    "tier": 1,
+                    "name": null,
+                    "cost": null,
+                    "effect": "Receive 25% XP from extra logs via The lumberjack"
+                }
+            ],
+            "maxTier": 1
+        }
+    ]
+}

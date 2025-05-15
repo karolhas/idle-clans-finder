@@ -2,6 +2,7 @@
 
 // hooks
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 // api
 import { fetchPlayerProfile, fetchClanByName } from '@/lib/api/apiService';
 // components
@@ -15,6 +16,7 @@ import { ClanData } from '@/types/clan.types';
 import { FaSearch } from 'react-icons/fa';
 
 export default function Home() {
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState<'player' | 'clan'>('player');
     const [playerSearchResults, setPlayerSearchResults] =
         useState<Player | null>(null);
@@ -141,9 +143,11 @@ export default function Home() {
 
     const handleSearch = (query: string) => {
         if (activeTab === 'player') {
-            handlePlayerSearch(query);
+            // Redirect to /player/{Username} (case-sensitive)
+            router.push(`/player/${encodeURIComponent(query)}`);
         } else {
-            handleClanSearch(query);
+            // Redirect to /clan/{Clanname} (case-sensitive)
+            router.push(`/clan/${encodeURIComponent(query)}`);
         }
     };
 
@@ -219,7 +223,7 @@ export default function Home() {
 
                 {/* Tab content */}
                 <div className="border border-emerald-700 rounded-lg">
-                    <div className="bg-emerald-900/50 p-6">
+                    <div className="bg-[#002020] rounded-lg p-6">
                         <h2 className="text-white text-lg font-semibold mb-2">
                             Search for{' '}
                             {activeTab === 'player' ? 'a player' : 'a clan'}

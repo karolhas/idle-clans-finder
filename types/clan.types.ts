@@ -7,7 +7,7 @@ export interface ClanData {
     guildName?: string;
     clanName?: string; // <- lazy way to make naming work
     memberlist: Clan[];
-    tag?: string
+    tag?: string;
     guildDescription?: string;
     guildLevel?: number;
     guildXp?: number;
@@ -17,6 +17,7 @@ export interface ClanData {
     minimumTotalLevelRequired?: number;
     isRecruiting?: boolean;
     language?: string;
+    serializedUpgrades?: string;
 
     serializedSkills?: string;
     skills?: {
