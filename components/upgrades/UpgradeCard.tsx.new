@@ -1,18 +1,5 @@
 import Image from "next/image";
-
-// Additional color mapping for upgrades
-const UPGRADE_COLOR_MAP: Record<string, string> = {
-  'text-red-500': '#ef4444',
-  'text-purple-400': '#c084fc',
-  'text-yellow-400': '#facc15', // Added yellow color
-  'text-emerald-400': '#34d399', // Added emerald color
-  'text-white': '#ffffff',
-};
-
-// Convert Tailwind class names to hex color values for upgrades
-const upgradeColorToHex = (tailwindClass: string): string => {
-  return UPGRADE_COLOR_MAP[tailwindClass] || '#004444'; // Default color if not found
-};
+import { tailwindToHex } from '@/utils/skills/calculations/skillColor';
 
 interface UpgradeCardProps {
   name: string;
@@ -30,12 +17,10 @@ export function UpgradeCard({
   formatUpgradeName,
 }: UpgradeCardProps) {
   // Check upgrade status
-  const isMaxTier = maxTier > 0 && value >= maxTier;
-    // Color helpers
+  const isMaxTier = value >= maxTier;
+  
+  // Color helpers
   const getUpgradeColor = (value: number, maxTier: number): string => {
-    // Handle special cases where maxTier is 0
-    if (maxTier === 0) return "text-white";
-    
     const percentage = (value / maxTier) * 100;
     if (percentage === 100) return "text-red-500";
     if (percentage >= 75) return "text-purple-400";
@@ -45,6 +30,7 @@ export function UpgradeCard({
   };
 
   const color = getUpgradeColor(value, maxTier);
+
   // Visual style getters
   const getBorderStyle = () => {
     if (isMaxTier)
@@ -52,7 +38,7 @@ export function UpgradeCard({
         borderWidth: '3px',
         borderColor: '#ef4444', // Red for max tier
       };
-    return { borderWidth: '1px', borderColor: upgradeColorToHex(color) };
+    return { borderWidth: '1px', borderColor: tailwindToHex(color) };
   };
 
   return (
@@ -108,13 +94,18 @@ export function UpgradeCard({
           <p className={`text-xl font-bold ${color}`}>
             Tier {value}
           </p>
-        )}        {/* Tier counter */}
-        <p className="text-xs text-gray-400">{maxTier > 0 ? `${value}/${maxTier} tiers` : `Tier ${value}`}</p>{/* Progress bar for all tiers */}        <div className="mt-1 relative h-1 w-full bg-gray-700 rounded-full overflow-hidden">
+        )}
+
+        {/* Tier counter */}
+        <p className="text-xs text-gray-400">{`${value}/${maxTier} tiers`}</p>
+
+        {/* Progress bar for all tiers */}
+        <div className="mt-1 relative h-1 w-full bg-gray-700 rounded-full overflow-hidden">
           <div
             className="absolute h-full rounded-full"
             style={{
-              width: `${maxTier > 0 ? Math.min(100, (value / maxTier) * 100) : 0}%`,
-              backgroundColor: isMaxTier ? '#ef4444' : upgradeColorToHex(color),
+              width: `${Math.min(100, (value / maxTier) * 100)}%`,
+              backgroundColor: isMaxTier ? '#ef4444' : tailwindToHex(color),
             }}
           />
         </div>

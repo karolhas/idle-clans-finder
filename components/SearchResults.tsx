@@ -64,21 +64,38 @@ export default function SearchResults({
                 <p className="text-red-600 text-lg">{error}</p>
             </div>
         );
-    }
-
-    // Custom tag for special members
+    }    // Custom tag for special members
     const getPlayerTag = (name: string) => {
-        switch (name) {
+        switch (name) {            
             case 'Temsei':
-                return { label: 'Game Dev', color: 'bg-yellow-600' };
+                return { 
+                    label: 'Game Dev',
+                    color: 'bg-gradient-to-r from-slate-800 to-amber-900',
+                    icon: '👑',
+                    border: 'border-2 border-amber-400'
+                };
             case 'HSK':
-                return { label: 'Site Creator', color: 'bg-purple-600' };
+                return { 
+                    label: 'Site Creator',
+                    color: 'bg-gradient-to-r from-purple-600 to-fuchsia-500',
+                    icon: '⚡',
+                    border: 'border-2 border-purple-300'
+                };
             case 'ZoEzi':
-                return { label: 'Artist', color: 'bg-red-600' };
+                return { 
+                    label: 'Artist',
+                    color: 'bg-gradient-to-r from-red-600 to-rose-500',
+                    icon: '🎨',
+                    border: 'border-2 border-red-300'
+                };            
             case 'Shakkuru':
-                return { label: 'Site Helper', color: 'bg-blue-600' };
             case 'Dubz9':
-                return { label: 'Site Helper', color: 'bg-blue-600' };
+                return { 
+                    label: 'Site Helper',
+                    color: 'bg-gradient-to-r from-blue-600 to-sky-500',
+                    icon: '🔧',
+                    border: 'border-2 border-blue-300'
+                };
             default:
                 return null;
         }
@@ -89,25 +106,26 @@ export default function SearchResults({
     return (
         <div className="mt-8">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-                <div className="xl:col-span-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4">
-                    <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
-                        <h2 className="text-2xl font-bold mb-4 text-emerald-400">
-                            Player Info
-                        </h2>
+                <div className="xl:col-span-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4">                    <div className="bg-[#002626] p-6 rounded-lg border border-[#004444] relative">                        {tag && (
+                            <span
+                                className={`absolute top-0 right-0 px-4 py-2 ${tag.color} ${tag.border} text-white text-sm font-bold shadow-md flex items-center`}
+                                style={{ textShadow: '0px 1px 2px rgba(0,0,0,0.3)' }}
+                            >                                <span className={`mr-1 ${player.username === 'Temsei' ? 'text-amber-300' : ''}`}>{tag.icon}</span>
+                                {tag.label}
+                            </span>
+                        )}
+                        <div className="mb-4">
+                            <h2 className="text-2xl font-bold text-emerald-400">
+                                Player Info
+                            </h2>
+                        </div>
 
-                        {/* Special Member Tag */}
+                        {/* Player Information */}
                         <p className="flex items-center mb-2 font-light">
                             <FaUser className="mr-1" /> Nickname:
                             <span className="text-white ml-1 font-semibold">
                                 {player.username}
                             </span>
-                            {tag && (
-                                <span
-                                    className={`ml-2 px-2 py-0.5 ${tag.color} text-white text-xs rounded-full`}
-                                >
-                                    {tag.label}
-                                </span>
-                            )}
                         </p>
 
                         <p className="flex items-center mb-2 font-light">
