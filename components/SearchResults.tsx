@@ -28,12 +28,14 @@ interface SearchResultsProps {
     player: Player;
     error?: string;
     onSearchMember?: (memberName: string) => void;
+    onSearchClan?: (clanName: string) => void;
 }
 
 export default function SearchResults({
     player,
     error,
     onSearchMember,
+    onSearchClan,
 }: SearchResultsProps) {
     const [memberCount, setMemberCount] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,11 +70,15 @@ export default function SearchResults({
     const getPlayerTag = (name: string) => {
         switch (name) {
             case 'Temsei':
-                return { label: 'Game Dev', color: 'bg-emerald-500' };
+                return { label: 'Game Dev', color: 'bg-yellow-600' };
             case 'HSK':
-                return { label: 'Site Creator', color: 'bg-red-500' };
+                return { label: 'Site Creator', color: 'bg-purple-600' };
             case 'ZoEzi':
-                return { label: 'Artist', color: 'bg-green-500' };
+                return { label: 'Artist', color: 'bg-red-600' };
+            case 'Shakkuru':
+                return { label: 'Site Helper', color: 'bg-blue-600' };
+            case 'Dubz9':
+                return { label: 'Site Helper', color: 'bg-blue-600' };
             default:
                 return null;
         }
@@ -235,6 +241,7 @@ export default function SearchResults({
                     }
                 }
                 onSearchMember={onSearchMember}
+                onSearchClan={onSearchClan}
             />
 
             <AdvancedPlayerInfoModal

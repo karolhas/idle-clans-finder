@@ -20,6 +20,7 @@ interface ClanInfoModalProps {
     clanData: ClanData;
     standalone?: boolean;
     onSearchMember?: (memberName: string) => void;
+    onSearchClan?: (clanName: string) => void;
 }
 
 export default function ClanInfoModal({
@@ -30,6 +31,7 @@ export default function ClanInfoModal({
     clanData,
     standalone = false,
     onSearchMember,
+    onSearchClan,
 }: ClanInfoModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
@@ -119,10 +121,15 @@ export default function ClanInfoModal({
                         }`}
                         onClick={() => {
                             if (!standalone) {
-                                router.push(
-                                    `/clan/${encodeURIComponent(clanName)}`
-                                );
-                                onClose();
+                                if (onSearchClan) {
+                                    onSearchClan(clanName);
+                                    onClose();
+                                } else {
+                                    router.push(
+                                        `/clan/${encodeURIComponent(clanName)}`
+                                    );
+                                    onClose();
+                                }
                             }
                         }}
                     >
