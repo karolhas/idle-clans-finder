@@ -64,37 +64,45 @@ export default function SearchResults({
                 <p className="text-red-600 text-lg">{error}</p>
             </div>
         );
-    } // Custom tag for special members
+    }    // Custom tag for special members
     const getPlayerTag = (name: string) => {
-        switch (name) {
+        switch (name) {            
             case 'Temsei':
-                return {
+                return { 
                     label: 'Game Dev',
                     color: 'bg-gradient-to-r from-slate-800 to-amber-900',
                     icon: '👑',
-                    border: 'border-2 border-amber-400',
+                    border: 'border-2 border-amber-400'
                 };
             case 'HSK':
-                return {
+                return { 
                     label: 'Site Creator',
                     color: 'bg-gradient-to-r from-purple-600 to-fuchsia-500',
                     icon: '⚡',
-                    border: 'border-2 border-purple-300',
+                    border: 'border-2 border-purple-300'
                 };
             case 'ZoEzi':
-                return {
+                return { 
                     label: 'Artist',
                     color: 'bg-gradient-to-r from-red-600 to-rose-500',
                     icon: '🎨',
-                    border: 'border-2 border-red-300',
-                };
+                    border: 'border-2 border-red-300'
+                };            
             case 'Shakkuru':
             case 'Dubz9':
-                return {
+                return { 
                     label: 'Site Helper',
                     color: 'bg-gradient-to-r from-blue-600 to-sky-500',
                     icon: '🔧',
-                    border: 'border-2 border-blue-300',
+                    border: 'border-2 border-blue-300'
+                };
+            case 'DonatorCasesHereKappaPride':
+                return {
+
+                    label: 'Donator',
+                    color: 'bg-gradient-to-r from-emerald-600 to-green-500',
+                    icon: '🪙',
+                    border: 'border-2 border-green-300'
                 };
             default:
                 return null;
@@ -106,27 +114,11 @@ export default function SearchResults({
     return (
         <div className="mt-8">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-                <div className="xl:col-span-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4">
-                    {' '}
-                    <div className="bg-[#002626] p-6 rounded-lg border border-[#004444] relative">
-                        {' '}
-                        {tag && (
+                <div className="xl:col-span-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4">                    <div className="bg-[#002626] p-6 rounded-lg border border-[#004444] relative">                        {tag && (
                             <span
                                 className={`absolute top-0 right-0 px-4 py-2 ${tag.color} ${tag.border} text-white text-sm font-bold shadow-md flex items-center`}
-                                style={{
-                                    textShadow: '0px 1px 2px rgba(0,0,0,0.3)',
-                                }}
-                            >
-                                {' '}
-                                <span
-                                    className={`mr-1 ${
-                                        player.username === 'Temsei'
-                                            ? 'text-amber-300'
-                                            : ''
-                                    }`}
-                                >
-                                    {tag.icon}
-                                </span>
+                                style={{ textShadow: '0px 1px 2px rgba(0,0,0,0.3)' }}
+                            >                                <span className={`mr-1 ${player.username === 'Temsei' ? 'text-amber-300' : ''}`}>{tag.icon}</span>
                                 {tag.label}
                             </span>
                         )}
@@ -135,6 +127,7 @@ export default function SearchResults({
                                 Player Info
                             </h2>
                         </div>
+
                         {/* Player Information */}
                         <p className="flex items-center mb-2 font-light">
                             <FaUser className="mr-1" /> Nickname:
@@ -142,6 +135,7 @@ export default function SearchResults({
                                 {player.username}
                             </span>
                         </p>
+
                         <p className="flex items-center mb-2 font-light">
                             <FaGamepad className="mr-1" /> Game Mode:
                             <span className="text-white ml-1 font-semibold">
@@ -194,6 +188,7 @@ export default function SearchResults({
                             View Advanced Info
                         </button>
                     </div>
+
                     <div
                         className="bg-[#002626] p-6 rounded-lg border border-[#004444] cursor-pointer hover:bg-[#003333] transition-colors"
                         onClick={() => setIsModalOpen(true)}
