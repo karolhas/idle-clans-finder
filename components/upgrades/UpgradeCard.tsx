@@ -12,11 +12,6 @@ const UPGRADE_COLOR_MAP: Record<string, string> = {
 
 // Background gradients matching SkillCard
 const RED_BACKGROUND_GRADIENT = 'from-[#2a0505] via-[#3d0606] to-[#2a0505]';    // Red gradient for max tier
-const ORANGE_BACKGROUND_GRADIENT = 'from-[#261600] via-[#291b04] to-[#1a1006]'; // Orange gradient for high tier
-const PURPLE_BACKGROUND_GRADIENT = 'from-[#1a0526] via-[#25073d] to-[#1a0526]'; // Purple gradient for tier 4
-const YELLOW_BACKGROUND_GRADIENT = 'from-[#26230a] via-[#312b0d] to-[#26230a]'; // Yellow gradient for tier 3
-const GREEN_BACKGROUND_GRADIENT = 'from-[#0a2613] via-[#0d3118] to-[#0a2613]';  // Green gradient for tier 2
-const WHITE_BACKGROUND_GRADIENT = 'from-[#101a1a] via-[#152020] to-[#101a1a]';  // Subtle gradient for tier 1 and 0
 
 // Convert Tailwind class names to hex color values for upgrades
 const upgradeColorToHex = (tailwindClass: string): string => {

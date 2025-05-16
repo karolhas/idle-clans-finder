@@ -21,11 +21,10 @@ const STAR_COUNT = 15; // Reduced from 40 for better performance
 // =======================================
 const isLowEndDevice = (() => {
     if (typeof navigator === 'undefined' || typeof window === 'undefined') return false;
-    
-    // Check for device memory (not supported in all browsers)
+      // Check for device memory (not supported in all browsers)
     const hasLowMemory = 
         'deviceMemory' in navigator && 
-        // @ts-ignore - deviceMemory is not in the standard navigator type
+        // @ts-expect-error - deviceMemory is not in the standard navigator type
         navigator.deviceMemory < 4;
         
     // Check CPU cores
