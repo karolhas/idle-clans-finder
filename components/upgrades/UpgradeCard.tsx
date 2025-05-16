@@ -34,7 +34,6 @@ export function UpgradeCard({
   formatUpgradeName,
 }: UpgradeCardProps) {  // Check upgrade status
   const isMaxTier = maxTier > 0 && value >= maxTier;
-  const isHighTier = maxTier > 0 && value / maxTier >= 0.75; // 75% or higher is high tier
     
   // Color helpers
   const getUpgradeColor = (value: number, maxTier: number): string => {
