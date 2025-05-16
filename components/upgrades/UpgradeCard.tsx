@@ -1,50 +1,136 @@
-import Image from "next/image";
+import Image from 'next/image';
+
+// Additional color mapping for upgrades
+const UPGRADE_COLOR_MAP: Record<string, string> = {
+    'text-red-500': '#ef4444',
+    'text-purple-400': '#c084fc',
+    'text-yellow-400': '#facc15', // Added yellow color
+    'text-emerald-400': '#34d399', // Added emerald color
+    'text-white': '#ffffff',
+};
+
+// Convert Tailwind class names to hex color values for upgrades
+const upgradeColorToHex = (tailwindClass: string): string => {
+    return UPGRADE_COLOR_MAP[tailwindClass] || '#004444'; // Default color if not found
+};
 
 interface UpgradeCardProps {
-  name: string;
-  value: number;
-  maxTier: number;
-  getImagePath: (name: string) => string;
-  formatUpgradeName: (name: string) => string;
+    name: string;
+    value: number;
+    maxTier: number;
+    getImagePath: (name: string) => string;
+    formatUpgradeName: (name: string) => string;
 }
 
 export function UpgradeCard({
-  name,
-  value,
-  maxTier,
-  getImagePath,
-  formatUpgradeName,
+    name,
+    value,
+    maxTier,
+    getImagePath,
+    formatUpgradeName,
 }: UpgradeCardProps) {
-  const getUpgradeColor = (value: number, maxTier: number): string => {
-    const percentage = (value / maxTier) * 100;
-    if (percentage === 100) return "text-red-500";
-    if (percentage >= 75) return "text-purple-400";
-    if (percentage >= 50) return "text-yellow-400";
-    if (percentage >= 25) return "text-emerald-400";
-    return "text-white";
-  };
+    // Check upgrade status
+    const isMaxTier = maxTier > 0 && value >= maxTier;
+    // Color helpers
+    const getUpgradeColor = (value: number, maxTier: number): string => {
+        // Handle special cases where maxTier is 0
+        if (maxTier === 0) return 'text-white';
 
-  const color = getUpgradeColor(value, maxTier);
+        const percentage = (value / maxTier) * 100;
+        if (percentage === 100) return 'text-red-500';
+        if (percentage >= 75) return 'text-purple-400';
+        if (percentage >= 50) return 'text-yellow-400';
+        if (percentage >= 25) return 'text-emerald-400';
+        return 'text-white';
+    };
 
-  return (
-    <div className="bg-[#002626] p-4 rounded-lg border border-[#004444] hover:bg-[#003333] transition-colors">
-      <div className="flex items-center gap-2 mb-1">
-        <div className="relative w-5 h-5">
-          <Image
-            src={getImagePath(name)}
-            alt={`${name} icon`}
-            fill
-            sizes="20px"
-            className="object-contain"
-            loading="lazy"
-          />
+    const color = getUpgradeColor(value, maxTier);
+    // Visual style getters
+    const getBorderStyle = () => {
+        if (isMaxTier)
+            return {
+                borderWidth: '2px',
+                borderColor: '#ef4444', // Red for max tier
+            };
+        return { borderWidth: '1px', borderColor: upgradeColorToHex(color) };
+    };
+
+    return (
+        <div
+            className="relative bg-[#002626] p-4 rounded-lg border hover:bg-[#003333] transition-colors"
+            style={{
+                ...getBorderStyle(),
+                ...(isMaxTier
+                    ? {
+                          boxShadow:
+                              '0 10px 25px -5px rgba(220, 38, 38, 0.3), 0 8px 10px -6px rgba(220, 38, 38, 0.2)',
+                      }
+                    : {}),
+            }}
+        >
+            {/* Card content */}
+            <div className="relative">
+                {/* Upgrade header */}
+                <div className="flex items-center gap-2 mb-1">
+                    <div className="relative w-5 h-5">
+                        <Image
+                            src={getImagePath(name)}
+                            alt={`${name} icon`}
+                            fill
+                            sizes="20px"
+                            className="object-contain"
+                            style={
+                                isMaxTier
+                                    ? {
+                                          filter: 'drop-shadow(0 0 2px rgba(255,0,0,0.8))',
+                                      }
+                                    : {}
+                            }
+                            loading="lazy"
+                        />
+                        {isMaxTier && (
+                            <div
+                                className="absolute -inset-1 rounded-full"
+                                style={{
+                                    background:
+                                        'radial-gradient(circle, rgba(255,215,0,0.2) 0%, rgba(255,215,0,0) 70%)',
+                                }}
+                            />
+                        )}
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                        {formatUpgradeName(name)}
+                    </p>
+                </div>
+                {/* Tier display */}
+                {isMaxTier ? (
+                    <p className="text-xl font-bold text-red-500">Max Tier</p>
+                ) : (
+                    <p className={`text-xl font-bold ${color}`}>Tier {value}</p>
+                )}{' '}
+                {/* Tier counter */}
+                <p className="text-xs text-gray-400">
+                    {maxTier > 0
+                        ? `${value}/${maxTier} tiers`
+                        : `Tier ${value}`}
+                </p>
+                {/* Progress bar for all tiers */}{' '}
+                <div className="mt-1 relative h-1 w-full bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                        className="absolute h-full rounded-full"
+                        style={{
+                            width: `${
+                                maxTier > 0
+                                    ? Math.min(100, (value / maxTier) * 100)
+                                    : 0
+                            }%`,
+                            backgroundColor: isMaxTier
+                                ? '#ef4444'
+                                : upgradeColorToHex(color),
+                        }}
+                    />
+                </div>
+            </div>
         </div>
-        <p className="text-gray-300 text-sm">{formatUpgradeName(name)}</p>
-      </div>
-      <p className={`text-xl font-bold ${color}`}>
-        {value >= maxTier ? "Max" : `Tier ${value}`}
-      </p>
-      <p className="text-xs text-gray-400">{`${value}/${maxTier} tiers`}</p>
-    </div>
-  );
+    );
 }
