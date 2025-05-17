@@ -24,7 +24,7 @@ export const PLUNDERING_ITEMS: PlunderingItem[] = [
         expPerSecond: 4.29,
         goldValue: 0,
         goldPerSecond: 0,
-        successRate: 25.1,
+        successRate: 26.1,
     },
     {
         name: 'Mining Community',
@@ -59,12 +59,12 @@ export const PLUNDERING_ITEMS: PlunderingItem[] = [
     {
         name: 'Sports Center',
         level: 60,
-        exp: 350,
+        exp: 360,
         seconds: 47.5,
         expPerSecond: 7.58,
         goldValue: 0,
         goldPerSecond: 0,
-        successRate: 9,
+        successRate: 1,
     },
     {
         name: 'Woodworking Factory',
@@ -78,13 +78,13 @@ export const PLUNDERING_ITEMS: PlunderingItem[] = [
     },
     {
         name: 'Food Factory',
-        level: 85,
-        exp: 550,
+        level: 80,
+        exp: 500,
         seconds: 55,
         expPerSecond: 9.09,
         goldValue: 0,
         goldPerSecond: 0,
-        successRate: 9,
+        successRate: 6,
     },
     {
         name: 'Royal Clan',

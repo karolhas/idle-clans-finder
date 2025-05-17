@@ -84,8 +84,6 @@ export default function CalculationResults() {
                 ?.boost || 0;
         totalBoost += consumableBoost;
 
-        // Guardian's Chisel is handled separately for Refinement items
-
         // Return both total boost without XP Boost and with XP Boost
         const baseBoost = totalBoost;
         const boostWithXP = currentBoosts.xpBoost
@@ -112,21 +110,24 @@ export default function CalculationResults() {
         timeReduction += toolBoost;
 
         // Scrolls - reduce time, now affected by Knowledge Potion
-        const t3ScrollsBoost =
-            T3_SCROLLS.find((t) => t.value === currentBoosts.t3Scrolls)
-                ?.boost || 0;
-        const t2ScrollsBoost =
-            T2_SCROLLS.find((t) => t.value === currentBoosts.t2Scrolls)
-                ?.boost || 0;
-        const t1ScrollsBoost =
-            T1_SCROLLS.find((t) => t.value === currentBoosts.t1Scrolls)
-                ?.boost || 0;
+        // For Crafting's Refinement items, scrolls don't reduce time
+        if (!(currentSkill === 'crafting' && item.category === 'Refinement')) {
+            const t3ScrollsBoost =
+                T3_SCROLLS.find((t) => t.value === currentBoosts.t3Scrolls)
+                    ?.boost || 0;
+            const t2ScrollsBoost =
+                T2_SCROLLS.find((t) => t.value === currentBoosts.t2Scrolls)
+                    ?.boost || 0;
+            const t1ScrollsBoost =
+                T1_SCROLLS.find((t) => t.value === currentBoosts.t1Scrolls)
+                    ?.boost || 0;
 
-        // Apply Knowledge Potion boost to scrolls if active
-        const totalScrollBoost =
-            (t3ScrollsBoost + t2ScrollsBoost + t1ScrollsBoost) *
-            knowledgePotionMultiplier;
-        timeReduction += totalScrollBoost;
+            // Apply Knowledge Potion boost to scrolls if active
+            const totalScrollBoost =
+                (t3ScrollsBoost + t2ScrollsBoost + t1ScrollsBoost) *
+                knowledgePotionMultiplier;
+            timeReduction += totalScrollBoost;
+        }
 
         // Skill cape - reduces time
         const skillCapeBoost =
@@ -140,18 +141,16 @@ export default function CalculationResults() {
                 ?.boost || 0;
         timeReduction += outfitBoost;
 
-        // Gathering-specific boosts - reduce time
-        if (currentSkill === 'fishing' && gatheringBuffs.theFisherman)
-            timeReduction += 25;
+        // Gathering-specific boosts - remove time reduction for fishing from The Fisherman and Efficient Fisherman
+        // if (currentSkill === 'fishing' && gatheringBuffs.theFisherman)
+        //     timeReduction += 25;
+        // if (currentSkill === 'fishing' && gatheringBuffs.efficientFisherman)
+        //     timeReduction += 15;
         // Power Forager doesn't reduce time, it increases loot
         if (currentSkill === 'woodcutting' && gatheringBuffs.theLumberjack)
             timeReduction += 25;
         if (currentSkill === 'farming' && gatheringBuffs.farmingTrickery)
             timeReduction += 25;
-
-        // Efficient fisherman
-        if (currentSkill === 'fishing' && gatheringBuffs.efficientFisherman)
-            timeReduction += 15;
 
         // Power farm hand
         if (currentSkill === 'farming' && gatheringBuffs.powerFarmHand)
@@ -217,6 +216,34 @@ export default function CalculationResults() {
         boostedXp *= 1.1; // +10% XP for Refinement items
     }
 
+    // For Crafting's Refinement items, apply scrolls as a multiplier to the boosted XP
+    if (currentSkill === 'crafting' && item.category === 'Refinement') {
+        // Knowledge potion multiplier for scrolls (if active)
+        const knowledgePotionMultiplier = currentBoosts.knowledgePotion
+            ? 1.5
+            : 1;
+
+        // Get scroll boosts
+        const t3ScrollsBoost =
+            T3_SCROLLS.find((t) => t.value === currentBoosts.t3Scrolls)
+                ?.boost || 0;
+        const t2ScrollsBoost =
+            T2_SCROLLS.find((t) => t.value === currentBoosts.t2Scrolls)
+                ?.boost || 0;
+        const t1ScrollsBoost =
+            T1_SCROLLS.find((t) => t.value === currentBoosts.t1Scrolls)
+                ?.boost || 0;
+
+        // Calculate total scroll boost and apply as multiplier
+        const totalScrollBoost =
+            (t3ScrollsBoost + t2ScrollsBoost + t1ScrollsBoost) *
+            knowledgePotionMultiplier;
+
+        // Apply scroll boost as a multiplier to the already boosted XP
+        baseXpWithoutXPBoost *= 1 + totalScrollBoost / 100;
+        boostedXp *= 1 + totalScrollBoost / 100;
+    }
+
     // Boosted time and gold values
     const boostedTime = baseTime * (1 - Math.min(timeReduction, 80) / 100); // Cap at 80% to match game mechanics
     const boostedGold = baseGold * (1 + goldBoost / 100);
@@ -254,8 +281,17 @@ export default function CalculationResults() {
     // Calculate Tasks per Hour (3600/Boosted time)
     const tasksPerHour = boostedTime > 0 ? Math.floor(3600 / boostedTime) : 0;
 
+    // Calculate real Tasks per Hour for fishing with The Fisherman buff
+    let realTasksPerHour = tasksPerHour;
+    if (currentSkill === 'fishing' && gatheringBuffs.theFisherman > 0) {
+        // The Fisherman tiers: 1=20%, 2=40%, 3=60%, 4=80%, 5=100%
+        const tierPercent =
+            [0, 20, 40, 60, 80, 100][gatheringBuffs.theFisherman] || 0;
+        realTasksPerHour = Math.floor(tasksPerHour * (1 + tierPercent / 100));
+    }
+
     // Adjust tasks per hour for foraging with Power Forager (which doubles loot, not reduces time)
-    let adjustedTasksPerHour = tasksPerHour;
+    let adjustedTasksPerHour = realTasksPerHour;
     if (currentSkill === 'foraging' && gatheringBuffs.powerForager > 0) {
         // Power Forager gives 10% per tier (from 1-5) chance to double loot
         const powerForagerBonus = gatheringBuffs.powerForager * 0.1; // 10% per tier
@@ -316,6 +352,35 @@ export default function CalculationResults() {
     const hasNoGoldReward = () => {
         return item.category === 'Refinement' || item.goldValue === 0;
     };
+
+    // --- FISHING: Cooked Fish and Cooking XP calculations ---
+    let cookingActionsPerHour = 0;
+    let cookedFishPerHour = 0;
+    let cookingXpPerHour = 0;
+    if (currentSkill === 'fishing') {
+        // Efficient Fisherman tiers: 1=10%, 2=20%, 3=30%, 4=40%, 5=50%
+        const efficientFishermanPercent =
+            [0, 10, 20, 30, 40, 50][gatheringBuffs.efficientFisherman] || 0;
+        // The Fisherman tiers: 1=20%, 2=40%, 3=60%, 4=80%, 5=100%
+        const fishermanPercent =
+            [0, 20, 40, 60, 80, 100][gatheringBuffs.theFisherman] || 0;
+        // Cooking Actions per Hour
+        cookingActionsPerHour =
+            tasksPerHour * (efficientFishermanPercent / 100);
+        // Cooking XP per Hour
+        let cookingExp = 0;
+        if ('cookingExp' in item) {
+            cookingExp = item.cookingExp as number;
+        }
+        cookingXpPerHour = Math.floor(
+            cookingActionsPerHour *
+                (cookingExp * (1 + totalXpBoost.boostWithXP / 100))
+        );
+        // Cooked Fish per Hour
+        cookedFishPerHour = Math.floor(
+            cookingActionsPerHour * (1 + fishermanPercent / 100)
+        );
+    }
 
     return (
         <div className="bg-[#001010] rounded-lg p-4">
@@ -425,76 +490,121 @@ export default function CalculationResults() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-[#002020] rounded-md p-3">
                     <h3 className="text-emerald-400 font-medium mb-2">Rates</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                        <div>
-                            <div className="text-xs text-gray-400">
-                                XP per Hour
-                            </div>
-                            <div className="text-sm text-white">
-                                {isInstantCraft()
-                                    ? 'Instant'
-                                    : formatNumber(xpPerHour)}
-                            </div>
-                        </div>
-                        <div>
-                            <div className="text-xs text-gray-400">
-                                Gold per Hour
-                            </div>
-                            <div className="text-sm text-white">
-                                {hasNoGoldReward()
-                                    ? 'N/A'
-                                    : formatNumber(goldPerHour)}
-                            </div>
-                        </div>
-                        {!isInstantCraft() && (
+                    {currentSkill === 'fishing' ? (
+                        <div className="grid grid-cols-2 gap-2">
+                            {/* Left column */}
                             <div>
                                 <div className="text-xs text-gray-400">
-                                    Tasks per Hour
-                                </div>
-                                <div className="text-sm text-white">
-                                    {formatNumber(adjustedTasksPerHour)}
-                                </div>
-                            </div>
-                        )}
-                        {currentSkill === 'smithing' && (
-                            <>
-                                <div>
-                                    <div className="text-xs text-gray-400">
-                                        Ores Saved/Hour
-                                    </div>
-                                    <div className="text-sm text-white">
-                                        {formatNumber(oresSavedPerHour)}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="text-xs text-gray-400">
-                                        Bars Saved/Hour
-                                    </div>
-                                    <div className="text-sm text-white">
-                                        {formatNumber(barsSavedPerHour)}
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                        {currentBoosts.xpBoost && (
-                            <div
-                                className={
-                                    currentSkill === 'smithing'
-                                        ? ''
-                                        : 'col-span-2'
-                                }
-                            >
-                                <div className="text-xs text-gray-400 mt-2">
-                                    XP per Hour (with XP Boost)
+                                    Fishing XP per Hour
                                 </div>
                                 <div className="text-sm text-white">
                                     {isInstantCraft()
                                         ? 'Instant'
-                                        : formatNumber(xpPerHourWithBoost)}
+                                        : formatNumber(xpPerHour)}
+                                </div>
+                                <div className="text-xs text-gray-400 mt-4">
+                                    Fish per Hour
+                                </div>
+                                <div className="text-sm text-white">
+                                    {formatNumber(realTasksPerHour)}
+                                </div>
+                                <div className="text-xs text-gray-400 mt-4">
+                                    Gold per Hour
+                                </div>
+                                <div className="text-sm text-white">
+                                    {hasNoGoldReward()
+                                        ? 'N/A'
+                                        : formatNumber(goldPerHour)}
                                 </div>
                             </div>
-                        )}
-                    </div>
+                            {/* Right column */}
+                            <div>
+                                <div className="text-xs text-gray-400">
+                                    Cooking XP per Hour
+                                </div>
+                                <div className="text-sm text-white">
+                                    {formatNumber(cookingXpPerHour)}
+                                </div>
+                                <div className="text-xs text-gray-400 mt-4">
+                                    Cooked Fish per Hour
+                                </div>
+                                <div className="text-sm text-white">
+                                    {formatNumber(cookedFishPerHour)}
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-2 gap-2">
+                            <div>
+                                <div className="text-xs text-gray-400">
+                                    XP per Hour
+                                </div>
+                                <div className="text-sm text-white">
+                                    {isInstantCraft()
+                                        ? 'Instant'
+                                        : formatNumber(xpPerHour)}
+                                </div>
+                            </div>
+                            <div>
+                                <div className="text-xs text-gray-400">
+                                    Gold per Hour
+                                </div>
+                                <div className="text-sm text-white">
+                                    {hasNoGoldReward()
+                                        ? 'N/A'
+                                        : formatNumber(goldPerHour)}
+                                </div>
+                            </div>
+                            {!isInstantCraft() && (
+                                <div>
+                                    <div className="text-xs text-gray-400">
+                                        Tasks per Hour
+                                    </div>
+                                    <div className="text-sm text-white">
+                                        {formatNumber(adjustedTasksPerHour)}
+                                    </div>
+                                </div>
+                            )}
+                            {currentSkill === 'smithing' && (
+                                <>
+                                    <div>
+                                        <div className="text-xs text-gray-400">
+                                            Ores Saved/Hour
+                                        </div>
+                                        <div className="text-sm text-white">
+                                            {formatNumber(oresSavedPerHour)}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="text-xs text-gray-400">
+                                            Bars Saved/Hour
+                                        </div>
+                                        <div className="text-sm text-white">
+                                            {formatNumber(barsSavedPerHour)}
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                            {currentBoosts.xpBoost && (
+                                <div
+                                    className={
+                                        currentSkill === 'smithing'
+                                            ? ''
+                                            : 'col-span-2'
+                                    }
+                                >
+                                    <div className="text-xs text-gray-400 mt-2">
+                                        XP per Hour (with XP Boost)
+                                    </div>
+                                    <div className="text-sm text-white">
+                                        {isInstantCraft()
+                                            ? 'Instant'
+                                            : formatNumber(xpPerHourWithBoost)}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <div className="bg-[#002020] rounded-md p-3">

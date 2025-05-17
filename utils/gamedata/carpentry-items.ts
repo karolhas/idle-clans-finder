@@ -8,7 +8,7 @@ interface CarpentryItem extends SkillItem {
 export const CARPENTRY_ITEMS: CarpentryItem[] = [
     {
         name: 'Spruce',
-        level: 40,
+        level: 1,
         exp: 40,
         seconds: 9,
         expPerSecond: 4.44,
@@ -28,7 +28,7 @@ export const CARPENTRY_ITEMS: CarpentryItem[] = [
     },
     {
         name: 'Oak',
-        level: 1,
+        level: 20,
         exp: 50,
         seconds: 9,
         expPerSecond: 5.56,

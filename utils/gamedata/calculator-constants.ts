@@ -209,7 +209,10 @@ export const BOOST_OPTIONS: BoostOption[] = [
 ];
 
 // Level to XP Mapping
-export const LEVEL_TO_XP = XP_TABLE;
+export const LEVEL_TO_XP: Record<number, number> = {
+    ...XP_TABLE,
+    121: 500_000_000, // True Master level
+};
 
 // Initial calculator state
 export const INITIAL_SKILL_BOOSTS = {
@@ -226,7 +229,6 @@ export const INITIAL_SKILL_BOOSTS = {
     negotiationPotion: false,
     trickeryPotion: false,
     knowledgePotion: false,
-    potioneering: false,
     guardiansChisel: false,
     forgeryPotion: false,
     guardiansTrowel: false,

@@ -122,7 +122,7 @@ export const SMITHING_ITEMS: SmithingItem[] = [
         goldValue: 50000,
         goldPerSecond: 833.3,
         category: 'Bars',
-        oreBarsNeeded: 3, // Ore bars needed
+        oreBarsNeeded: 1, // Ore bars needed
         coalNeeded: 5000, // Coal needed
     },
 
@@ -182,7 +182,7 @@ export const SMITHING_ITEMS: SmithingItem[] = [
         goldValue: 95,
         goldPerSecond: 11,
         category: 'Iron Equipment',
-        oreBarsNeeded: 5, // Iron bars needed
+        oreBarsNeeded: 6, // Iron bars needed
     },
     {
         name: 'Iron Platelegs',
@@ -500,7 +500,7 @@ export const SMITHING_ITEMS: SmithingItem[] = [
         level: 85,
         exp: 240,
         seconds: 9,
-        expPerSecond: 26.7,
+        expPerSecond: 27,
         goldValue: 15600,
         goldPerSecond: 1733,
         category: 'Titanium Equipment',

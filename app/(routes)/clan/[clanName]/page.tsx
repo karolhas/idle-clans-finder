@@ -26,7 +26,7 @@ export default function ClanPage() {
 
     const [clanData, setClanData] = useState<ClanData | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState<'player' | 'clan'>('clan');
     const [playerRecentSearches, setPlayerRecentSearches] = useState<string[]>(
         []
@@ -72,9 +72,59 @@ export default function ClanPage() {
     }, [clanName]);
 
     useEffect(() => {
-        const cached = getCachedClan(clanName);
-        if (cached) {
-            setCachedClan(clanName, cached);
+        if (clanName) {
+            const loadInitialClan = async () => {
+                setLoading(true);
+                setError(null);
+                try {
+                    // Check cache first
+                    const cachedData = getCachedClan(clanName);
+                    if (cachedData) {
+                        setClanData(cachedData);
+                        setLoading(false);
+                        return;
+                    }
+
+                    const rawData = await fetchClanByName(clanName);
+
+                    let parsedSkills = undefined;
+                    if (rawData.serializedSkills) {
+                        try {
+                            parsedSkills = JSON.parse(rawData.serializedSkills);
+                        } catch (err) {
+                            console.error('Error parsing skills:', err);
+                        }
+                    }
+
+                    const mergedData: ClanData = {
+                        ...rawData,
+                        skills: parsedSkills,
+                    };
+
+                    setClanData(mergedData);
+                    setCachedClan(clanName, mergedData);
+                    setError(null);
+
+                    setClanRecentSearches((prev) => {
+                        const updated = prev.includes(clanName)
+                            ? prev
+                            : [clanName, ...prev];
+                        return updated.slice(0, 5);
+                    });
+                } catch (err) {
+                    console.error('Error loading clan:', err);
+                    if (err instanceof Error) {
+                        setError(err.message);
+                    } else {
+                        setError('Failed to load clan data. Please try again.');
+                    }
+                    setClanData(null);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            loadInitialClan();
         }
     }, [clanName, getCachedClan, setCachedClan]);
 
@@ -107,53 +157,6 @@ export default function ClanPage() {
 
         setClanSearchQuery(trimmed);
         router.push(`/clan/${encodeURIComponent(trimmed)}`);
-
-        const loadClan = async () => {
-            setLoading(true);
-            try {
-                // Check cache first
-                const cachedData = getCachedClan(trimmed);
-                if (cachedData) {
-                    setClanData(cachedData);
-                    setLoading(false);
-                    return;
-                }
-
-                const rawData = await fetchClanByName(trimmed);
-
-                let parsedSkills = undefined;
-                if (rawData.serializedSkills) {
-                    try {
-                        parsedSkills = JSON.parse(rawData.serializedSkills);
-                    } catch (err) {
-                        console.error('Error parsing skills:', err);
-                    }
-                }
-
-                const mergedData: ClanData = {
-                    ...rawData,
-                    skills: parsedSkills,
-                };
-
-                setClanData(mergedData);
-                setCachedClan(trimmed, mergedData);
-                setError(null);
-
-                setClanRecentSearches((prev) => {
-                    const updated = prev.includes(trimmed)
-                        ? prev
-                        : [trimmed, ...prev];
-                    return updated.slice(0, 5);
-                });
-            } catch {
-                setError('Clan not found.');
-                setClanData(null);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadClan();
     };
 
     const handleRecentPlayerSearchClick = (name: string) => {

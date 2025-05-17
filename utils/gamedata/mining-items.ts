@@ -39,7 +39,7 @@ export const MINING_ITEMS: SkillItem[] = [
     },
     {
         name: 'Coal',
-        level: 35,
+        level: 30,
         exp: 24,
         seconds: 7.5,
         expPerSecond: 3.2,
@@ -70,7 +70,7 @@ export const MINING_ITEMS: SkillItem[] = [
         exp: 125,
         seconds: 26,
         expPerSecond: 4.81,
-        goldValue: 104,
+        goldValue: 105,
         goldPerSecond: 4.0,
     },
     {

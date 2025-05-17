@@ -458,29 +458,6 @@ export default function SkillBoosts() {
                         </label>
                     </div>
 
-                    {/* Potioneering */}
-                    <div className="flex items-center">
-                        <input
-                            id="potioneering"
-                            type="checkbox"
-                            checked={currentBoosts.potioneering}
-                            onChange={(e) =>
-                                setSkillBoost(
-                                    currentSkill,
-                                    'potioneering',
-                                    e.target.checked
-                                )
-                            }
-                            className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-600 rounded bg-[#002020]"
-                        />
-                        <label
-                            htmlFor="potioneering"
-                            className="ml-2 block text-sm text-gray-300"
-                        >
-                            Potioneering (+20% potion duration)
-                        </label>
-                    </div>
-
                     {/* Guardian's Trowel for Farming skill */}
                     {currentSkill === 'farming' && (
                         <div className="flex items-center">

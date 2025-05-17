@@ -15,8 +15,8 @@ export default function GeneralBuffs() {
 
     useEffect(() => {
         const checkClanUpgrades = async () => {
-            // Don't make the API call if user is not in a clan or if the checkbox is already ticked
-            if (!state.clanName || generalBuffs.offerTheyCanRefuse) {
+            // Don't make the API call if user is not in a clan
+            if (!state.clanName) {
                 return;
             }
 
@@ -30,7 +30,7 @@ export default function GeneralBuffs() {
                     const hasOfferUpgrade =
                         clanData.serializedUpgrades.includes('20');
 
-                    if (hasOfferUpgrade) {
+                    if (hasOfferUpgrade && !generalBuffs.offerTheyCanRefuse) {
                         setGeneralBuff('offerTheyCanRefuse', true);
                     }
                 }
@@ -42,7 +42,7 @@ export default function GeneralBuffs() {
         };
 
         checkClanUpgrades();
-    }, [state.clanName, generalBuffs.offerTheyCanRefuse, setGeneralBuff]);
+    }, [state.clanName, setGeneralBuff]);
 
     return (
         <div className="bg-[#001010] rounded-lg p-4 mb-4">

@@ -85,7 +85,6 @@ export interface SkillBoosts {
     negotiationPotion: boolean;
     trickeryPotion: boolean;
     knowledgePotion: boolean;
-    potioneering: boolean;
     guardiansChisel: boolean;
     forgeryPotion: boolean;
     guardiansTrowel: boolean;

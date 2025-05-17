@@ -44,7 +44,7 @@ export const FISHING_ITEMS: FishingItem[] = [
         expPerSecond: 2.94,
         goldValue: 14,
         goldPerSecond: 1.2,
-        cookingExp: 25,
+        cookingExp: 26,
     },
     {
         name: 'Trout',
@@ -115,5 +115,15 @@ export const FISHING_ITEMS: FishingItem[] = [
         goldValue: 65,
         goldPerSecond: 1.4,
         cookingExp: 255,
+    },
+    {
+        name: 'Bloodmoon eel',
+        level: 100,
+        exp: 610,
+        seconds: 90,
+        expPerSecond: 6.78,
+        goldValue: 40,
+        goldPerSecond: 0.5,
+        cookingExp: 892,
     },
 ];

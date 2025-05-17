@@ -882,10 +882,17 @@ const items: { [key: number]: string } = {
     878: 'Plundering Gloves',
     879: 'Enchanting Gloves',
     880: 'Brewing Gloves',
+    881: 'Bloodmoon Bag',
     882: 'Bloodmoon Belt',
     883: 'Lunar Belt',
+    884: 'Bloodmoon Secrets',
     885: 'Lil Eclipse',
+    886: 'Bloodmoon Worm',
+    887: 'Bloodmoon Eel',
+    888: 'Cooked Bloodmoon Eel',
     889: 'Bloodmoon Helmet',
+    890: 'Bloodmoon Bait Jar',
+    891: 'Bloodmoon Gem',
     '-1': 'None Equipped',
 };
 

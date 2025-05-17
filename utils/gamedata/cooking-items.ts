@@ -112,6 +112,16 @@ export const FISH_ITEMS: SkillItem[] = [
         goldPerSecond: 2.9,
         category: 'Fish',
     },
+    {
+        name: 'Bloodmoon eel',
+        level: 95,
+        exp: 892,
+        seconds: 90,
+        expPerSecond: 9.91,
+        goldValue: 40,
+        goldPerSecond: 0.5,
+        category: 'Fish',
+    },
 ];
 
 // Meat category

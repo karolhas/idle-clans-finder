@@ -23,7 +23,7 @@ export const FARMING_ITEMS: SkillItem[] = [
         name: 'Tomato',
         level: 20,
         exp: 300,
-        seconds: 50,
+        seconds: 60,
         expPerSecond: 6.0,
         goldValue: 550,
         goldPerSecond: 9.2,

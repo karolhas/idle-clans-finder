@@ -7,7 +7,7 @@ export const BREWING_ITEMS: SkillItem[] = [
         exp: 750,
         seconds: 55,
         expPerSecond: 13.64,
-        goldValue: 230,
+        goldValue: 250,
         goldPerSecond: 4.18,
     },
     {
@@ -40,7 +40,7 @@ export const BREWING_ITEMS: SkillItem[] = [
     {
         name: 'Great Sight',
         level: 55,
-        exp: 1350,
+        exp: 1950,
         seconds: 97.5,
         expPerSecond: 20.0,
         goldValue: 650,
@@ -70,7 +70,7 @@ export const BREWING_ITEMS: SkillItem[] = [
         exp: 3750,
         seconds: 155,
         expPerSecond: 24.19,
-        goldValue: 925,
+        goldValue: 900,
         goldPerSecond: 6,
     },
     {

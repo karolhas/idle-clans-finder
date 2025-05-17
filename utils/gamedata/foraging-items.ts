@@ -43,8 +43,8 @@ export const FORAGING_ITEMS: SkillItem[] = [
         exp: 36,
         seconds: 8,
         expPerSecond: 4.5,
-        goldValue: 18,
-        goldPerSecond: 2.3,
+        goldValue: 16,
+        goldPerSecond: 2.0,
     },
     {
         name: 'Enchanted Flax',
