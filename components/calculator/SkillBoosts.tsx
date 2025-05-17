@@ -76,18 +76,22 @@ export default function SkillBoosts() {
     // Funkcja sprawdzająca, czy opcja powinna być zablokowana
     const isOptionDisabled = (
         scrollValue: string,
-        currentTierCount: number
+        currentTierCount: number,
+        selectedValue: string
     ) => {
         const value = parseInt(scrollValue) || 0;
 
         // Zawsze pozwalamy wybrać 0 (usunąć scrolle)
         if (value === 0) return false;
 
-        // Jeśli to jest aktualnie wybrana wartość lub mniejsza, pozwalamy
+        // Jeśli to jest aktualnie wybrana wartość, pozwalamy
+        if (scrollValue === selectedValue) return false;
+
+        // Jeśli to jest mniejsza wartość niż obecna, pozwalamy
         if (currentTierCount > 0 && value <= currentTierCount) return false;
 
-        // Sprawdzamy, czy wartość mieści się w dostępnych slotach
-        return value > scrollsAvailable;
+        // Sprawdzamy, czy wartość mieści się w dostępnych slotach + obecnie wybranych w tym tierze
+        return value > scrollsAvailable + currentTierCount;
     };
 
     return (
@@ -154,12 +158,14 @@ export default function SkillBoosts() {
                                 value={scroll.value}
                                 disabled={isOptionDisabled(
                                     scroll.value,
-                                    currentT1Count
+                                    currentT1Count,
+                                    currentBoosts.t1Scrolls
                                 )}
                                 className={
                                     isOptionDisabled(
                                         scroll.value,
-                                        currentT1Count
+                                        currentT1Count,
+                                        currentBoosts.t1Scrolls
                                     )
                                         ? 'text-gray-500 bg-gray-800'
                                         : ''
@@ -204,12 +210,14 @@ export default function SkillBoosts() {
                                 value={scroll.value}
                                 disabled={isOptionDisabled(
                                     scroll.value,
-                                    currentT2Count
+                                    currentT2Count,
+                                    currentBoosts.t2Scrolls
                                 )}
                                 className={
                                     isOptionDisabled(
                                         scroll.value,
-                                        currentT2Count
+                                        currentT2Count,
+                                        currentBoosts.t2Scrolls
                                     )
                                         ? 'text-gray-500 bg-gray-800'
                                         : ''
@@ -254,12 +262,14 @@ export default function SkillBoosts() {
                                 value={scroll.value}
                                 disabled={isOptionDisabled(
                                     scroll.value,
-                                    currentT3Count
+                                    currentT3Count,
+                                    currentBoosts.t3Scrolls
                                 )}
                                 className={
                                     isOptionDisabled(
                                         scroll.value,
-                                        currentT3Count
+                                        currentT3Count,
+                                        currentBoosts.t3Scrolls
                                     )
                                         ? 'text-gray-500 bg-gray-800'
                                         : ''
