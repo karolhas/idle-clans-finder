@@ -78,7 +78,12 @@ function getDisplayItemName(
 // Function to safely create image paths with fallback handling
 function createSafeImagePath(name: string | null): string {
     if (!name) return '/placeholder.png';
-    const cleanName = name.replace(/\s+/g, '_').toLowerCase();
+    // Remove 'enchanted' from the name for the image path
+    const cleanName = name
+        .replace(/enchanted/i, '')
+        .replace(/\s+/g, '_')
+        .toLowerCase()
+        .trim();
     // Add public prefix
     return `/gameimages/${cleanName}.png`;
 }
@@ -184,7 +189,7 @@ export default function AdvancedPlayerInfoModal({
 
                                         // Only create image path if we have a valid baseItemName
                                         const imagePath = baseItemName
-                                            ? createSafeImagePath(baseItemName)
+                                            ? createSafeImagePath(baseItemName.replace(/enchanted/i, '').trim())
                                             : null;
 
                                         const tooltipId = `tooltip-${slot}`;
@@ -210,13 +215,22 @@ export default function AdvancedPlayerInfoModal({
                                                             alt={baseItemName}
                                                             width={48}
                                                             height={48}
-                                                            className="w-full h-full object-contain"
+                                                            className={`w-full h-full object-contain ${
+                                                                /enchanted/i.test(rawItemName || '')
+                                                                    ? 'animate-pulse'
+                                                                    : ''
+                                                            }`}
+                                                            style={{
+                                                                filter: /gold/i.test(rawItemName || '')
+                                                                    ? 'drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))'
+                                                                    : /enchanted/i.test(rawItemName || '')
+                                                                    ? 'drop-shadow(0 0 12px rgba(0, 191, 255, 0.8))'
+                                                                    : 'none'
+                                                            }}
                                                             unoptimized={true}
                                                             loading="eager"
                                                             onError={(e) => {
-                                                                // Just hide the image on error without logging
-                                                                e.currentTarget.style.display =
-                                                                    'none';
+                                                                e.currentTarget.style.display = 'none';
                                                             }}
                                                         />
                                                     ) : (
