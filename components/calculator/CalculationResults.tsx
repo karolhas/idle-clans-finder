@@ -141,19 +141,14 @@ export default function CalculationResults() {
                 ?.boost || 0;
         timeReduction += outfitBoost;
 
-        // Gathering-specific boosts - remove time reduction for fishing from The Fisherman and Efficient Fisherman
-        // if (currentSkill === 'fishing' && gatheringBuffs.theFisherman)
-        //     timeReduction += 25;
-        // if (currentSkill === 'fishing' && gatheringBuffs.efficientFisherman)
-        //     timeReduction += 15;
+        // Gathering-specific boosts
+        // The Fisherman and The Lumberjack no longer reduce time, they increase loot
         // Power Forager doesn't reduce time, it increases loot
-        if (currentSkill === 'woodcutting' && gatheringBuffs.theLumberjack)
-            timeReduction += 25;
-        if (currentSkill === 'farming' && gatheringBuffs.farmingTrickery)
+        if (currentSkill === 'farming' && gatheringBuffs.farmingTrickery > 0)
             timeReduction += 25;
 
         // Power farm hand
-        if (currentSkill === 'farming' && gatheringBuffs.powerFarmHand)
+        if (currentSkill === 'farming' && gatheringBuffs.powerFarmHand > 0)
             timeReduction += 15;
 
         // Guardian's Trowel - reduce time for farming skill
@@ -163,12 +158,12 @@ export default function CalculationResults() {
         // Clan Gatherers Upgrade - 5% speed boost for gathering skills
         if (
             state.upgradeBuffs.gatherers &&
-            (currentSkill === 'woodcutting' ||
-                currentSkill === 'fishing' ||
+            (currentSkill === 'fishing' ||
                 currentSkill === 'mining' ||
-                currentSkill === 'foraging')
+                currentSkill === 'foraging' ||
+                currentSkill === 'woodcutting')
         ) {
-            timeReduction += 5;
+            timeReduction += 5; // Only 5% time reduction from gatherers
         }
 
         return timeReduction;
@@ -256,11 +251,23 @@ export default function CalculationResults() {
     // Calculate how many times the item needs to be crafted
     const targetXp = LEVEL_TO_XP[state.targetLevel] || 0;
     const xpNeeded = Math.max(0, targetXp - currentExp);
+
+    // Calculate crafts needed based solely on XP needed
     const craftsNeeded = Math.ceil(xpNeeded / boostedXp);
 
     // Calculate total time and gold
     const totalTimeSecs = craftsNeeded * boostedTime;
     const totalGold = craftsNeeded * boostedGold;
+
+    // Calculate total logs for woodcutting (includes The Lumberjack bonus logs)
+    let totalLogs = craftsNeeded;
+    if (currentSkill === 'woodcutting' && gatheringBuffs.theLumberjack > 0) {
+        // The Lumberjack tiers: 1=20%, 2=40%, 3=60%, 4=80%, 5=100%
+        const tierPercent =
+            [0, 20, 40, 60, 80, 100][gatheringBuffs.theLumberjack] || 0;
+        // Add extra logs from The Lumberjack bonus
+        totalLogs = Math.ceil(craftsNeeded * (1 + tierPercent / 100));
+    }
 
     // Format time for display (days, hours, minutes)
     const formatTime = (seconds: number) => {
@@ -298,6 +305,16 @@ export default function CalculationResults() {
         // Adjust tasks per hour by the chance to double loot
         adjustedTasksPerHour = Math.floor(
             tasksPerHour * (1 + powerForagerBonus)
+        );
+    }
+
+    // Adjust tasks per hour for woodcutting with The Lumberjack (increases items gathered)
+    if (currentSkill === 'woodcutting' && gatheringBuffs.theLumberjack > 0) {
+        // The Lumberjack tiers: 1=20%, 2=40%, 3=60%, 4=80%, 5=100%
+        const tierPercent =
+            [0, 20, 40, 60, 80, 100][gatheringBuffs.theLumberjack] || 0;
+        adjustedTasksPerHour = Math.floor(
+            adjustedTasksPerHour * (1 + tierPercent / 100)
         );
     }
 
@@ -620,6 +637,16 @@ export default function CalculationResults() {
                                 {craftsNeeded.toLocaleString()}
                             </div>
                         </div>
+                        {currentSkill === 'woodcutting' && (
+                            <div>
+                                <div className="text-xs text-gray-400">
+                                    Total Logs (including Lumberjack bonus)
+                                </div>
+                                <div className="text-sm text-white font-medium">
+                                    {totalLogs.toLocaleString()}
+                                </div>
+                            </div>
+                        )}
                         <div>
                             <div className="text-xs text-gray-400">
                                 Total Time

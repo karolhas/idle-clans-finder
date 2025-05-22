@@ -35,6 +35,12 @@ export default function GatheringBuffs() {
     const getBuffDisplayText = (buffKey: string, tier: number): string => {
         if (tier <= 0) return 'None';
 
+        // Special cases for buffs with custom descriptions
+        if (buffKey === 'theLumberjack') {
+            const tierPercent = tier * 20; // T1=20%, T2=40%, etc.
+            return `T${tier} (+${tierPercent}% chance for bonus logs, no extra XP)`;
+        }
+
         const tierInfo = BUFF_TIERS_MAP[buffKey].find(
             (t) => t.value === tier.toString()
         );
@@ -161,7 +167,7 @@ export default function GatheringBuffs() {
                                 type="text"
                                 value={
                                     upgradeBuffs.gatherers
-                                        ? 'Yes (+5% skill speed)'
+                                        ? 'Yes (+5% skill speed for all gathering skills)'
                                         : 'No'
                                 }
                                 readOnly
