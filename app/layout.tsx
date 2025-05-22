@@ -44,6 +44,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
+                <link
+                    href="https://fonts.googleapis.com/css?family=Cookie&display=swap"
+                    rel="stylesheet"
+                />
                 <Script
                     strategy="afterInteractive"
                     src="https://www.googletagmanager.com/gtag/js?id=G-SHBQEPTLNT"

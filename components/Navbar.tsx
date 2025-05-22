@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { FaSearch, FaChartBar, FaCalculator, FaStore } from 'react-icons/fa';
 import { RxHamburgerMenu, RxCross2 } from 'react-icons/rx';
+import BuyMeACoffeeWidget from './BuyMeACoffeeWidget';
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -82,6 +83,7 @@ export default function Navbar() {
                                 {link.text}
                             </Link>
                         ))}
+                        <BuyMeACoffeeWidget />
                     </div>
 
                     {/* Mobile hamburger button */}
@@ -103,7 +105,7 @@ export default function Navbar() {
             <div
                 className={`md:hidden absolute w-full bg-[#002626] shadow-lg transition-all duration-300 ease-in-out overflow-hidden z-40 ${
                     isMobileMenuOpen
-                        ? 'max-h-72 opacity-100'
+                        ? 'max-h-auto opacity-100'
                         : 'max-h-0 opacity-0'
                 }`}
             >
@@ -124,6 +126,9 @@ export default function Navbar() {
                             </div>
                         </Link>
                     ))}
+                    <div className="pt-2">
+                        <BuyMeACoffeeWidget />
+                    </div>
                 </div>
             </div>
 
