@@ -76,7 +76,7 @@ export default function CalculatorPage() {
             let clanData = null;
             if (playerData.guildName) {
                 try {
-                    let clanData = getCachedClan(playerData.guildName);
+                    clanData = getCachedClan(playerData.guildName);
                     if (!clanData) {
                         clanData = await fetchClanByName(playerData.guildName);
                         setCachedClan(playerData.guildName, clanData);
