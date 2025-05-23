@@ -6,15 +6,27 @@ import { fetchPlayerProfile, fetchClanByName } from '@/lib/api/apiService';
 import { Player } from '@/types/player.types';
 import type { PlayerClan } from '@/types/player.types';
 import Calculator from '@/components/calculator/Calculator';
+import { useSearchStore } from '@/lib/store/searchStore';
 
 export default function CalculatorPage() {
     const [username, setUsername] = useState('');
     const [playerData, setPlayerData] = useState<Player | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const {
+        latestPlayerLookup,
+        getCachedPlayer,
+        setCachedPlayer,
+        getCachedClan,
+        setCachedClan,
+    } = useSearchStore();
 
     // Load username from localStorage on mount, with expiry
     useEffect(() => {
+        if (latestPlayerLookup?.username) {
+            setUsername(latestPlayerLookup.username);
+        }
+
         const saved = localStorage.getItem('idleclans_calculator_username');
         if (saved) {
             try {
@@ -38,28 +50,43 @@ export default function CalculatorPage() {
                 'idleclans_calculator_username',
                 JSON.stringify({ value: username, timestamp: Date.now() })
             );
+            fetchProfile();
         }
     }, [username]);
 
-    const fetchProfile = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        await fetchProfile();
+    }
+
+    const fetchProfile = async () => {
         if (!username.trim()) return;
 
         setLoading(true);
         setError(null);
 
         try {
-            const data = await fetchPlayerProfile(username);
+            // Check cache first
+            let playerData = getCachedPlayer(username);
+            if (!playerData) {
+                playerData = await fetchPlayerProfile(username);
+                setCachedPlayer(username, playerData);
+            }
+
             let clanData = null;
-            if (data.guildName) {
+            if (playerData.guildName) {
                 try {
-                    clanData = await fetchClanByName(data.guildName);
+                    let clanData = getCachedClan(playerData.guildName);
+                    if (!clanData) {
+                        clanData = await fetchClanByName(playerData.guildName);
+                        setCachedClan(playerData.guildName, clanData);
+                    }
                 } catch (clanErr) {
                     console.error('Failed to fetch clan data:', clanErr);
                 }
             }
             setPlayerData({
-                ...data,
+                ...playerData,
                 clan: (clanData as unknown as PlayerClan) || {},
             });
         } catch (err) {
@@ -71,6 +98,8 @@ export default function CalculatorPage() {
             setLoading(false);
         }
     };
+
+
 
     return (
         <main className="p-4 sm:p-8">
@@ -92,7 +121,7 @@ export default function CalculatorPage() {
                     </div>
                     <div className="p-6">
                         <form
-                            onSubmit={fetchProfile}
+                            onSubmit={handleSubmit}
                             className="flex gap-2 max-w-full"
                         >
                             <div className="relative flex-1">
@@ -121,11 +150,10 @@ export default function CalculatorPage() {
                                 type="submit"
                                 disabled={loading || !username.trim()}
                                 className={`px-6 py-2 bg-emerald-600 text-white rounded-lg transition-colors cursor-pointer
-                                ${
-                                    loading
+                                ${loading
                                         ? 'opacity-50'
                                         : 'hover:bg-emerald-700'
-                                }`}
+                                    }`}
                                 aria-label="search-button"
                             >
                                 {loading ? (

@@ -11,6 +11,7 @@ interface CachedData<T> {
 interface SearchState {
     playerSearchQuery: string;
     clanSearchQuery: string;
+    latestPlayerLookup: Player | null,
     setPlayerSearchQuery: (query: string) => void;
     setClanSearchQuery: (query: string) => void;
     getCachedPlayer: (username: string) => Player | null;
@@ -26,6 +27,7 @@ export const useSearchStore = create<SearchState>()(
         (set) => ({
             playerSearchQuery: '',
             clanSearchQuery: '',
+            latestPlayerLookup: null,
             setPlayerSearchQuery: (query: string) =>
                 set({ playerSearchQuery: query }),
             setClanSearchQuery: (query: string) =>
@@ -68,6 +70,7 @@ export const useSearchStore = create<SearchState>()(
                     `player_${username}`,
                     JSON.stringify(cacheData)
                 );
+                set({ latestPlayerLookup: data });
             },
 
             setCachedClan: (clanName: string, data: ClanData) => {
