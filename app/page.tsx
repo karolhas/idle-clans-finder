@@ -14,6 +14,7 @@ import ClanSkillDisplay from '@/components/skills/ClanSkillDisplay';
 import { Player } from '@/types/player.types';
 import { ClanData } from '@/types/clan.types';
 import { FaSearch } from 'react-icons/fa';
+import { useSearchStore } from '@/lib/store/searchStore';
 
 export default function Home() {
     const router = useRouter();
@@ -28,6 +29,7 @@ export default function Home() {
     const [playerSearches, setPlayerSearches] = useState<string[]>([]);
     const [clanSearches, setClanSearches] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const { latestPlayerLookup } = useSearchStore();
 
     // Load recent searches on component mount
     useEffect(() => {
@@ -41,6 +43,10 @@ export default function Home() {
         const savedClanSearches = localStorage.getItem('recentClanSearches');
         if (savedClanSearches) {
             setClanSearches(JSON.parse(savedClanSearches));
+        }
+
+        if (latestPlayerLookup) {
+            router.push(`/player/${encodeURIComponent(latestPlayerLookup.username)}`);
         }
     }, []);
 
@@ -200,21 +206,19 @@ export default function Home() {
                 {/* Tabs */}
                 <div className="flex mb-2 bg-transparent border border-emerald-700 p-1 rounded-lg">
                     <button
-                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${
-                            activeTab === 'player'
-                                ? 'bg-emerald-600 text-white'
-                                : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
-                        }`}
+                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${activeTab === 'player'
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
+                            }`}
                         onClick={() => handleTabChange('player')}
                     >
                         Player
                     </button>
                     <button
-                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${
-                            activeTab === 'clan'
-                                ? 'bg-emerald-600 text-white'
-                                : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
-                        }`}
+                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${activeTab === 'clan'
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
+                            }`}
                         onClick={() => handleTabChange('clan')}
                     >
                         Clan
@@ -252,11 +256,10 @@ export default function Home() {
                                     onChange={(e) =>
                                         setSearchQuery(e.target.value)
                                     }
-                                    placeholder={`${
-                                        activeTab === 'player'
-                                            ? 'Player'
-                                            : 'Clan'
-                                    } name`}
+                                    placeholder={`${activeTab === 'player'
+                                        ? 'Player'
+                                        : 'Clan'
+                                        } name`}
                                     className="w-full px-4 py-2 bg-gray-200 border border-gray-700 text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-400"
                                     disabled={isLoading}
                                 />
@@ -275,11 +278,10 @@ export default function Home() {
                                 type="submit"
                                 disabled={isLoading || !searchQuery.trim()}
                                 className={`px-6 py-2 bg-emerald-600 text-white rounded-lg transition-colors cursor-pointer
-                            ${
-                                isLoading
-                                    ? 'opacity-50'
-                                    : 'hover:bg-emerald-700'
-                            }`}
+                            ${isLoading
+                                        ? 'opacity-50'
+                                        : 'hover:bg-emerald-700'
+                                    }`}
                                 aria-label="search-button"
                             >
                                 {isLoading ? (
@@ -320,7 +322,7 @@ export default function Home() {
                                 <ClanInfoModal
                                     isOpen={false}
                                     standalone={true}
-                                    onClose={() => {}}
+                                    onClose={() => { }}
                                     clanName={
                                         clanSearchResults.clanName ||
                                         clanSearchResults.guildName ||

@@ -17,6 +17,7 @@ export default function PlayerPage() {
     const {
         playerSearchQuery,
         clanSearchQuery,
+        latestPlayerLookup,
         setPlayerSearchQuery,
         setClanSearchQuery,
         getCachedPlayer,
@@ -109,6 +110,9 @@ export default function PlayerPage() {
         }
         if (playerName) {
             fetchData(playerName);
+        } else if (latestPlayerLookup) {
+            setPlayerSearchQuery(latestPlayerLookup?.username);
+            fetchData(latestPlayerLookup?.username);
         }
     }, [playerName]);
 
@@ -192,21 +196,19 @@ export default function PlayerPage() {
                 {/* Tabs */}
                 <div className="flex mb-2 bg-transparent border border-emerald-700 p-1 rounded-lg">
                     <button
-                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${
-                            activeTab === 'player'
-                                ? 'bg-emerald-600 text-white'
-                                : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
-                        }`}
+                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${activeTab === 'player'
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
+                            }`}
                         onClick={() => handleTabChange('player')}
                     >
                         Player
                     </button>
                     <button
-                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${
-                            activeTab === 'clan'
-                                ? 'bg-emerald-600 text-white'
-                                : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
-                        }`}
+                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${activeTab === 'clan'
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
+                            }`}
                         onClick={() => handleTabChange('clan')}
                     >
                         Clan
@@ -264,32 +266,31 @@ export default function PlayerPage() {
                                             setClanSearchQuery(e.target.value);
                                         }
                                     }}
-                                    placeholder={`${
-                                        activeTab === 'player'
-                                            ? 'Player'
-                                            : 'Clan'
-                                    } name`}
+                                    placeholder={`${activeTab === 'player'
+                                        ? 'Player'
+                                        : 'Clan'
+                                        } name`}
                                     className="w-full px-4 py-2 bg-gray-200 border border-gray-700 text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-400"
                                     disabled={isLoading}
                                 />
                                 {(activeTab === 'player'
                                     ? playerSearchQuery
                                     : clanSearchQuery) && (
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            if (activeTab === 'player') {
-                                                setPlayerSearchQuery('');
-                                            } else {
-                                                setClanSearchQuery('');
-                                            }
-                                        }}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-red-600"
-                                        aria-label="Clear search"
-                                    >
-                                        <span className="mr-2">✕</span>
-                                    </button>
-                                )}
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                if (activeTab === 'player') {
+                                                    setPlayerSearchQuery('');
+                                                } else {
+                                                    setClanSearchQuery('');
+                                                }
+                                            }}
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-red-600"
+                                            aria-label="Clear search"
+                                        >
+                                            <span className="mr-2">✕</span>
+                                        </button>
+                                    )}
                             </div>
                             <button
                                 type="submit"
@@ -302,11 +303,10 @@ export default function PlayerPage() {
                                     ).trim()
                                 }
                                 className={`px-6 py-2 bg-emerald-600 text-white rounded-lg transition-colors cursor-pointer
-                            ${
-                                isLoading
-                                    ? 'opacity-50'
-                                    : 'hover:bg-emerald-700'
-                            }`}
+                            ${isLoading
+                                        ? 'opacity-50'
+                                        : 'hover:bg-emerald-700'
+                                    }`}
                                 aria-label="search-button"
                             >
                                 {isLoading ? (

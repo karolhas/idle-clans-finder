@@ -76,8 +76,7 @@ function CalculatorContent({
     useEffect(() => {
         loadPlayerData(playerData);
         setShowCalculator(false); // Hide calculator when new player is loaded
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [playerData]); // Adding eslint comment to acknowledge intentional omission
+    }, [playerData]);
 
     // Ensure target level is set to 120 by default when component mounts
     useEffect(() => {
@@ -85,7 +84,6 @@ function CalculatorContent({
         if (state.targetLevel !== 120) {
             setTargetLevel(120);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // Empty dependency array to run only on mount
 
     return (
