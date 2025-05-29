@@ -7,10 +7,14 @@ import {
     FaCrown,
     FaUser,
     FaUserTie,
+    FaHome,
 } from 'react-icons/fa';
 import { useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { ClanData } from '@/types/clan.types';
+import { CLAN_HOUSE_TIERS } from '@/utils/gamedata/calculator-constants';
+import UpgradesDisplay from '@/components/upgrades/UpgradesDisplay';
+import Image from 'next/image';
 
 interface ClanInfoModalProps {
     isOpen: boolean;
@@ -90,6 +94,69 @@ export default function ClanInfoModal({
         }
     };
 
+    const getHouseName = (houseId: number) => {
+        const house = CLAN_HOUSE_TIERS[houseId];
+        return house ? house.name : 'No House';
+    };
+
+    const getHouseImage = (houseId: number) => {
+        // Map houseId to the correct guild house image
+        // houseId 0 = no house, 1-6 = T1-T6
+        if (houseId <= 0) return '/gameimages/guild_house_1.png'; // Default to T1 if no house
+        return `/gameimages/guild_house_${houseId}.png`;
+    };
+
+    // Map of upgrade IDs to their names and image paths
+    const upgradeMap: Record<string, { name: string; image: string }> = {
+        '16': { name: 'Get Up', image: 'get_up' },
+        '17': { name: 'Strength In Numbers', image: 'strength_in_numbers' },
+        '18': { name: 'Potioneering', image: 'bigger_bottles' },
+        '19': { name: 'Group Effort', image: 'group_effort' },
+        '20': { name: 'An Offer They Cant Refuse', image: 'an_offer_they_cant_refuse' },
+        '21': { name: 'Yoink', image: 'yoink' },
+        '22': { name: 'Bullseye', image: 'bullseye' },
+        '23': { name: 'Gatherers', image: 'gatherers' },
+        '30': { name: 'More Gathering', image: 'gatherer_event_completions' },
+        '31': { name: 'No Time To Waste', image: 'gatherer_event_cooldown' },
+        '32': { name: 'More Crafting', image: 'crafting_event_completions' },
+        '33': { name: 'Gotta Get Crafting', image: 'crafting_event_cooldown' },
+        '35': { name: 'Laid-back Events', image: 'easy_events' },
+        '37': { name: 'Turkey Chasers', image: 'turkey_chasers' },
+        '38': { name: 'Line The Turkeys Up', image: 'line_the_turkeys_up' },
+        '51': { name: 'Keep em` Coming', image: 'auto_clan_boss' },
+        '52': { name: 'Clan Boss Slayers', image: 'clan_boss_boost' },
+        '54': { name: 'Ways Of The Genie', image: 'ways_of_the_genie' }
+    };
+
+    const parseUpgrades = (serializedUpgrades: string | undefined) => {
+        if (!serializedUpgrades) return {};
+        
+        try {
+            const upgrades: Record<string, number> = {};
+            
+            // Initialize all upgrades as locked (0)
+            Object.values(upgradeMap).forEach(({ name }) => {
+                upgrades[name] = 0;
+            });
+            
+            // Parse the serialized upgrades string
+            const upgradeIds = serializedUpgrades.replace(/[\[\]]/g, '').split(',').map(id => id.trim());
+            
+            // Mark unlocked upgrades (1)
+            upgradeIds.forEach(id => {
+                const upgrade = upgradeMap[id];
+                if (upgrade) {
+                    upgrades[upgrade.name] = 1;
+                }
+            });
+            
+            return upgrades;
+        } catch (err) {
+            console.error('Error parsing upgrades:', err);
+            return {};
+        }
+    };
+
     if (!isOpen && !standalone) return null;
 
     const content = (
@@ -146,6 +213,13 @@ export default function ClanInfoModal({
                     <span>Members:</span>
                     <span className="ml-2 text-white font-semibold">
                         {memberCount}/20
+                    </span>
+                </div>
+                <div className="flex items-center">
+                    <FaHome className="mr-2 text-emerald-400" />
+                    <span>Guild House:</span>
+                    <span className="ml-2 text-white font-semibold">
+                        {getHouseName(clanData.houseId || 0)}
                     </span>
                 </div>
             </div>
@@ -224,6 +298,17 @@ export default function ClanInfoModal({
                                 {clanData.language}
                             </span>
                         </div>
+                        <div className="flex justify-center items-center mt-6">
+                            <div className="relative w-64 h-64">
+                                <Image
+                                    src={getHouseImage(clanData.houseId || 0)}
+                                    alt={`${getHouseName(clanData.houseId || 0)} image`}
+                                    fill
+                                    className="object-contain"
+                                    sizes="192px"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -231,7 +316,49 @@ export default function ClanInfoModal({
     );
 
     return standalone ? (
-        content
+        <div className="space-y-8">
+            {content}
+            {/* Clan Upgrades */}
+            {clanData.serializedUpgrades && (
+                <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
+                    <h3 className="text-xl font-bold text-emerald-400 mb-4">
+                        Clan Upgrades
+                    </h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        {Object.entries(parseUpgrades(clanData.serializedUpgrades)).map(([name, tier]) => {
+                            // Find the upgrade info for this name
+                            const upgradeInfo = Object.values(upgradeMap).find(u => u.name === name);
+                            const imageName = upgradeInfo?.image || name.toLowerCase().replace(/\s+/g, '_');
+                            
+                            return (
+                                <div
+                                    key={name}
+                                    className={`bg-[#003333] p-4 rounded-lg border border-[#004444] flex flex-col items-center ${
+                                        tier === 1 ? 'opacity-50' : 'opacity-100'
+                                    }`}
+                                >
+                                    <div className="relative w-10 h-10 mb-2">
+                                        <Image
+                                            src={`/gameimages/clan_upgrade_${imageName}.png`}
+                                            alt={name}
+                                            fill
+                                            sizes="40px"
+                                            className="object-contain"
+                                        />
+                                    </div>
+                                    <p className="text-white font-semibold text-sm mb-1 text-center">
+                                        {name}
+                                    </p>
+                                    <p className="text-emerald-300 text-sm">
+                                        {tier === 1 ? 'Unlocked' : 'Locked'}
+                                    </p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+        </div>
     ) : (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
             {content}
