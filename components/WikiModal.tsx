@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useWikiContent } from '@/hooks/useWikiContent';
-import DOMPurify from 'dompurify';
 
 interface WikiModalProps {
   isOpen: boolean;
@@ -32,7 +31,7 @@ export function WikiModal({ isOpen, onClose, itemName }: WikiModalProps) {
     };
   }, [isOpen, onClose]);
 
-  // Add custom styles for wiki content
+  // Custom styles for wiki content
   useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
