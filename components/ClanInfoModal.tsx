@@ -13,7 +13,6 @@ import { useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { ClanData } from '@/types/clan.types';
 import { CLAN_HOUSE_TIERS } from '@/utils/gamedata/calculator-constants';
-import UpgradesDisplay from '@/components/upgrades/UpgradesDisplay';
 import Image from 'next/image';
 
 interface ClanInfoModalProps {
