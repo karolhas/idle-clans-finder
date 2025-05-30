@@ -18,6 +18,7 @@ export interface ClanData {
     isRecruiting?: boolean;
     language?: string;
     serializedUpgrades?: string;
+    houseId?: number;
 
     serializedSkills?: string;
     skills?: {

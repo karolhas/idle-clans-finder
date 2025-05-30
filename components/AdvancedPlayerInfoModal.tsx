@@ -10,6 +10,7 @@ import { getItemName } from '../utils/gamedata/items';
 import { Tooltip } from 'react-tooltip'; // Fancy Tooltip
 import Image from 'next/image';
 import { Equipment, EnchantmentBoosts } from '@/types/player.types';
+import { WikiModal } from './WikiModal';
 
 interface AdvancedPlayerInfoModalProps {
     isOpen: boolean;
@@ -96,12 +97,15 @@ export default function AdvancedPlayerInfoModal({
     const modalRef = useRef<HTMLDivElement>(null);
     const [showEquipment, setShowEquipment] = useState(true);
     const [showEnchantments, setShowEnchantments] = useState(true);
+    const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
+            // Only close if we're not clicking on the wiki modal
             if (
                 modalRef.current &&
-                !modalRef.current.contains(event.target as Node)
+                !modalRef.current.contains(event.target as Node) &&
+                !(event.target as Element).closest('.wiki-modal')
             ) {
                 onClose();
             }
@@ -119,8 +123,18 @@ export default function AdvancedPlayerInfoModal({
     const equipmentSlots = Object.keys(equipmentNames);
     if (!isOpen) return null;
 
+    const handleItemClick = (itemName: string | null) => {
+        if (itemName) {
+            setSelectedItem(itemName);
+        }
+    };
+
+    const handleCloseWiki = () => {
+        setSelectedItem(null);
+    };
+
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 overflow-y-auto p-2 sm:p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 overflow-y-auto p-2 sm:p-4 advanced-player-modal">
             <div
                 ref={modalRef}
                 className="bg-[#002626] p-3 sm:p-6 rounded-lg border border-[#004444] w-full max-w-3xl mx-auto my-4 sm:my-8 max-h-[90vh] overflow-y-auto"
@@ -210,29 +224,34 @@ export default function AdvancedPlayerInfoModal({
                                                     {hasEquipment &&
                                                     baseItemName &&
                                                     imagePath ? (
-                                                        <Image
-                                                            src={imagePath}
-                                                            alt={baseItemName}
-                                                            width={48}
-                                                            height={48}
-                                                            className={`w-full h-full object-contain ${
-                                                                /enchanted/i.test(rawItemName || '')
-                                                                    ? 'animate-pulse'
-                                                                    : ''
-                                                            }`}
-                                                            style={{
-                                                                filter: /gold/i.test(rawItemName || '')
-                                                                    ? 'drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))'
-                                                                    : /enchanted/i.test(rawItemName || '')
-                                                                    ? 'drop-shadow(0 0 12px rgba(0, 191, 255, 0.8))'
-                                                                    : 'none'
-                                                            }}
-                                                            unoptimized={true}
-                                                            loading="eager"
-                                                            onError={(e) => {
-                                                                e.currentTarget.style.display = 'none';
-                                                            }}
-                                                        />
+                                                        <div 
+                                                            onClick={() => handleItemClick(baseItemName)}
+                                                            className="cursor-pointer"
+                                                        >
+                                                            <Image
+                                                                src={imagePath}
+                                                                alt={baseItemName}
+                                                                width={48}
+                                                                height={48}
+                                                                className={`w-full h-full object-contain ${
+                                                                    /enchanted/i.test(rawItemName || '')
+                                                                        ? 'animate-pulse'
+                                                                        : ''
+                                                                }`}
+                                                                style={{
+                                                                    filter: /gold/i.test(rawItemName || '')
+                                                                        ? 'drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))'
+                                                                        : /enchanted/i.test(rawItemName || '')
+                                                                        ? 'drop-shadow(0 0 12px rgba(0, 191, 255, 0.8))'
+                                                                        : 'none'
+                                                                }}
+                                                                unoptimized={true}
+                                                                loading="eager"
+                                                                onError={(e) => {
+                                                                    e.currentTarget.style.display = 'none';
+                                                                }}
+                                                            />
+                                                        </div>
                                                     ) : (
                                                         <></>
                                                     )}
@@ -322,6 +341,15 @@ export default function AdvancedPlayerInfoModal({
                     )}
                 </div>
             </div>
+            {selectedItem && (
+                <div className="wiki-modal">
+                    <WikiModal
+                        isOpen={!!selectedItem}
+                        onClose={handleCloseWiki}
+                        itemName={selectedItem}
+                    />
+                </div>
+            )}
         </div>
     );
 }
