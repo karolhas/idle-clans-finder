@@ -56,7 +56,7 @@ export async function GET(request: Request) {
       
       // Check if any pet type exists in the page name
       const petType = Object.keys(petNameMap).find(type => 
-        page.toLowerCase().includes(type)
+        page.toLowerCase() === type || page.toLowerCase().startsWith(`${type} `)
       );
       
       if (petType) {
@@ -66,13 +66,14 @@ export async function GET(request: Request) {
     }
     
     // If that fails and the name contains a possessive form, try with an apostrophe
-    if (!data && (page.includes('Warriors') || page.includes('Mages') || page.includes('Nagas') || page.includes('Archers') || page.includes('Guardians'))) {
+    if (!data && (page.includes('Warriors') || page.includes('Mages') || page.includes('Nagas') || page.includes('Archers') || page.includes('Guardians') || page.includes('Necromancers'))) {
       const apostropheVersion = page
         .replace('Warriors', "Warrior's")
         .replace('Mages', "Mage's")
         .replace('Nagas', "Naga's")
         .replace('Archers', "Archer's")
-        .replace('Guardians', "Guardian's");
+        .replace('Guardians', "Guardian's")
+        .replace('Necromancers', "Necromancer's");
       console.log('Trying with apostrophe:', apostropheVersion);
       data = await tryFetchPage(apostropheVersion);
     }
