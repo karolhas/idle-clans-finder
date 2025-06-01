@@ -35,29 +35,36 @@ export async function GET(request: Request) {
     if (!data) {
       const petNameMap: { [key: string]: string } = {
         // Combat pets
-        'magic': "Lil'_wizard",
-        'melee': "Lil'_fighter",
-        'archery': "Lil'_archer",
-        'defence': "Lil'_eclipse",
+        'magic': "Lil' wizard",
+        'melee': "Lil' fighter",
+        'archery': "Lil' archer",
+        'defence': "Lil' eclipse",
+        'gilded_pet_1': "Lil' companion",
+        'gilded_pet_2': "Lil' swagger",
         // Skill pets
-        'agility': "Lil'_runner",
-        'brewing': "Lil'_brewer",
-        'carpentry': "Lil'_carpenter",
-        'crafting': "Lil'_crafter",
-        'chef': "Lil'_chef",
-        'enchanting': "Lil'_enchanter",
-        'farming': "Lil'_farmer",
-        'foraging': "Lil'_forager",
-        'mining': "Lil'_miner",
-        'plundering': "Lil'_plunderer",
-        'smithing': "Lil'_smither",
-        'woodcutting': "Lil'_chopper"
+        'agility': "Lil' runner",
+        'brewing': "Lil' brewer",
+        'carpentry': "Lil' carpenter",
+        'crafting': "Lil' crafter",
+        'chef': "Lil' chef",
+        'enchanting': "Lil' enchanter",
+        'farming': "Lil' farmer",
+        'foraging': "Lil' forager",
+        'mining': "Lil' miner",
+        'plundering': "Lil' plunderer",
+        'smithing': "Lil' smither",
+        'woodcutting': "Lil' chopper"
       };
       
       // Check if any pet type exists in the page name
-      const petType = Object.keys(petNameMap).find(type => 
-        page.toLowerCase() === type || page.toLowerCase().startsWith(`${type} `)
-      );
+      const petType = Object.keys(petNameMap).find(type => {
+        const lowerPage = page.toLowerCase();
+        if (type === 'gilded') {
+          // For gilded pets, check for gilded_pet_X pattern
+          return /^gilded_pet_\d+$/.test(lowerPage);
+        }
+        return lowerPage === type || lowerPage.startsWith(`${type} `);
+      });
       
       if (petType) {
         console.log('Found pet type:', petType, 'mapping to:', petNameMap[petType]);
