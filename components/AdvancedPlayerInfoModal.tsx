@@ -161,6 +161,13 @@ function createSafeImagePath(name: string | null): string {
     if (cleanName === 'lunar_belt') {
         cleanName = 'belt_of_the_moon';
     }
+    
+    // Special cases for gilded pets
+    if (cleanName === 'lil\'_companion') {
+        cleanName = 'gilded_pet_1';
+    } else if (cleanName === 'lil\'_swagger') {
+        cleanName = 'gilded_pet_2';
+    }
 
     // Add public prefix
     return `/gameimages/${cleanName}.png`;
