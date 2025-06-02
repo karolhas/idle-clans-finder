@@ -94,15 +94,26 @@ export default function ClanInfoModal({
     };
 
     const getHouseName = (houseId: number) => {
-        const house = CLAN_HOUSE_TIERS[houseId];
+        if (!houseId && houseId !== 0) return 'No House';
+        const house = CLAN_HOUSE_TIERS[houseId + 1]; // Add 1 because index 0 is "None"
         return house ? house.name : 'No House';
     };
 
     const getHouseImage = (houseId: number) => {
         // Map houseId to the correct guild house image
-        // houseId 0 = no house, 1-6 = T1-T6
-        if (houseId <= 0) return '/gameimages/guild_house_1.png'; // Default to T1 if no house
-        return `/gameimages/guild_house_${houseId}.png`;
+        // houseId undefined/null = no house, 0 = Tent, 1 = Barn, 2 = Windmill, 3 = House, 4 = Manor, 5 = Castle
+        if (!houseId && houseId !== 0) return null; // No house
+        
+        const houseImages = {
+            0: '/gameimages/guild_house_1.png',
+            1: '/gameimages/guild_house_2.png',
+            2: '/gameimages/guild_house_3.png',
+            3: '/gameimages/guild_house_4.png',
+            4: '/gameimages/guild_house_5.png',
+            5: '/gameimages/guild_house_6.png'
+        };
+        
+        return houseImages[houseId as keyof typeof houseImages] || null;
     };
 
     // Map of upgrade IDs to their names and image paths
@@ -299,13 +310,15 @@ export default function ClanInfoModal({
                         </div>
                         <div className="flex justify-center items-center mt-6">
                             <div className="relative w-64 h-64">
-                                <Image
-                                    src={getHouseImage(clanData.houseId || 0)}
-                                    alt={`${getHouseName(clanData.houseId || 0)} image`}
-                                    fill
-                                    className="object-contain"
-                                    sizes="192px"
-                                />
+                                {getHouseImage(clanData.houseId || 0) && (
+                                    <Image
+                                        src={getHouseImage(clanData.houseId || 0)!}
+                                        alt={`${getHouseName(clanData.houseId || 0)} image`}
+                                        fill
+                                        className="object-contain"
+                                        sizes="192px"
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
