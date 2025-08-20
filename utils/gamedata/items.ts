@@ -893,6 +893,17 @@ const items: { [key: number]: string } = {
     889: 'Bloodmoon Helmet',
     890: 'Bloodmoon Bait Jar',
     891: 'Bloodmoon Gem',
+    894: 'Primeval Fangblade',
+    895: 'Primeval Fang',
+    896: 'Cooking Hat',
+    897: 'Cooking Jacket',
+    898: 'Cooking Pants',
+    900: 'Sobeks Blessing',
+    901: 'Arrow of Sobek',
+    903: 'Divine Hide Buckler',
+    904: 'Blessed Crocodile Hide',
+    907: 'Nagas Blessed Crown',
+    908: 'Sobeks Charm',
     '-1': 'None Equipped',
 };
 
