@@ -904,6 +904,18 @@ const items: { [key: number]: string } = {
     904: 'Blessed Crocodile Hide',
     907: 'Nagas Blessed Crown',
     908: 'Sobeks Charm',
+    918: 'Otherworldly Dragonscale Shield',
+    920: 'Grimwark Shield',
+    921: 'Otherworldly Coreplate',
+    922: 'Otherworldly Shield',
+    923: 'Otherworldly Platebody',
+    924: 'Otherworldly Platelegs',
+    925: 'Otherworldly Helmet',
+    928: 'Otherworldly Dragon Slayer Crossbow',
+    930: 'Exterminating Cape Tier 1',
+    931: 'Exterminating Cape Tier 2',
+    932: 'Exterminating Cape Tier 3',
+    933: 'Exterminating Cape Tier 4',
     '-1': 'None Equipped',
 };
 
