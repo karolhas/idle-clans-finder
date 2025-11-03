@@ -39,7 +39,6 @@ export default function LogsViewer({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // --- Helpers ---------------------------------------------------------------
 
   const updateUrl = (nextQ: string, nextMode: Mode) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
@@ -84,11 +83,10 @@ export default function LogsViewer({
         const batch: LogRow[] = Array.isArray(batchJson)
           ? (batchJson as LogRow[])
           : ([batchJson as LogRow]);
-        
-        if (batch.length === 0) break;
-        
-        const firstTs = batch[0]?.timestamp ?? null;
 
+        if (batch.length === 0) break;
+
+        const firstTs = batch[0]?.timestamp ?? null;
         if (safetySeenFirstStamp && firstTs === safetySeenFirstStamp) {
           pagingSupported = false;
           break;
@@ -117,13 +115,14 @@ export default function LogsViewer({
 
       all.sort((a, b) => +new Date(b.timestamp) - +new Date(a.timestamp));
       setLogs(all);
-      } catch (err: unknown) {
+    } catch (err: unknown) {
       console.error(err);
       const msg = err instanceof Error ? err.message : "Unknown error";
       setError(`Error fetching clan logs: ${msg}`);
     } finally {
       setLoading(false);
     }
+  };
 
   const fetchPlayerLogs = async (name: string) => {
     const q = name.trim();
@@ -131,6 +130,7 @@ export default function LogsViewer({
       setError("Please enter a player name.");
       return;
     }
+
     setLoading(true);
     setError("");
     setLogs([]);
@@ -164,32 +164,32 @@ export default function LogsViewer({
 
       all.sort((a, b) => +new Date(b.timestamp) - +new Date(a.timestamp));
       setLogs(all);
-      } catch (err: unknown) {
-        console.error(err);
-        const msg = err instanceof Error ? err.message : "Unknown error";
-        setError(`Error fetching clan logs: ${msg}`);
-      } finally {
-        setLoading(false);
-      }
+    } catch (err: unknown) {
+      console.error(err);
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      setError(`Error fetching player logs: ${msg}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onSearch = () => {
     const q = query.trim();
     if (!q) return;
-
-    // URL Sharing
     updateUrl(q, mode);
-
     if (mode === "clan") fetchClanLogs(q);
     else fetchPlayerLogs(q);
   };
+
 
   useEffect(() => {
     if (autoSearch && initialQuery) {
       onSearch();
     }
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // keep state in sync with URL (back/forward/share)
   useEffect(() => {
     const urlQ = searchParams.get("q") ?? "";
     const urlMode = (searchParams.get("mode") === "player" ? "player" : "clan") as Mode;
@@ -207,10 +207,8 @@ export default function LogsViewer({
       if (urlMode === "clan") fetchClanLogs(urlQ);
       else fetchPlayerLogs(urlQ);
     }
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
-
-
 
   const filteredLogs = useMemo(() => {
     const term = searchTerm.toLowerCase();
@@ -358,5 +356,3 @@ export default function LogsViewer({
     </div>
   );
 }
-
-
