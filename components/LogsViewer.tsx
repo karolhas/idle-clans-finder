@@ -80,12 +80,15 @@ export default function LogsViewer({
           break;
         }
 
-        let batch = (await res.json()) as LogRow[] | LogRow;
-        if (!Array.isArray(batch)) batch = [batch];
-
+        const batchJson: unknown = await res.json();
+        const batch: LogRow[] = Array.isArray(batchJson)
+          ? (batchJson as LogRow[])
+          : ([batchJson as LogRow]);
+        
         if (batch.length === 0) break;
+        
+        const firstTs = batch[0]?.timestamp ?? null;
 
-        const firstTs = (batch[0] as any)?.timestamp ?? null;
         if (safetySeenFirstStamp && firstTs === safetySeenFirstStamp) {
           pagingSupported = false;
           break;
@@ -104,17 +107,21 @@ export default function LogsViewer({
       if (!pagingSupported) {
         const res = await fetch(base);
         if (!res.ok) throw new Error(`API error: ${res.status}`);
-        let single = (await res.json()) as LogRow[] | LogRow;
-        if (!Array.isArray(single)) single = [single];
+        const singleJson: unknown = await res.json();
+        const single: LogRow[] = Array.isArray(singleJson)
+          ? (singleJson as LogRow[])
+          : ([singleJson as LogRow]);
         all = single.slice(0, MAX_LOGS);
         setLoadedCount(all.length);
       }
 
       all.sort((a, b) => +new Date(b.timestamp) - +new Date(a.timestamp));
       setLogs(all);
-    } catch (err: any) {
-      console.error(err);
-      setError(`Error fetching clan logs: ${err.message ?? "Unknown error"}`);
+      } catch (err: unknown) {
+        console.error(err);
+        const msg = err instanceof Error ? err.message : "Unknown error";
+        setError(`Error fetching clan logs: ${msg}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -143,8 +150,10 @@ export default function LogsViewer({
         const res = await fetch(url);
         if (!res.ok) throw new Error(`API error: ${res.status}`);
 
-        let batch = (await res.json()) as LogRow[] | LogRow;
-        if (!Array.isArray(batch)) batch = [batch];
+        const batchJson: unknown = await res.json();
+        const batch: LogRow[] = Array.isArray(batchJson)
+          ? (batchJson as LogRow[])
+          : ([batchJson as LogRow]);
 
         all = all.concat(batch);
         setLoadedCount(all.length);
@@ -157,9 +166,11 @@ export default function LogsViewer({
 
       all.sort((a, b) => +new Date(b.timestamp) - +new Date(a.timestamp));
       setLogs(all);
-    } catch (err: any) {
-      console.error(err);
-      setError(`Error fetching player logs: ${err.message ?? "Unknown error"}`);
+      } catch (err: unknown) {
+        console.error(err);
+        const msg = err instanceof Error ? err.message : "Unknown error";
+        setError(`Error fetching clan logs: ${msg}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -351,3 +362,4 @@ export default function LogsViewer({
     </div>
   );
 }
+
