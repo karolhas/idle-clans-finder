@@ -118,14 +118,12 @@ export default function LogsViewer({
       all.sort((a, b) => +new Date(b.timestamp) - +new Date(a.timestamp));
       setLogs(all);
       } catch (err: unknown) {
-        console.error(err);
-        const msg = err instanceof Error ? err.message : "Unknown error";
-        setError(`Error fetching clan logs: ${msg}`);
-      }
+      console.error(err);
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      setError(`Error fetching clan logs: ${msg}`);
     } finally {
       setLoading(false);
     }
-  };
 
   const fetchPlayerLogs = async (name: string) => {
     const q = name.trim();
@@ -170,11 +168,9 @@ export default function LogsViewer({
         console.error(err);
         const msg = err instanceof Error ? err.message : "Unknown error";
         setError(`Error fetching clan logs: ${msg}`);
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const onSearch = () => {
     const q = query.trim();
@@ -362,4 +358,5 @@ export default function LogsViewer({
     </div>
   );
 }
+
 
