@@ -49,6 +49,11 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css?family=Cookie&display=swap"
           rel="stylesheet"
         />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6722789074992707"
+          crossOrigin="anonymous"
+        ></script>
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-SHBQEPTLNT"
