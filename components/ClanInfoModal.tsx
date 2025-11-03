@@ -184,55 +184,54 @@ export default function ClanInfoModal({
                     <FaTimes className="w-5 h-5" />
                 </button>
             )}
+			
+			<div className="mb-6 space-y-4">
+			<div className="flex items-center flex-wrap">
+			<FaShieldAlt className="mr-2 text-emerald-400" />
+			<span>Clan Name:</span>
+			<span
+			  className={`ml-2 font-semibold ${
+				!standalone
+				  ? 'cursor-pointer text-white hover:text-emerald-400 hover:underline'
+				  : 'text-white'
+			  }`}
+			  onClick={() => {
+				if (!standalone) {
+				  if (onSearchClan) {
+					onSearchClan(clanName);
+					onClose();
+				  } else {
+					router.push(`/clan/${encodeURIComponent(clanName)}`);
+					onClose();
+				  }
+				}
+			  }}
+			>
+			  {clanName || 'No Clan'}
+			</span>
+			{standalone && clanData.tag && (
+			  <span className="ml-2 px-2 py-0.5 text-sm bg-emerald-700 text-white rounded-lg">
+				{clanData.tag}
+			  </span>
+			)}
+		  </div>
 
-            {/* Clan Info Header */}
-            <div className="mb-6 space-y-4">
-                <div className="flex items-center flex-wrap">
-                    <FaShieldAlt className="mr-2 text-emerald-400" />
-                    <span>Clan Name:</span>
-                    <span
-                        className={`ml-2 font-semibold ${
-                            !standalone
-                                ? 'cursor-pointer text-white hover:text-emerald-400 hover:underline'
-                                : 'text-white'
-                        }`}
-                        onClick={() => {
-                            if (!standalone) {
-                                if (onSearchClan) {
-                                    onSearchClan(clanName);
-                                    onClose();
-                                } else {
-                                    router.push(
-                                        `/clan/${encodeURIComponent(clanName)}`
-                                    );
-                                    onClose();
-                                }
-                            }
-                        }}
-                    >
-                        {clanName || 'No Clan'}
-                    </span>
-                    {standalone && clanData.tag && (
-                        <span className="ml-2 px-2 py-0.5 text-sm bg-emerald-700 text-white rounded-lg">
-                            {clanData.tag}
-                        </span>
-                    )}
-                </div>
-                <div className="flex items-center">
-                    <FaUsers className="mr-2 text-emerald-400" />
-                    <span>Members:</span>
-                    <span className="ml-2 text-white font-semibold">
-                        {memberCount}/20
-                    </span>
-                </div>
-                <div className="flex items-center">
-                    <FaHome className="mr-2 text-emerald-400" />
-                    <span>Guild House:</span>
-                    <span className="ml-2 text-white font-semibold">
-                        {getHouseName(clanData.houseId || 0)}
-                    </span>
-                </div>
-            </div>
+		  <div className="flex items-center">
+			<FaUsers className="mr-2 text-emerald-400" />
+			<span>Members:</span>
+			<span className="ml-2 text-white font-semibold">{memberCount}/20</span>
+		  </div>
+
+		  <div className="flex items-center">
+			<FaHome className="mr-2 text-emerald-400" />
+			<span>Guild House:</span>
+			<span className="ml-2 text-white font-semibold">
+			  {getHouseName(clanData.houseId || 0)}
+			</span>
+		  </div>
+		</div>
+
+
 
             {/* Columns */}
             <div className="md:grid md:grid-cols-2 md:gap-8">
@@ -240,6 +239,21 @@ export default function ClanInfoModal({
                 <div>
                     <h3 className="text-xl font-bold text-emerald-400 mb-2">
                         Members List
+						{/* Clan Logs Fanciness */}
+						{clanName && (
+						  <button
+							type="button"
+							onClick={(e) => {
+							  e.stopPropagation();
+							  router.push(`/logs?mode=clan&q=${encodeURIComponent(clanName)}`);
+							  if (!standalone) onClose();
+							}}
+							className="ml-2 inline-flex items-center text-xs px-2 py-1 rounded-md bg-emerald-700 hover:bg-emerald-600 text-white"
+							title="View clan logs"
+						  >
+							Clan Logs
+						  </button>
+						)}
                     </h3>
                     <div className="space-y-1">
                         {Array.isArray(clanData.memberlist) &&
@@ -263,6 +277,19 @@ export default function ClanInfoModal({
                                     <span className="ml-2 text-gray-400">
                                         - {getRankTitle(member.rank)}
                                     </span>
+					  <button
+						type="button"
+						onClick={(e) => {
+						  e.stopPropagation();
+						  router.push(`/logs?mode=player&q=${encodeURIComponent(member.memberName)}`);
+						  if (!standalone) onClose();
+						}}
+						className="ml-2 text-[10px] px-2 py-0.5 rounded bg-emerald-800 hover:bg-emerald-700 text-white"
+						title={`View ${member.memberName}'s logs`}
+					  >
+						Logs
+					  </button>
+
                                 </div>
                             ))}
                     </div>

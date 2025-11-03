@@ -1,5 +1,7 @@
+'use client';
 // hooks
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 // api
 import { fetchClanMembers } from '@/lib/api/apiService';
 // components
@@ -41,6 +43,9 @@ export default function SearchResults({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAdvancedModalOpen, setIsAdvancedModalOpen] = useState(false);
     const [clanData, setClanData] = useState<ClanData | null>(null);
+
+
+const router = useRouter();
 
     useEffect(() => {
         const fetchMembers = async () => {
@@ -128,13 +133,28 @@ export default function SearchResults({
                             </h2>
                         </div>
 
-                        {/* Player Information */}
-                        <p className="flex items-center mb-2 font-light">
-                            <FaUser className="mr-1" /> Nickname:
-                            <span className="text-white ml-1 font-semibold">
-                                {player.username}
-                            </span>
-                        </p>
+                       {/* Player Information */}
+						<p className="flex items-center mb-2 font-light">
+						  <FaUser className="mr-1" /> Nickname:
+						  <span className="text-white ml-1 font-semibold">
+							{player.username}
+						  </span>
+
+						  {player.username && (
+							<button
+							  type="button"
+							  onClick={(e) => {
+								e.stopPropagation();
+								router.push(`/logs?mode=player&q=${encodeURIComponent(player.username)}`);
+							  }}
+							  className="ml-2 text-[10px] px-2 py-0.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white"
+							  title={`View ${player.username}'s clan logs`}
+							  aria-label={`View ${player.username}'s clan logs`}
+							>
+							  Logs
+							</button>
+						  )}
+						</p>
 
                         <p className="flex items-center mb-2 font-light">
                             <FaGamepad className="mr-1" /> Game Mode:
