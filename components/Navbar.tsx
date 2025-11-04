@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { FaSearch, FaChartBar, FaCalculator, FaStore } from 'react-icons/fa';
+import { FaSearch, FaChartBar, FaCalculator, FaStore, FaListAlt, FaLevelUpAlt} from 'react-icons/fa';
 import { RxHamburgerMenu, RxCross2 } from 'react-icons/rx';
 import BuyMeACoffeeWidget from './BuyMeACoffeeWidget';
 
@@ -44,6 +44,16 @@ export default function Navbar() {
             href: '/market',
             icon: <FaStore className="mr-1.5" />,
             text: 'Market',
+        },
+		{
+            href: '/logs',
+            icon: <FaListAlt className="mr-1.5" />,
+            text: 'Logs',
+        },
+	    {
+            href: '/next-skill',
+            icon: <FaLevelUpAlt className="mr-1.5" />,
+            text: 'Next Skill',
         },
     ];
 
