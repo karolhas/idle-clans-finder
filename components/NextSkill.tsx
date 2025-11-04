@@ -4,7 +4,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
-
 import { XP_TABLE } from "@/utils/common/constants/xpTable";
 import { getLevel } from "@/utils/common/calculations/xpCalculations";
 
@@ -97,8 +96,7 @@ export default function NextSkill({
         return;
       }
 
-
-      let skillArray: SkillRow[] = Object.entries(se).map(
+      const skillArray: SkillRow[] = Object.entries(se).map(
         ([skillKey, xp]) => {
           const level = getLevel(xp);
           const nextLevelXp =
@@ -111,7 +109,7 @@ export default function NextSkill({
               : 100;
 
           return {
-            key: skillKey,             
+            key: skillKey,
             skill: capitalize(skillKey),
             xp,
             level,
@@ -122,8 +120,7 @@ export default function NextSkill({
       );
 
 
-
-      // Cape milestones (hope it never changes)
+      // Cape milestones (lets hope no more get added)
       const capes = [90, 100, 110, 120];
       const nextCapeLevel =
         capes.find((lvl) => skillArray.some((s) => s.level < lvl)) ?? null;
@@ -133,31 +130,40 @@ export default function NextSkill({
           ? skillArray.filter((s) => s.level < nextCapeLevel)
           : [];
 
-      // Sort the "missing" list by closeness to next level
-      missingForNextCape.sort((a, b) => a.toNext - b.toNext);
-
+      const sortedMissing = [...missingForNextCape].sort(
+        (a, b) => a.toNext - b.toNext
+      );
 
       const focusCandidate =
-        (missingForNextCape[0]?.skill ??
-          skillArray
+        (sortedMissing[0]?.skill ??
+          [...skillArray]
             .filter((s) => s.level < 120)
             .sort((a, b) => a.toNext - b.toNext)[0]?.skill) ?? null;
 
-
+      let finalSkills: SkillRow[];
       if (focusCandidate) {
         const idx = skillArray.findIndex((s) => s.skill === focusCandidate);
         if (idx >= 0) {
-          const [focused] = skillArray.splice(idx, 1);
-          skillArray.unshift(focused);
+          const focused = skillArray[idx];
+          finalSkills = [
+            focused,
+            ...skillArray.slice(0, idx),
+            ...skillArray.slice(idx + 1),
+          ];
+        } else {
+          finalSkills = [...skillArray];
         }
       } else {
-
-        skillArray.sort((a, b) => b.level - a.level || b.xp - a.xp);
+        // If everything is maxed, use a stable, sensible order
+        finalSkills = [...skillArray].sort(
+          (a, b) => b.level - a.level || b.xp - a.xp
+        );
       }
 
-      setSkills(skillArray);
-      setCapeProgress({ nextCapeLevel, missing: missingForNextCape });
+      setSkills(finalSkills);
+      setCapeProgress({ nextCapeLevel, missing: sortedMissing });
 
+      // Save search history (dedupe, keep 8)
       setSavedSearches((prev) => {
         const without = prev.filter(
           (p) => p.toLowerCase() !== query.toLowerCase()
@@ -175,14 +181,14 @@ export default function NextSkill({
     }
   };
 
+  // Auto-run if URL has ?player= or prop passed
   useEffect(() => {
     const urlPlayer = searchParams.get("player") ?? initialPlayer;
     if (autoSearch && urlPlayer) {
       setPlayerName(urlPlayer);
       fetchPlayerData(urlPlayer);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [autoSearch, initialPlayer, searchParams]); 
 
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") fetchPlayerData(playerName.trim());
@@ -208,7 +214,7 @@ export default function NextSkill({
 
   return (
     <div className="mx-auto max-w-5xl">
-
+      {/* Centered header + search */}
       <div className="text-center">
         <h1 className="text-2xl md:text-3xl font-bold text-emerald-400 mb-4">
           What&apos;s My Next Skill?
@@ -233,7 +239,7 @@ export default function NextSkill({
             </button>
           </div>
 
-
+          {/* Recent searches */}
           {savedSearches.length > 0 && (
             <div className="mt-3 text-sm text-gray-300">
               <span className="mr-2">Recent:</span>
@@ -289,7 +295,7 @@ export default function NextSkill({
             <div className="px-4 pb-4">
               {capeProgress.missing.length === 0 ? (
                 <p className="text-emerald-300">
-                  ✅ You already meet the next cape requirement.
+                   You already meet the next cape requirement.
                 </p>
               ) : (
                 <>
@@ -353,7 +359,8 @@ export default function NextSkill({
                         Focus
                       </span>
                     )}
-					
+
+                    {/* Maxed badge */}
                     {s.level === 120 && (
                       <span className="ml-2 text-[10px] px-2 py-0.5 rounded bg-emerald-700 text-white">
                         Maxed
@@ -361,11 +368,10 @@ export default function NextSkill({
                     )}
                   </td>
                   <td className="px-3 py-2">{s.level}</td>
-                  <td className="px-3 py-2">
-                     {s.level < 120
-						? `${Math.floor(s.toNext).toLocaleString()} XP left`
-						: `${Math.floor(s.xp).toLocaleString()} XP`
-					  }
+                  <td className="px-3 py-2 font-semibold">
+                    {s.level < 120
+                      ? `${Math.floor(s.toNext).toLocaleString()} XP left`
+                      : `${Math.floor(s.xp).toLocaleString()} XP`}
                   </td>
                   <td className="px-3 py-2">
                     <div className="w-full h-5 bg-[#003333] rounded overflow-hidden border border-[#004444]">
