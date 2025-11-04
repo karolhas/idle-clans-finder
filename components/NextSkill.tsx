@@ -4,11 +4,14 @@ import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
+
 import { XP_TABLE } from "@/utils/common/constants/xpTable";
 import { getLevel } from "@/utils/common/calculations/xpCalculations";
 
+const MAX_LEVEL = 120; // <-- use a constant instead of XP_TABLE.length
+
 type SkillRow = {
-  /** Raw key from API, used to resolve /public/skills/<key>.png */
+
   key: string;
   /** Display name (Capitalized) */
   skill: string;
@@ -33,7 +36,7 @@ export default function NextSkill({
   initialPlayer = "",
   autoSearch = true,
 }: Props) {
-  // URL hooks (for deep links + shareable searches)
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -99,14 +102,21 @@ export default function NextSkill({
       const skillArray: SkillRow[] = Object.entries(se).map(
         ([skillKey, xp]) => {
           const level = getLevel(xp);
-          const nextLevelXp =
-            XP_TABLE[level + 1] ?? XP_TABLE[XP_TABLE.length - 1];
+
+          // Use MAX_LEVEL / XP_TABLE lookups without .length
+          const capXp =
+            XP_TABLE[MAX_LEVEL] ??
+            // fallback: compute a max from table values if needed
+            Math.max(...Object.values(XP_TABLE));
+
           const prevXp = XP_TABLE[level] ?? 0;
-          const toNext = level < 120 ? Math.max(0, nextLevelXp - xp) : 0;
+          const nextLevelXp =
+            level < MAX_LEVEL ? (XP_TABLE[level + 1] ?? capXp) : capXp;
+
+          const toNext = level < MAX_LEVEL ? Math.max(0, nextLevelXp - xp) : 0;
+          const denom = Math.max(1, nextLevelXp - prevXp);
           const progress =
-            level < 120 && nextLevelXp > prevXp
-              ? ((xp - prevXp) / (nextLevelXp - prevXp)) * 100
-              : 100;
+            level < MAX_LEVEL ? ((xp - prevXp) / denom) * 100 : 100;
 
           return {
             key: skillKey,
@@ -120,7 +130,7 @@ export default function NextSkill({
       );
 
 
-      // Cape milestones (lets hope no more get added)
+      // Cape milestones (hope no more)
       const capes = [90, 100, 110, 120];
       const nextCapeLevel =
         capes.find((lvl) => skillArray.some((s) => s.level < lvl)) ?? null;
@@ -137,7 +147,7 @@ export default function NextSkill({
       const focusCandidate =
         (sortedMissing[0]?.skill ??
           [...skillArray]
-            .filter((s) => s.level < 120)
+            .filter((s) => s.level < MAX_LEVEL)
             .sort((a, b) => a.toNext - b.toNext)[0]?.skill) ?? null;
 
       let finalSkills: SkillRow[];
@@ -154,7 +164,7 @@ export default function NextSkill({
           finalSkills = [...skillArray];
         }
       } else {
-        // If everything is maxed, use a stable, sensible order
+
         finalSkills = [...skillArray].sort(
           (a, b) => b.level - a.level || b.xp - a.xp
         );
@@ -181,22 +191,21 @@ export default function NextSkill({
     }
   };
 
-  // Auto-run if URL has ?player= or prop passed
   useEffect(() => {
     const urlPlayer = searchParams.get("player") ?? initialPlayer;
     if (autoSearch && urlPlayer) {
       setPlayerName(urlPlayer);
       fetchPlayerData(urlPlayer);
     }
-  }, [autoSearch, initialPlayer, searchParams]); 
+  }, [autoSearch, initialPlayer, searchParams]);
 
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") fetchPlayerData(playerName.trim());
   };
 
-  // With the focus pinned to top, the first non-maxed row is the focus badge
+
   const focusSkillName = useMemo(() => {
-    const first = skills.find((s) => s.level < 120);
+    const first = skills.find((s) => s.level < MAX_LEVEL);
     return first?.skill ?? null;
   }, [skills]);
 
@@ -295,7 +304,7 @@ export default function NextSkill({
             <div className="px-4 pb-4">
               {capeProgress.missing.length === 0 ? (
                 <p className="text-emerald-300">
-                   You already meet the next cape requirement.
+                  You already meet the next cape requirement.
                 </p>
               ) : (
                 <>
@@ -342,7 +351,7 @@ export default function NextSkill({
                     {renderSkillIcon(s.key, 22)}
                     <span className="text-white align-middle">{s.skill}</span>
 
-                    {s.skill === focusSkillName && s.level < 120 && (
+                    {s.skill === focusSkillName && s.level < MAX_LEVEL && (
                       <span
                         className="
                           ml-2 inline-flex items-center gap-1
@@ -361,7 +370,7 @@ export default function NextSkill({
                     )}
 
                     {/* Maxed badge */}
-                    {s.level === 120 && (
+                    {s.level === MAX_LEVEL && (
                       <span className="ml-2 text-[10px] px-2 py-0.5 rounded bg-emerald-700 text-white">
                         Maxed
                       </span>
@@ -369,7 +378,7 @@ export default function NextSkill({
                   </td>
                   <td className="px-3 py-2">{s.level}</td>
                   <td className="px-3 py-2 font-semibold">
-                    {s.level < 120
+                    {s.level < MAX_LEVEL
                       ? `${Math.floor(s.toNext).toLocaleString()} XP left`
                       : `${Math.floor(s.xp).toLocaleString()} XP`}
                   </td>
