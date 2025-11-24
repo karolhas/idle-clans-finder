@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaSearch } from "react-icons/fa";
 import { Player } from "@/types/player.types";
 import { ClanData } from "@/types/clan.types";
 import { fetchPlayerProfile, fetchClanByName } from "@/lib/api/apiService";
@@ -12,15 +11,16 @@ import SearchHistory from "@/components/SearchHistory";
 import ClanInfoModal from "@/components/ClanInfoModal";
 import ClanSkillDisplay from "@/components/skills/ClanSkillDisplay";
 
+// New components
+import SearchTabs from "./search/SearchTabs";
+import SearchForm from "./search/SearchForm";
+import SearchContainer from "./search/SearchContainer";
+
 export default function SearchInterface() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"player" | "clan">("player");
-  const [playerSearchResults, setPlayerSearchResults] = useState<Player | null>(
-    null
-  );
-  const [clanSearchResults, setClanSearchResults] = useState<ClanData | null>(
-    null
-  );
+  const [playerSearchResults, setPlayerSearchResults] = useState<Player | null>(null);
+  const [clanSearchResults, setClanSearchResults] = useState<ClanData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [playerSearches, setPlayerSearches] = useState<string[]>([]);
@@ -39,19 +39,12 @@ export default function SearchInterface() {
     if (savedClanSearches) {
       setClanSearches(JSON.parse(savedClanSearches));
     }
-
-    // if (latestPlayerLookup) {
-    //     router.push(`/player/${encodeURIComponent(latestPlayerLookup.username)}`);
-    // }
   }, [latestPlayerLookup, router]);
 
   // Update localStorage whenever searches change
   useEffect(() => {
     if (playerSearches.length > 0) {
-      localStorage.setItem(
-        "recentPlayerSearches",
-        JSON.stringify(playerSearches)
-      );
+      localStorage.setItem("recentPlayerSearches", JSON.stringify(playerSearches));
     }
     if (clanSearches.length > 0) {
       localStorage.setItem("recentClanSearches", JSON.stringify(clanSearches));
@@ -131,10 +124,8 @@ export default function SearchInterface() {
 
   const handleSearch = (query: string) => {
     if (activeTab === "player") {
-      // Redirect to /player/{Username} (case-sensitive)
       router.push(`/player/${encodeURIComponent(query)}`);
     } else {
-      // Redirect to /clan/{Clanname} (case-sensitive)
       router.push(`/clan/${encodeURIComponent(query)}`);
     }
   };
@@ -151,21 +142,13 @@ export default function SearchInterface() {
 
   const removeSearch = (query: string) => {
     if (activeTab === "player") {
-      const updatedSearches = playerSearches.filter(
-        (search) => search !== query
-      );
+      const updatedSearches = playerSearches.filter((search) => search !== query);
       setPlayerSearches(updatedSearches);
-      localStorage.setItem(
-        "recentPlayerSearches",
-        JSON.stringify(updatedSearches)
-      );
+      localStorage.setItem("recentPlayerSearches", JSON.stringify(updatedSearches));
     } else {
       const updatedSearches = clanSearches.filter((search) => search !== query);
       setClanSearches(updatedSearches);
-      localStorage.setItem(
-        "recentClanSearches",
-        JSON.stringify(updatedSearches)
-      );
+      localStorage.setItem("recentClanSearches", JSON.stringify(updatedSearches));
     }
   };
 
@@ -175,108 +158,33 @@ export default function SearchInterface() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center mb-6">
-        <h1 className="text-2xl font-bold text-emerald-400 flex items-center">
-          <FaSearch className="mr-3" />
-          Search
-        </h1>
-      </div>
+      <SearchContainer
+        title="Search"
+        description="Find players and clans to view their stats, members and achievements."
+      >
+        <SearchTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
-      {/* Tabs */}
-      <div className="flex mb-2 bg-transparent border border-emerald-700 p-1 rounded-lg">
-        <button
-          className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${
-            activeTab === "player"
-              ? "bg-emerald-600 text-white"
-              : "bg-transparent text-gray-300 hover:bg-emerald-600/10"
-          }`}
-          onClick={() => handleTabChange("player")}
-        >
-          Player
-        </button>
-        <button
-          className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${
-            activeTab === "clan"
-              ? "bg-emerald-600 text-white"
-              : "bg-transparent text-gray-300 hover:bg-emerald-600/10"
-          }`}
-          onClick={() => handleTabChange("clan")}
-        >
-          Clan
-        </button>
-      </div>
+        <div className="mt-8">
+            <h2 className="text-2xl font-bold text-white mb-2">
+                Search for {activeTab === "player" ? "a player" : "a clan"}
+            </h2>
+            <p className="text-gray-400 text-sm mb-6">
+                Enter the {activeTab === "player" ? "player" : "clan"} name you want to find
+            </p>
 
-      {/* Tab content */}
-      <div className="border border-emerald-700 rounded-lg backdrop-blur-sm bg-[#002020]/80">
-        <div className="rounded-t-lg p-6 bg-[#002020]/50 border-b border-emerald-700/30">
-          <h2 className="text-white text-lg font-semibold mb-2">
-            Search for {activeTab === "player" ? "a player" : "a clan"}
-          </h2>
-          <p className="text-gray-300 text-sm">
-            Enter the {activeTab === "player" ? "player" : "clan"} name you want
-            to find
-          </p>
+            <SearchForm
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                onSearch={handleSearch}
+                placeholder={`${activeTab === "player" ? "Player" : "Clan"} name...`}
+                isLoading={isLoading}
+            />
         </div>
-        <div className="p-6">
-          {/* Search form */}
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (searchQuery.trim()) {
-                handleSearch(searchQuery.trim());
-              }
-            }}
-            className="flex gap-2 max-w-full"
-          >
-            <div className="relative flex-1">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={`${
-                  activeTab === "player" ? "Player" : "Clan"
-                } name`}
-                className="w-full px-4 py-2 bg-gray-900/50 border border-gray-700 text-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-400 placeholder-gray-500"
-                disabled={isLoading}
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors"
-                  aria-label="Clear search"
-                >
-                  <span className="mr-2">✕</span>
-                </button>
-              )}
-            </div>
-            <button
-              type="submit"
-              disabled={isLoading || !searchQuery.trim()}
-              className={`px-6 py-2 bg-emerald-600 text-white rounded-lg transition-all cursor-pointer shadow-lg hover:shadow-emerald-600/20
-                                ${
-                                  isLoading
-                                    ? "opacity-50"
-                                    : "hover:bg-emerald-500"
-                                }
-                            `}
-              aria-label="search-button"
-            >
-              {isLoading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <span className="flex items-center">
-                  <FaSearch className="w-5 h-5" />
-                </span>
-              )}
-            </button>
-          </form>
-        </div>
-      </div>
+      </SearchContainer>
 
       {/* Results */}
       {activeTab === "player" && (playerSearchResults || error) && (
-        <div className="mt-6">
+        <div className="mt-8">
           <SearchResults
             player={playerSearchResults || ({} as Player)}
             error={error || undefined}
@@ -293,7 +201,7 @@ export default function SearchInterface() {
       {activeTab === "clan" && (
         <>
           {error && (
-            <div className="bg-red-900/20 border border-red-500/50 text-red-200 px-4 py-3 rounded mb-4 mt-6 backdrop-blur-sm">
+            <div className="bg-red-900/20 border border-red-500/50 text-red-200 px-6 py-4 rounded-xl mb-4 mt-8 backdrop-blur-sm shadow-lg">
               {error}
             </div>
           )}
@@ -303,11 +211,7 @@ export default function SearchInterface() {
                 isOpen={false}
                 standalone={true}
                 onClose={() => {}}
-                clanName={
-                  clanSearchResults.clanName ||
-                  clanSearchResults.guildName ||
-                  "Clan"
-                }
+                clanName={clanSearchResults.clanName || clanSearchResults.guildName || "Clan"}
                 memberCount={clanSearchResults.memberlist?.length || 0}
                 clanData={clanSearchResults}
                 onSearchMember={(memberName) => {
@@ -317,7 +221,9 @@ export default function SearchInterface() {
               />
 
               {clanSearchResults.skills && (
-                <ClanSkillDisplay skills={clanSearchResults.skills} />
+                <div className="mt-6">
+                    <ClanSkillDisplay skills={clanSearchResults.skills} />
+                </div>
               )}
             </div>
           )}
@@ -325,11 +231,9 @@ export default function SearchInterface() {
       )}
 
       {/* Search History */}
-      <div className="mt-6">
+      <div className="mt-12">
         <SearchHistory
-          recentSearches={
-            activeTab === "player" ? playerSearches : clanSearches
-          }
+          recentSearches={activeTab === "player" ? playerSearches : clanSearches}
           onSearchClick={handleRecentSearchClick}
           onRemoveSearch={removeSearch}
           onClearAll={clearSearches}

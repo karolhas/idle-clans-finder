@@ -172,7 +172,7 @@ export default function ClanInfoModal({
     const content = (
         <div
             ref={modalRef}
-            className="relative bg-[#002626] p-6 md:p-8 rounded-lg border border-[#004444] w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl"
+            className="relative bg-[#0a1f1f]/95 p-6 md:p-8 rounded-2xl border-2 border-white/10 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl backdrop-blur-xl"
         >
             {/* Close Button for Modal */}
             {!standalone && (
@@ -302,7 +302,7 @@ export default function ClanInfoModal({
                     </h3>
                     <div className="space-y-4">
                         {clanData.recruitmentMessage && (
-                            <div className="bg-[#003333] p-4 rounded-lg">
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/5">
                                 <h3 className="text-base font-semibold text-emerald-400 mb-2">
                                     Recruitment Message
                                 </h3>
@@ -359,7 +359,7 @@ export default function ClanInfoModal({
             {content}
             {/* Clan Upgrades */}
             {clanData.serializedUpgrades && (
-                <div className="bg-[#002626] p-6 rounded-lg border border-[#004444]">
+                <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl hover:border-emerald-500/30 transition-all duration-300">
                     <h3 className="text-xl font-bold text-emerald-400 mb-4">
                         Clan Upgrades
                     </h3>
@@ -372,7 +372,7 @@ export default function ClanInfoModal({
                             return (
                                 <div
                                     key={name}
-                                    className={`bg-[#003333] p-4 rounded-lg border border-[#004444] flex flex-col items-center ${
+                                    className={`bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col items-center backdrop-blur-sm transition-all duration-300 hover:bg-white/10 ${
                                         tier === 1 ? 'opacity-50' : 'opacity-100'
                                     }`}
                                 >
