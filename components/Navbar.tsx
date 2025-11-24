@@ -11,9 +11,9 @@ import {
   FaStore,
   FaListAlt,
   FaLevelUpAlt,
+  FaHome,
 } from "react-icons/fa";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
-import BuyMeACoffeeWidget from "./BuyMeACoffeeWidget";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -36,7 +36,8 @@ export default function Navbar() {
   }, [pathname]);
 
   const navLinks = [
-    { href: "/", icon: <FaSearch className="mr-1.5" />, text: "Search" },
+    { href: "/", icon: <FaHome className="mr-1.5" />, text: "Dashboard" },
+    { href: "/search", icon: <FaSearch className="mr-1.5" />, text: "Search" },
     {
       href: "/rankings",
       icon: <FaChartBar className="mr-1.5" />,
@@ -99,7 +100,6 @@ export default function Navbar() {
                 {link.text}
               </Link>
             ))}
-            <BuyMeACoffeeWidget />
           </div>
 
           {/* Mobile hamburger button */}
@@ -140,9 +140,6 @@ export default function Navbar() {
               </div>
             </Link>
           ))}
-          <div className="pt-2">
-            <BuyMeACoffeeWidget />
-          </div>
         </div>
       </div>
 
