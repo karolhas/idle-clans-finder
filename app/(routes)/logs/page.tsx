@@ -1,4 +1,4 @@
-import LogsViewer from "@/components/LogsViewer";
+import LogsViewer from "@/components/logs/LogsViewer";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 

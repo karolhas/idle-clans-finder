@@ -12,8 +12,8 @@ import {
   FaGlobe,
 } from "react-icons/fa";
 import { SiBuymeacoffee } from "react-icons/si";
-import DashboardCard from "@/components/DashboardCard";
-import StatCard from "@/components/StatCard";
+import DashboardCard from "@/components/dashboard/DashboardCard";
+import StatCard from "@/components/dashboard/StatCard";
 
 export default function Home() {
   const stats = [

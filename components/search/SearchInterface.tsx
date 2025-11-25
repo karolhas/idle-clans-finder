@@ -6,21 +6,22 @@ import { Player } from "@/types/player.types";
 import { ClanData } from "@/types/clan.types";
 import { fetchPlayerProfile, fetchClanByName } from "@/lib/api/apiService";
 import { useSearchStore } from "@/lib/store/searchStore";
-import SearchResults from "@/components/SearchResults";
-import SearchHistory from "@/components/SearchHistory";
-import ClanInfoModal from "@/components/ClanInfoModal";
+import SearchResults from "@/components/search/SearchResults";
+import ClanInfoModal from "@/components/modals/ClanInfoModal";
 import ClanSkillDisplay from "@/components/skills/ClanSkillDisplay";
 
 // New components
-import SearchTabs from "./search/SearchTabs";
-import SearchForm from "./search/SearchForm";
-import SearchContainer from "./search/SearchContainer";
+import UnifiedSearch from "./UnifiedSearch";
 
 export default function SearchInterface() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"player" | "clan">("player");
-  const [playerSearchResults, setPlayerSearchResults] = useState<Player | null>(null);
-  const [clanSearchResults, setClanSearchResults] = useState<ClanData | null>(null);
+  const [playerSearchResults, setPlayerSearchResults] = useState<Player | null>(
+    null
+  );
+  const [clanSearchResults, setClanSearchResults] = useState<ClanData | null>(
+    null
+  );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [playerSearches, setPlayerSearches] = useState<string[]>([]);
@@ -44,7 +45,10 @@ export default function SearchInterface() {
   // Update localStorage whenever searches change
   useEffect(() => {
     if (playerSearches.length > 0) {
-      localStorage.setItem("recentPlayerSearches", JSON.stringify(playerSearches));
+      localStorage.setItem(
+        "recentPlayerSearches",
+        JSON.stringify(playerSearches)
+      );
     }
     if (clanSearches.length > 0) {
       localStorage.setItem("recentClanSearches", JSON.stringify(clanSearches));
@@ -140,47 +144,23 @@ export default function SearchInterface() {
     }
   };
 
-  const removeSearch = (query: string) => {
-    if (activeTab === "player") {
-      const updatedSearches = playerSearches.filter((search) => search !== query);
-      setPlayerSearches(updatedSearches);
-      localStorage.setItem("recentPlayerSearches", JSON.stringify(updatedSearches));
-    } else {
-      const updatedSearches = clanSearches.filter((search) => search !== query);
-      setClanSearches(updatedSearches);
-      localStorage.setItem("recentClanSearches", JSON.stringify(updatedSearches));
-    }
-  };
-
   const handleRecentSearchClick = (query: string) => {
     handleSearch(query);
   };
 
   return (
     <div className="w-full">
-      <SearchContainer
-        title="Search"
-        description="Find players and clans to view their stats, members and achievements."
-      >
-        <SearchTabs activeTab={activeTab} onTabChange={handleTabChange} />
-
-        <div className="mt-8">
-            <h2 className="text-2xl font-bold text-white mb-2">
-                Search for {activeTab === "player" ? "a player" : "a clan"}
-            </h2>
-            <p className="text-gray-400 text-sm mb-6">
-                Enter the {activeTab === "player" ? "player" : "clan"} name you want to find
-            </p>
-
-            <SearchForm
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                onSearch={handleSearch}
-                placeholder={`${activeTab === "player" ? "Player" : "Clan"} name...`}
-                isLoading={isLoading}
-            />
-        </div>
-      </SearchContainer>
+      <UnifiedSearch
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        onSearch={handleSearch}
+        isLoading={isLoading}
+        recentSearches={activeTab === "player" ? playerSearches : clanSearches}
+        onRecentSearchClick={handleRecentSearchClick}
+        onClearHistory={clearSearches}
+      />
 
       {/* Results */}
       {activeTab === "player" && (playerSearchResults || error) && (
@@ -211,7 +191,11 @@ export default function SearchInterface() {
                 isOpen={false}
                 standalone={true}
                 onClose={() => {}}
-                clanName={clanSearchResults.clanName || clanSearchResults.guildName || "Clan"}
+                clanName={
+                  clanSearchResults.clanName ||
+                  clanSearchResults.guildName ||
+                  "Clan"
+                }
                 memberCount={clanSearchResults.memberlist?.length || 0}
                 clanData={clanSearchResults}
                 onSearchMember={(memberName) => {
@@ -222,23 +206,13 @@ export default function SearchInterface() {
 
               {clanSearchResults.skills && (
                 <div className="mt-6">
-                    <ClanSkillDisplay skills={clanSearchResults.skills} />
+                  <ClanSkillDisplay skills={clanSearchResults.skills} />
                 </div>
               )}
             </div>
           )}
         </>
       )}
-
-      {/* Search History */}
-      <div className="mt-12">
-        <SearchHistory
-          recentSearches={activeTab === "player" ? playerSearches : clanSearches}
-          onSearchClick={handleRecentSearchClick}
-          onRemoveSearch={removeSearch}
-          onClearAll={clearSearches}
-        />
-      </div>
     </div>
   );
 }

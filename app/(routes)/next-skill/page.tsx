@@ -1,5 +1,5 @@
 // app/(routes)/next-skill/page.tsx
-import NextSkill from "@/components/NextSkill";
+import NextSkill from "@/components/next-skill/NextSkill";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 

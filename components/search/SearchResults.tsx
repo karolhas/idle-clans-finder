@@ -8,8 +8,8 @@ import { fetchClanMembers } from '@/lib/api/apiService';
 import PvmStatsDisplay from '@/components/pvmstats/PvmStatsDisplay';
 import SkillDisplay from '@/components/skills/SkillDisplay';
 import UpgradesDisplay from '@/components/upgrades/UpgradesDisplay';
-import ClanInfoModal from '@/components/ClanInfoModal';
-import AdvancedPlayerInfoModal from '@/components/AdvancedPlayerInfoModal';
+import ClanInfoModal from '@/components/modals/ClanInfoModal';
+import AdvancedPlayerInfoModal from '@/components/modals/AdvancedPlayerInfoModal';
 
 // types
 import { Player } from '@/types/player.types';

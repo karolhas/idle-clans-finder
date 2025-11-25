@@ -35,11 +35,11 @@ export default function SearchForm({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={placeholder}
-            className="w-full pl-14 pr-32 py-5 bg-[#0a1f1f]/80 border-2 border-white/10 rounded-2xl text-lg text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all duration-300 backdrop-blur-xl shadow-inner"
+            className="w-full pl-12 pr-32 py-3 bg-[#0a1f1f]/80 border-2 border-white/10 rounded-xl text-base text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all duration-300 backdrop-blur-xl shadow-inner"
             disabled={isLoading}
           />
-          <div className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-500 group-focus-within:text-emerald-400 transition-colors duration-300">
-            <FaSearch className="w-6 h-6" />
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 group-focus-within:text-emerald-400 transition-colors duration-300">
+            <FaSearch className="w-5 h-5" />
           </div>
 
           {searchQuery && (
