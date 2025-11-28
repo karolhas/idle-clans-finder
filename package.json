@@ -1,6 +1,15 @@
 {
-  "name": "idleclansfinder",
-  "version": "0.1.0",
+  "name": "idleclanshub",
+  "version": "1.0.0",
+  "description": "Idle Clans Hub - Your ultimate Idle Clans companion is here. Unlock the full potential of your game in one powerful, unified platform.",
+  "author": "Karol \"HSKdev\" Has",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karolhas/idleclanshub"
+  },
+  "homepage": "https://idleclanshub.vercel.app",
+  "keywords": ["idleclans", "idleclanshub", "idleclansfinder", "idleclansfinderhub", "idleclansstats", "idleclansstatshub", "idleclansstatsfinder", "idleclansstatsfinderhub"],
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

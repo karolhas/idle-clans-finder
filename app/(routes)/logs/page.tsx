@@ -1,4 +1,4 @@
-import LogsViewer from "@/components/LogsViewer";
+import LogsViewer from "@/components/logs/LogsViewer";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -12,7 +12,7 @@ export default async function LogsPage({
   const rawMode = Array.isArray(sp.mode) ? sp.mode[0] : sp.mode;
 
   const q = typeof rawQ === "string" ? rawQ : "";
-  const mode = rawMode === "player" ? "player" : "clan";
+  const mode = rawMode === "clan" ? "clan" : "player";
 
   return (
     <div className="min-h-[calc(100vh-120px)] px-4 py-6">

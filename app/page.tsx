@@ -1,364 +1,161 @@
-'use client';
+"use client";
 
-// hooks
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-// api
-import { fetchPlayerProfile, fetchClanByName } from '@/lib/api/apiService';
-// components
-import SearchResults from '@/components/SearchResults';
-import SearchHistory from '@/components/SearchHistory';
-import ClanInfoModal from '@/components/ClanInfoModal';
-import ClanSkillDisplay from '@/components/skills/ClanSkillDisplay';
-// types
-import { Player } from '@/types/player.types';
-import { ClanData } from '@/types/clan.types';
-import { FaSearch } from 'react-icons/fa';
-import { useSearchStore } from '@/lib/store/searchStore';
+import {
+  FaChartBar,
+  FaCalculator,
+  FaStore,
+  FaListAlt,
+  FaSearch,
+  FaUsers,
+  FaTrophy,
+  FaGlobe,
+} from "react-icons/fa";
+import { SiBuymeacoffee } from "react-icons/si";
+import DashboardCard from "@/components/dashboard/DashboardCard";
+import StatCard from "@/components/dashboard/StatCard";
 
 export default function Home() {
-    const router = useRouter();
-    const [activeTab, setActiveTab] = useState<'player' | 'clan'>('player');
-    const [playerSearchResults, setPlayerSearchResults] =
-        useState<Player | null>(null);
-    const [clanSearchResults, setClanSearchResults] = useState<ClanData | null>(
-        null
-    );
-    const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [playerSearches, setPlayerSearches] = useState<string[]>([]);
-    const [clanSearches, setClanSearches] = useState<string[]>([]);
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const { latestPlayerLookup } = useSearchStore();
+  const stats = [
+    {
+      title: "Players Online",
+      value: "767", // Mock data
+      subtitle: "Playing",
+      icon: <FaUsers className="w-5 h-5" />,
+      trend: "Right Now",
+    },
+    {
+      title: "All Time Peak",
+      value: "911", // Mock data
+      subtitle: "October 2025",
+      icon: <FaTrophy className="w-5 h-5" />,
+      trend: "New Record",
+    },
+    {
+      title: "Website Visitors",
+      value: "5,6k", // Mock data
+      subtitle: "This month",
+      icon: <FaGlobe className="w-5 h-5" />,
+      trend: "+11,7%",
+    },
+  ];
 
-    // Load recent searches on component mount
-    useEffect(() => {
-        const savedPlayerSearches = localStorage.getItem(
-            'recentPlayerSearches'
-        );
-        if (savedPlayerSearches) {
-            setPlayerSearches(JSON.parse(savedPlayerSearches));
-        }
+  const tools = [
+    {
+      title: "Player & Clan Search",
+      description:
+        "Find players and view their stats, or search for clans to see their members and achievements.",
+      icon: <FaSearch className="w-6 h-6" />,
+      href: "/search",
+      color: "emerald",
+    },
+    {
+      title: "Rankings",
+      description:
+        "View top players and clans. Track progress and compete for the top spots on the leaderboards.",
+      icon: <FaChartBar className="w-6 h-6" />,
+      href: "/rankings",
+      color: "emerald",
+    },
+    {
+      title: "Calculator",
+      description:
+        "Optimize your gameplay with our XP and resource calculators. Plan your journey to max level.",
+      icon: <FaCalculator className="w-6 h-6" />,
+      href: "/calculator",
+      color: "emerald",
+    },
+    {
+      title: "Market",
+      description:
+        "Track item prices and find the best deals. Analyze market trends to maximize your profits.",
+      icon: <FaStore className="w-6 h-6" />,
+      href: "/market",
+      color: "emerald",
+    },
+    {
+      title: "Logs",
+      description:
+        "View detailed logs of your drops, kills, and other in-game activities.",
+      icon: <FaListAlt className="w-6 h-6" />,
+      href: "/logs",
+      color: "emerald",
+    },
+    // {
+    //   title: "Next Skill",
+    //   description:
+    //     "Find out which skill you should train next based on efficiency and requirements.",
+    //   icon: <FaLevelUpAlt className="w-6 h-6" />,
+    //   href: "/next-skill",
+    //   color: "emerald",
+    // },
+  ];
 
-        const savedClanSearches = localStorage.getItem('recentClanSearches');
-        if (savedClanSearches) {
-            setClanSearches(JSON.parse(savedClanSearches));
-        }
+  return (
+    <main className="min-h-screen bg-[#031111] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-[#031111] to-[#031111]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Section 1: Hero/Info Card */}
+        <div className="mb-12 relative overflow-hidden rounded-2xl border-2 border-emerald-700/30 bg-gradient-to-br from-[#001515] to-[#001212] p-8 md:p-12 text-center md:text-left shadow-[0_0_40px_rgba(16,185,129,0.1)]">
+          <div className="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="relative z-10">
+            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 mb-4 drop-shadow-lg">
+              Idle Clans Hub
+            </h1>
+            <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-6 drop-shadow-md">
+              Your ultimate Idle Clans companion is here. Unlock the full
+              potential of your game in one powerful, unified platform.
+            </p>
 
-        if (latestPlayerLookup) {
-            router.push(`/player/${encodeURIComponent(latestPlayerLookup.username)}`);
-        }
-    }, []);
-
-    // Update localStorage whenever searches change
-    useEffect(() => {
-        if (playerSearches.length > 0) {
-            localStorage.setItem(
-                'recentPlayerSearches',
-                JSON.stringify(playerSearches)
-            );
-        }
-
-        if (clanSearches.length > 0) {
-            localStorage.setItem(
-                'recentClanSearches',
-                JSON.stringify(clanSearches)
-            );
-        }
-    }, [playerSearches, clanSearches]);
-
-    const handlePlayerSearch = async (query: string) => {
-        setSearchQuery(query);
-        setIsLoading(true);
-        setError(null);
-        // Don't clear clan results when searching for a player
-        // setClanSearchResults(null);
-
-        try {
-            const data = await fetchPlayerProfile(query);
-            setPlayerSearchResults(data);
-            setSearchQuery(''); // Clear the search query after search
-
-            // No duplicate searches saved
-            setPlayerSearches((prev) => {
-                const newSearches = prev.includes(query)
-                    ? prev
-                    : [query, ...prev];
-                return newSearches.slice(0, 5); // Max 5 searches shown
-            });
-        } catch (err: unknown) {
-            console.error('Error searching for player:', err);
-            setError('Player not found');
-            setPlayerSearchResults(null);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleClanSearch = async (query: string) => {
-        setSearchQuery(query);
-        setIsLoading(true);
-        setError(null);
-        // Don't clear player results when searching for a clan
-        // setPlayerSearchResults(null);
-
-        try {
-            const rawData = await fetchClanByName(query);
-
-            // Parse serialized skills if available
-            let parsedSkills = undefined;
-            if (rawData.serializedSkills) {
-                try {
-                    parsedSkills = JSON.parse(rawData.serializedSkills);
-                } catch (err) {
-                    console.error('Error parsing skills:', err);
-                }
-            }
-
-            // Create the final clan data with parsed skills
-            const clanData: ClanData = {
-                ...rawData,
-                skills: parsedSkills,
-            };
-
-            setClanSearchResults(clanData);
-            setSearchQuery(''); // Clear the search query after search
-
-            // No duplicate searches saved
-            setClanSearches((prev) => {
-                const newSearches = prev.includes(query)
-                    ? prev
-                    : [query, ...prev];
-                return newSearches.slice(0, 5); // Max 5 searches shown
-            });
-        } catch (err: unknown) {
-            console.error('Error searching for clan:', err);
-            setError('Clan not found');
-            setClanSearchResults(null);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    // Add a handler for tab changes to clear the error state
-    const handleTabChange = (tab: 'player' | 'clan') => {
-        setActiveTab(tab);
-        setError(null); // Clear any error messages when switching tabs
-        setSearchQuery(''); // Clear the search query when switching tabs
-    };
-
-    const handleSearch = (query: string) => {
-        if (activeTab === 'player') {
-            // Redirect to /player/{Username} (case-sensitive)
-            router.push(`/player/${encodeURIComponent(query)}`);
-        } else {
-            // Redirect to /clan/{Clanname} (case-sensitive)
-            router.push(`/clan/${encodeURIComponent(query)}`);
-        }
-    };
-
-    const clearSearches = () => {
-        if (activeTab === 'player') {
-            setPlayerSearches([]);
-            localStorage.removeItem('recentPlayerSearches');
-        } else {
-            setClanSearches([]);
-            localStorage.removeItem('recentClanSearches');
-        }
-    };
-
-    const removeSearch = (query: string) => {
-        if (activeTab === 'player') {
-            const updatedSearches = playerSearches.filter(
-                (search) => search !== query
-            );
-            setPlayerSearches(updatedSearches);
-            localStorage.setItem(
-                'recentPlayerSearches',
-                JSON.stringify(updatedSearches)
-            );
-        } else {
-            const updatedSearches = clanSearches.filter(
-                (search) => search !== query
-            );
-            setClanSearches(updatedSearches);
-            localStorage.setItem(
-                'recentClanSearches',
-                JSON.stringify(updatedSearches)
-            );
-        }
-    };
-
-    const handleRecentSearchClick = (query: string) => {
-        handleSearch(query);
-    };
-
-    return (
-        <main className="p-4 sm:p-8">
-            <div className="max-w-5xl mx-auto">
-                <div className="flex items-center mb-8">
-                    <h1 className="text-2xl font-bold text-emerald-400 flex items-center">
-                        <FaSearch className="mr-3" />
-                        Search
-                    </h1>
-                </div>
-
-                {/* Tabs */}
-                <div className="flex mb-2 bg-transparent border border-emerald-700 p-1 rounded-lg">
-                    <button
-                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${activeTab === 'player'
-                            ? 'bg-emerald-600 text-white'
-                            : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
-                            }`}
-                        onClick={() => handleTabChange('player')}
-                    >
-                        Player
-                    </button>
-                    <button
-                        className={`flex-1 py-1 px-4 rounded-lg text-center transition-colors ${activeTab === 'clan'
-                            ? 'bg-emerald-600 text-white'
-                            : 'bg-transparent text-gray-300 hover:bg-emerald-600/10'
-                            }`}
-                        onClick={() => handleTabChange('clan')}
-                    >
-                        Clan
-                    </button>
-                </div>
-
-                {/* Tab content */}
-                <div className="border border-emerald-700 rounded-lg">
-                    <div className="bg-[#002020] rounded-lg p-6">
-                        <h2 className="text-white text-lg font-semibold mb-2">
-                            Search for{' '}
-                            {activeTab === 'player' ? 'a player' : 'a clan'}
-                        </h2>
-                        <p className="text-gray-300 text-sm">
-                            Enter the{' '}
-                            {activeTab === 'player' ? 'player' : 'clan'} name
-                            you want to find
-                        </p>
-                    </div>
-                    <div className="p-6">
-                        {/* Search form */}
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                if (searchQuery.trim()) {
-                                    handleSearch(searchQuery.trim());
-                                }
-                            }}
-                            className="flex gap-2 max-w-full"
-                        >
-                            <div className="relative flex-1">
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) =>
-                                        setSearchQuery(e.target.value)
-                                    }
-                                    placeholder={`${activeTab === 'player'
-                                        ? 'Player'
-                                        : 'Clan'
-                                        } name`}
-                                    className="w-full px-4 py-2 bg-gray-200 border border-gray-700 text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-400"
-                                    disabled={isLoading}
-                                />
-                                {searchQuery && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setSearchQuery('')}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-red-600"
-                                        aria-label="Clear search"
-                                    >
-                                        <span className="mr-2">✕</span>
-                                    </button>
-                                )}
-                            </div>
-                            <button
-                                type="submit"
-                                disabled={isLoading || !searchQuery.trim()}
-                                className={`px-6 py-2 bg-emerald-600 text-white rounded-lg transition-colors cursor-pointer
-                            ${isLoading
-                                        ? 'opacity-50'
-                                        : 'hover:bg-emerald-700'
-                                    }`}
-                                aria-label="search-button"
-                            >
-                                {isLoading ? (
-                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                ) : (
-                                    <span className="flex items-center">
-                                        <FaSearch className="w-5 h-5" />
-                                    </span>
-                                )}
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                {/* Results */}
-                {activeTab === 'player' && (playerSearchResults || error) && (
-                    <SearchResults
-                        player={playerSearchResults || ({} as Player)}
-                        error={error || undefined}
-                        onSearchMember={handlePlayerSearch}
-                        onSearchClan={(clanName: string) => {
-                            setActiveTab('clan');
-                            handleClanSearch(clanName);
-                        }}
-                    />
-                )}
-
-                {/* Clan Search Results */}
-                {activeTab === 'clan' && (
-                    <>
-                        {error && (
-                            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                                {error}
-                            </div>
-                        )}
-                        {clanSearchResults && (
-                            <div className="mt-8">
-                                <ClanInfoModal
-                                    isOpen={false}
-                                    standalone={true}
-                                    onClose={() => { }}
-                                    clanName={
-                                        clanSearchResults.clanName ||
-                                        clanSearchResults.guildName ||
-                                        'Clan'
-                                    }
-                                    memberCount={
-                                        clanSearchResults.memberlist?.length ||
-                                        0
-                                    }
-                                    clanData={clanSearchResults}
-                                    onSearchMember={(memberName) => {
-                                        setActiveTab('player');
-                                        handlePlayerSearch(memberName);
-                                    }}
-                                />
-
-                                {clanSearchResults.skills && (
-                                    <ClanSkillDisplay
-                                        skills={clanSearchResults.skills}
-                                    />
-                                )}
-                            </div>
-                        )}
-                    </>
-                )}
-
-                {/* Search History */}
-                <SearchHistory
-                    recentSearches={
-                        activeTab === 'player' ? playerSearches : clanSearches
-                    }
-                    onSearchClick={handleRecentSearchClick}
-                    onRemoveSearch={removeSearch}
-                    onClearAll={clearSearches}
-                />
+            <div className="mt-6 flex flex-wrap gap-3 justify-center md:justify-start mb-6">
+              <span className="px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-medium shadow-[0_0_10px_rgba(249,115,22,0.1)]">
+                Real-Time Data
+              </span>
+              <span className="px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-sm font-medium shadow-[0_0_10px_rgba(236,72,153,0.1)]">
+                Tools & Resources
+              </span>
+              <span className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium shadow-[0_0_10px_rgba(168,85,247,0.1)]">
+                Community Driven
+              </span>
             </div>
-        </main>
-    );
+
+            <div className="flex justify-center md:justify-start">
+              <a
+                href="https://www.buymeacoffee.com/hskdev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#031111] border border-[#FFDD00]/40 text-[#FFDD00] hover:bg-[#FFDD00]/10 hover:border-[#FFDD00] hover:shadow-[0_0_15px_rgba(255,221,0,0.15)] transition-all duration-300 group shadow-lg shadow-[#FFDD00]/5"
+              >
+                <SiBuymeacoffee className="w-5 h-5 transition-transform group-hover:scale-110" />
+                <span className="font-medium">Buy me a coffee</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 2: Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          {stats.map((stat, index) => (
+            <StatCard key={index} {...stat} />
+          ))}
+        </div>
+
+        {/* Section 3: Quick Access */}
+        <div className="space-y-6">
+          <div className="flex items-center space-x-4 mb-6">
+            <h2 className="text-2xl font-bold text-white">Quick Access</h2>
+            <div className="h-px flex-1 bg-gradient-to-r from-emerald-900/50 to-transparent" />
+          </div>
+          <p className="text-gray-400 mb-6 -mt-4">
+            Select a feature to get started
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {tools.map((tool) => (
+              <DashboardCard key={tool.title} {...tool} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 }

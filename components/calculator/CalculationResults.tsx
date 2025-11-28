@@ -29,10 +29,10 @@ export default function CalculationResults() {
   // If no item is selected, show a message
   if (!selectedItem) {
     return (
-      <div className="bg-[#001010] rounded-lg p-4">
-        <h2 className="text-lg font-semibold text-emerald-300 mb-3">Results</h2>
-        <div className="text-center text-gray-400 py-4">
-          Select an item to view calculations
+      <div className="bg-black/60 border border-white/10 rounded-xl p-8 backdrop-blur-sm text-center animate-fade-in">
+        <h2 className="text-lg font-bold text-teal-400 mb-2">Results</h2>
+        <div className="text-gray-300">
+          Select an item to view detailed calculations
         </div>
       </div>
     );
@@ -44,11 +44,9 @@ export default function CalculationResults() {
 
   if (!item) {
     return (
-      <div className="bg-[#001010] rounded-lg p-4">
-        <h2 className="text-lg font-semibold text-emerald-300 mb-3">Results</h2>
-        <div className="text-center text-red-400 py-4">
-          Selected item not found
-        </div>
+      <div className="bg-white/5 border border-white/10 rounded-xl p-8 backdrop-blur-sm text-center animate-fade-in">
+        <h2 className="text-lg font-bold text-emerald-400 mb-2">Results</h2>
+        <div className="text-red-400 font-medium">Selected item not found</div>
       </div>
     );
   }
@@ -407,16 +405,17 @@ export default function CalculationResults() {
   }
 
   return (
-    <div className="bg-[#001010] rounded-lg p-4">
-      <h2 className="text-lg font-semibold text-emerald-300 mb-3">
+    <div className="bg-black/60 p-6 rounded-2xl border-2 border-white/10 relative backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group mb-6">
+      <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-300 group-hover:text-teal-400 transition-colors mb-6 flex items-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-teal-500"></span>
         Calculation Results
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className="bg-[#002020] rounded-md p-3">
+        <div className="bg-black/20 border border-white/5 rounded-lg p-4">
           <h3 className="text-emerald-400 font-medium mb-2">Selected Item</h3>
           <p className="text-white text-lg font-medium">{item.name}</p>
-          <div className="grid grid-cols-3 gap-2 mt-2">
+          <div className="grid grid-cols-3 gap-2 mt-5">
             <div>
               <div className="text-xs text-gray-400">Base XP</div>
               <div className="text-sm text-white">{baseXp}</div>
@@ -436,42 +435,58 @@ export default function CalculationResults() {
           </div>
         </div>
 
-        <div className="bg-[#002020] rounded-md p-3">
-          <h3 className="text-emerald-400 font-medium mb-2">Boosted Values</h3>
-          <div className="grid grid-cols-3 gap-2">
+        <div className="bg-black/20 border border-white/5 rounded-lg p-4">
+          <h3 className="text-emerald-400 font-medium mb-3 text-xs uppercase tracking-wider">
+            Boosted Values
+          </h3>
+          <div className="grid grid-cols-3 gap-2 mb-2">
             <div>
-              <div className="text-xs text-gray-400">XP Boost</div>
-              <div className="text-sm text-emerald-300">
+              <div className="text-[10px] text-gray-400 uppercase">
+                XP Boost
+              </div>
+              <div className="text-sm text-emerald-400 font-bold">
                 +{totalXpBoost.boostWithXP.toFixed(1)}%
               </div>
             </div>
             <div>
-              <div className="text-xs text-gray-400">Time Reduction</div>
-              <div className="text-sm text-emerald-300">
+              <div className="text-[10px] text-gray-400 uppercase">
+                Time Red.
+              </div>
+              <div className="text-sm text-emerald-400 font-bold">
                 {isInstantCraft() ? "N/A" : `-${timeReduction.toFixed(1)}%`}
               </div>
             </div>
             <div>
-              <div className="text-xs text-gray-400">Gold Boost</div>
-              <div className="text-sm text-emerald-300">
+              <div className="text-[10px] text-gray-400 uppercase">
+                Gold Boost
+              </div>
+              <div className="text-sm text-emerald-400 font-bold">
                 {hasNoGoldReward() ? "N/A" : `+${goldBoost.toFixed(1)}%`}
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-2 mt-2">
+          <div className="grid grid-cols-3 gap-2 mt-4">
             <div>
-              <div className="text-xs text-gray-400">Boosted XP</div>
-              <div className="text-sm text-white">{boostedXp.toFixed(2)}</div>
+              <div className="text-[10px] text-gray-400 uppercase">
+                Boosted XP
+              </div>
+              <div className="text-sm text-white font-mono">
+                {boostedXp.toFixed(2)}
+              </div>
             </div>
             <div>
-              <div className="text-xs text-gray-400">Boosted Time</div>
-              <div className="text-sm text-white">
+              <div className="text-[10px] text-gray-400 uppercase">
+                Boosted Time
+              </div>
+              <div className="text-sm text-white font-mono">
                 {isInstantCraft() ? "Instant" : `${boostedTime.toFixed(2)}s`}
               </div>
             </div>
             <div>
-              <div className="text-xs text-gray-400">Boosted Gold</div>
-              <div className="text-sm text-white">
+              <div className="text-[10px] text-gray-400 uppercase">
+                Boosted Gold
+              </div>
+              <div className="text-sm text-white font-mono">
                 {hasNoGoldReward() ? "N/A" : boostedGold.toFixed(1)}
               </div>
             </div>
@@ -480,57 +495,69 @@ export default function CalculationResults() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-[#002020] rounded-md p-3">
-          <h3 className="text-emerald-400 font-medium mb-2">Rates</h3>
+        <div className="bg-black/20 border border-white/5 rounded-lg p-4">
+          <h3 className="text-emerald-400 font-medium mb-3 text-xs uppercase tracking-wider">
+            Hourly Rates
+          </h3>
           {currentSkill === "fishing" ? (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-4">
               {/* Left column */}
-              <div>
-                <div className="text-xs text-gray-400">Fishing XP per Hour</div>
-                <div className="text-sm text-white">
-                  {isInstantCraft() ? "Instant" : formatNumber(xpPerHour)}
+              <div className="space-y-3">
+                <div>
+                  <div className="text-xs text-gray-400">Fishing XP / Hour</div>
+                  <div className="text-sm text-white font-mono font-bold mt-1">
+                    {isInstantCraft() ? "Instant" : formatNumber(xpPerHour)}
+                  </div>
                 </div>
-                <div className="text-xs text-gray-400 mt-4">Fish per Hour</div>
-                <div className="text-sm text-white">
-                  {formatNumber(realTasksPerHour)}
+                <div>
+                  <div className="text-xs text-gray-400">Fish / Hour</div>
+                  <div className="text-sm text-white font-mono font-bold mt-1">
+                    {formatNumber(realTasksPerHour)}
+                  </div>
                 </div>
-                <div className="text-xs text-gray-400 mt-4">Gold per Hour</div>
-                <div className="text-sm text-white">
-                  {hasNoGoldReward() ? "N/A" : formatNumber(goldPerHour)}
+                <div>
+                  <div className="text-xs text-gray-400">Gold / Hour</div>
+                  <div className="text-sm text-white font-mono font-bold mt-1">
+                    {hasNoGoldReward() ? "N/A" : formatNumber(goldPerHour)}
+                  </div>
                 </div>
               </div>
               {/* Right column */}
-              <div>
-                <div className="text-xs text-gray-400">Cooking XP per Hour</div>
-                <div className="text-sm text-white">
-                  {formatNumber(cookingXpPerHour)}
+              <div className="space-y-3">
+                <div>
+                  <div className="text-xs text-gray-400">Cooking XP / Hour</div>
+                  <div className="text-sm text-white font-mono font-bold mt-1">
+                    {formatNumber(cookingXpPerHour)}
+                  </div>
                 </div>
-                <div className="text-xs text-gray-400 mt-4">
-                  Cooked Fish per Hour
-                </div>
-                <div className="text-sm text-white">
-                  {formatNumber(cookedFishPerHour)}
+                <div>
+                  <div className="text-xs text-gray-400">
+                    Cooked Fish / Hour
+                  </div>
+                  <div className="text-sm text-white font-mono font-bold mt-1">
+                    {formatNumber(cookedFishPerHour)}
+                  </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <div className="text-xs text-gray-400">XP per Hour</div>
-                <div className="text-sm text-white">
+                <div className="text-xs text-gray-400">XP / Hour</div>
+                <div className="text-sm text-white font-mono font-bold mt-1">
                   {isInstantCraft() ? "Instant" : formatNumber(xpPerHour)}
                 </div>
               </div>
               <div>
-                <div className="text-xs text-gray-400">Gold per Hour</div>
-                <div className="text-sm text-white">
+                <div className="text-xs text-gray-400">Gold / Hour</div>
+                <div className="text-sm text-white font-mono font-bold mt-1">
                   {hasNoGoldReward() ? "N/A" : formatNumber(goldPerHour)}
                 </div>
               </div>
               {!isInstantCraft() && (
                 <div>
-                  <div className="text-xs text-gray-400">Tasks per Hour</div>
-                  <div className="text-sm text-white">
+                  <div className="text-xs text-gray-400">Tasks / Hour</div>
+                  <div className="text-sm text-white font-mono font-bold mt-1">
                     {formatNumber(adjustedTasksPerHour)}
                   </div>
                 </div>
@@ -539,13 +566,13 @@ export default function CalculationResults() {
                 <>
                   <div>
                     <div className="text-xs text-gray-400">Ores Saved/Hour</div>
-                    <div className="text-sm text-white">
+                    <div className="text-sm text-white font-mono font-bold">
                       {formatNumber(oresSavedPerHour)}
                     </div>
                   </div>
                   <div>
                     <div className="text-xs text-gray-400">Bars Saved/Hour</div>
-                    <div className="text-sm text-white">
+                    <div className="text-sm text-white font-mono font-bold">
                       {formatNumber(barsSavedPerHour)}
                     </div>
                   </div>
@@ -555,10 +582,10 @@ export default function CalculationResults() {
                 <div
                   className={currentSkill === "smithing" ? "" : "col-span-2"}
                 >
-                  <div className="text-xs text-gray-400 mt-2">
-                    XP per Hour (with XP Boost)
+                  <div className="text-xs text-gray-400 mb-1">
+                    XP / Hour (with XP Boost)
                   </div>
-                  <div className="text-sm text-white">
+                  <div className="text-sm text-emerald-400 font-mono font-bold">
                     {isInstantCraft()
                       ? "Instant"
                       : formatNumber(xpPerHourWithBoost)}
@@ -569,36 +596,34 @@ export default function CalculationResults() {
           )}
         </div>
 
-        <div className="bg-[#002020] rounded-md p-3">
-          <h3 className="text-emerald-400 font-medium mb-2">
+        <div className="bg-black/20 border border-white/5 rounded-lg p-4">
+          <h3 className="text-emerald-400 font-medium mb-3 text-xs uppercase tracking-wider">
             Target Calculations
           </h3>
-          <div className="grid grid-cols-1 gap-3">
-            <div>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center border-b border-white/5 pb-2">
               <div className="text-xs text-gray-400">Items to Craft</div>
-              <div className="text-sm text-white font-medium">
+              <div className="text-base text-white font-mono font-bold">
                 {craftsNeeded.toLocaleString()}
               </div>
             </div>
             {currentSkill === "woodcutting" && (
-              <div>
-                <div className="text-xs text-gray-400">
-                  Total Logs (including Lumberjack bonus)
-                </div>
-                <div className="text-sm text-white font-medium">
+              <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                <div className="text-xs text-gray-400">Total Logs (+Bonus)</div>
+                <div className="text-base text-white font-mono font-bold">
                   {totalLogs.toLocaleString()}
                 </div>
               </div>
             )}
-            <div>
-              <div className="text-xs text-gray-400">Total Time</div>
-              <div className="text-sm text-white font-medium">
+            <div className="flex justify-between items-center border-b border-white/5 pb-2">
+              <div className="text-xs text-gray-400">Time Required</div>
+              <div className="text-base text-white font-mono font-bold text-right">
                 {isInstantCraft() ? "Instant" : formatTime(totalTimeSecs)}
               </div>
             </div>
-            <div>
-              <div className="text-xs text-gray-400">Total Gold</div>
-              <div className="text-sm text-white font-medium">
+            <div className="flex justify-between items-center">
+              <div className="text-xs text-gray-400">Total Gold Value</div>
+              <div className="text-base text-emerald-400 font-mono font-bold">
                 {hasNoGoldReward()
                   ? "N/A"
                   : totalGold.toLocaleString(undefined, {

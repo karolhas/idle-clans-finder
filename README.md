@@ -1,4 +1,4 @@
-# 🎮 Idle Clans Finder
+# 🎮 Idle Clans Hub
 
 A powerful web application for searching and viewing detailed player statistics, skills, and local market upgrades for Idle Clans players.
 
@@ -40,9 +40,9 @@ A powerful web application for searching and viewing detailed player statistics,
 
 ## 💎 Future Enhancements
 
-- 📈 **Ranking with filters** - showing top200 players in different game modes and skills
+- 📈 **Ranking with filters** - showing top500 players in different game modes and skills (game shows only top100)
 - 🪧 **Your Next Skill** - points you towards what is needed for next cape
-- **Profit Maker (Market extension)** - shows what can be done with selected items and what the best profit is
+- 🪙 **Profit Maker (Market extension)** - shows what can be done with selected items and what the best profit is
 
 ## 🚀 Getting Started
 

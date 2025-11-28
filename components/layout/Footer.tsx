@@ -13,6 +13,7 @@ export default function Footer() {
                     <a
                         href="https://github.com/karolhas"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="text-emerald-400 hover:text-emerald-300"
                     >
                         HSK
