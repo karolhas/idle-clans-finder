@@ -5,7 +5,12 @@ import {
   fetchItemComprehensive,
   fetchLatestMarketPrices,
 } from "@/lib/api/market";
-import type { ItemComprehensive, LatestPriceEntry } from "@/types/market.types";
+import type {
+  ItemComprehensive,
+  LatestPriceEntry,
+  ProfitableRow,
+  UnderpricedRow,
+} from "@/types/market.types";
 import {
   computeGameSell,
   getIndexedItem,
@@ -14,36 +19,13 @@ import {
   getNegotiationPotionId,
 } from "@/utils/market";
 
-export interface ProfitableRow {
-  itemId: number;
-  name: string;
-  baseValue: number;
-  gameSell: number;
-  currentPrice: number;
-  profitEach: number;
-  profitPercent: number;
-  volume?: number | null;
-}
-
-export interface UnderpricedRow {
-  itemId: number;
-  name: string;
-  averagePrice1d: number;
-  currentPrice: number;
-  priceRatio: number;
-  priceDiff: number;
-  volume?: number | null;
-}
-
 interface UseMarketDataResult {
   loading: boolean;
   error: string | null;
   profitable: ProfitableRow[];
   underpriced: UnderpricedRow[];
   refresh: () => Promise<void>;
-  fetchVolumeFor: (
-    itemId: number
-  ) => Promise<{
+  fetchVolumeFor: (itemId: number) => Promise<{
     volumeAtLowest: number | null;
     details: ItemComprehensive | null;
   }>; // used by tables
@@ -119,7 +101,7 @@ export const useMarketData = (
       const gameSell = computeGameSell(base.value, clan10, potion5);
 
       // Profitable (only items that can be sold to game)
-      const canSell = (base as any).canSellToGame !== false;
+      const canSell = base.canSellToGame !== false;
       const profitEach = gameSell - lowest;
       if (canSell && profitEach > 0) {
         const profitPercent = (profitEach / lowest) * 100;
@@ -165,6 +147,7 @@ export const useMarketData = (
     try {
       data = await fetchItemComprehensive(itemId);
     } catch (err) {
+      console.error("Error fetching volume for item", itemId, err);
       return { volumeAtLowest: null, details: null };
     }
     const volumeAtLowest = findVolumeAtLowest(data?.lowestPrices);

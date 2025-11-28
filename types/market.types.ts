@@ -38,4 +38,23 @@ export interface IndexedItem {
   canSellToGame?: boolean;
 }
 
+export interface ProfitableRow {
+  itemId: number;
+  name: string;
+  baseValue: number;
+  gameSell: number;
+  currentPrice: number;
+  profitEach: number;
+  profitPercent: number;
+  volume?: number | null;
+}
 
+export interface UnderpricedRow {
+  itemId: number;
+  name: string;
+  averagePrice1d: number;
+  currentPrice: number;
+  priceRatio: number;
+  priceDiff: number;
+  volume?: number | null;
+}
