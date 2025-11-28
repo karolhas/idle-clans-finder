@@ -129,7 +129,7 @@ export default function CalculatorPage() {
     <main className="min-h-screen bg-[#031111] py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search Card */}
-        <div className="w-full mx-auto relative overflow-hidden rounded-2xl border-2 border-emerald-700/30 bg-gradient-to-br from-[#001515] to-[#001212] p-6 md:p-8 shadow-[0_0_40px_rgba(16,185,129,0.1)] mb-8">
+        <div className="w-full mx-auto relative overflow-hidden rounded-2xl border-2 border-emerald-700/30 bg-gradient-to-br from-[#001515] to-[#001212] p-4 md:p-8 shadow-[0_0_40px_rgba(16,185,129,0.1)] mb-8">
           {/* Background Glow Effects */}
           <div className="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />

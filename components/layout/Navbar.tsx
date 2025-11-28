@@ -10,7 +10,6 @@ import {
   FaCalculator,
   FaStore,
   FaListAlt,
-  FaLevelUpAlt,
   FaHome,
 } from "react-icons/fa";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
@@ -58,11 +57,11 @@ export default function Navbar() {
       icon: <FaListAlt className="mr-1.5" />,
       text: "Logs",
     },
-    {
-      href: "/next-skill",
-      icon: <FaLevelUpAlt className="mr-1.5" />,
-      text: "Next Skill",
-    },
+    // {
+    //   href: "/next-skill",
+    //   icon: <FaLevelUpAlt className="mr-1.5" />,
+    //   text: "Next Skill",
+    // },
   ];
 
   return (

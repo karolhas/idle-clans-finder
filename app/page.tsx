@@ -5,7 +5,6 @@ import {
   FaCalculator,
   FaStore,
   FaListAlt,
-  FaLevelUpAlt,
   FaSearch,
   FaUsers,
   FaTrophy,
@@ -81,14 +80,14 @@ export default function Home() {
       href: "/logs",
       color: "emerald",
     },
-    {
-      title: "Next Skill",
-      description:
-        "Find out which skill you should train next based on efficiency and requirements.",
-      icon: <FaLevelUpAlt className="w-6 h-6" />,
-      href: "/next-skill",
-      color: "emerald",
-    },
+    // {
+    //   title: "Next Skill",
+    //   description:
+    //     "Find out which skill you should train next based on efficiency and requirements.",
+    //   icon: <FaLevelUpAlt className="w-6 h-6" />,
+    //   href: "/next-skill",
+    //   color: "emerald",
+    // },
   ];
 
   return (
