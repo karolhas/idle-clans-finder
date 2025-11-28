@@ -18,7 +18,7 @@ export default function Home() {
   const stats = [
     {
       title: "Players Online",
-      value: "624", // Mock data
+      value: "767", // Mock data
       subtitle: "Playing",
       icon: <FaUsers className="w-5 h-5" />,
       trend: "Right Now",
@@ -32,10 +32,10 @@ export default function Home() {
     },
     {
       title: "Website Visitors",
-      value: "1.2k", // Mock data
+      value: "5,6k", // Mock data
       subtitle: "This month",
       icon: <FaGlobe className="w-5 h-5" />,
-      trend: "+15%",
+      trend: "+11,7%",
     },
   ];
 
