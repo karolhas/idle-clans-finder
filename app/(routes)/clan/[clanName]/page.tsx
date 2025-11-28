@@ -3,8 +3,11 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import ClanInfoModal from "@/components/modals/ClanInfoModal";
-import ClanSkillDisplay from "@/components/skills/ClanSkillDisplay";
+import ClanHeader from "@/components/clan/ClanHeader";
+import ClanMembersList from "@/components/clan/ClanMembersList";
+import ClanDetailsCard from "@/components/clan/ClanDetailsCard";
+import ClanUpgradesGrid from "@/components/clan/ClanUpgradesGrid";
+import ClanSkills from "@/components/clan/ClanSkills";
 import { useSearchStore } from "@/lib/store/searchStore";
 import UnifiedSearch from "@/components/search/UnifiedSearch";
 
@@ -222,21 +225,32 @@ export default function ClanPage() {
             )}
 
             {clanData && (
-              <div className="mt-8">
-                <ClanInfoModal
-                  isOpen={false}
-                  standalone={true}
-                  onClose={() => {}}
-                  clanName={decodeURIComponent(clanName)}
-                  memberCount={clanData.memberlist?.length || 0}
-                  clanData={clanData}
-                />
+              <div className="mt-8 space-y-8 animate-fade-in">
+                <div
+                  className={`relative bg-white/5 p-6 md:p-8 rounded-2xl border-2 border-white/10 hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group w-full shadow-2xl backdrop-blur-xl animate-fade-in`}
+                >
+                  <ClanHeader
+                    clanName={decodeURIComponent(clanName)}
+                    memberCount={clanData.memberlist?.length || 0}
+                    clanData={clanData}
+                  />
 
-                {clanData.skills && (
-                  <div className="mt-6">
-                    <ClanSkillDisplay skills={clanData.skills} />
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <ClanMembersList
+                      clanData={clanData}
+                      clanName={decodeURIComponent(clanName)}
+                    />
+                    <ClanDetailsCard clanData={clanData} />
                   </div>
+                </div>
+
+                {clanData.serializedUpgrades && (
+                  <ClanUpgradesGrid
+                    serializedUpgrades={clanData.serializedUpgrades}
+                  />
                 )}
+
+                {clanData.skills && <ClanSkills skills={clanData.skills} />}
               </div>
             )}
           </>

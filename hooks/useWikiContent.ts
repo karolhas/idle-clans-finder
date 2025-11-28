@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import DOMPurify from 'dompurify';
+import { useState, useEffect } from "react";
+import DOMPurify from "dompurify";
 
 interface WikiContent {
   html: string;
@@ -27,38 +27,43 @@ export function useWikiContent(itemName: string) {
         // 1. Split into words
         // 2. Capitalize first letter of first word only
         // 3. Join with underscores
-        const formattedName = itemName
-          .split(' ')
-          .map((word, index) => 
-            index === 0 
-              ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-              : word.toLowerCase()
-          )
-          .join('_');
+        // 4. Handle special cases where input might already be formatted or needs specific handling
 
-        console.log('Fetching wiki content for:', formattedName); // Debug log
+        let formattedName = itemName;
+
+        // Only apply standard formatting if it's not a pre-formatted special case (like "Godlike_battleaxe")
+        if (!itemName.includes("_")) {
+          formattedName = itemName
+            .split(" ")
+            .map((word, index) =>
+              index === 0
+                ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                : word.toLowerCase()
+            )
+            .join("_");
+        }
+
+        console.log("Fetching wiki content for:", formattedName); // Debug log
 
         // Use our proxy API route
-        const response = await fetch(
-          `/api/wiki?page=${formattedName}`
-        );
+        const response = await fetch(`/api/wiki?page=${formattedName}`);
 
         if (!response.ok) {
-          throw new Error('Failed to fetch wiki content');
+          throw new Error("Failed to fetch wiki content");
         }
 
         const data = await response.json();
-        console.log('Wiki API response:', data); // Debug log
+        console.log("Wiki API response:", data); // Debug log
 
         if (data.error) {
-          if (data.error.code === 'missingtitle') {
-            throw new Error('Item not found in wiki');
+          if (data.error.code === "missingtitle") {
+            throw new Error("Item not found in wiki");
           }
-          throw new Error(data.error.info || 'Failed to fetch wiki content');
+          throw new Error(data.error.info || "Failed to fetch wiki content");
         }
 
         if (!data.parse) {
-          throw new Error('Page not found');
+          throw new Error("Page not found");
         }
 
         // Remove debug logs
@@ -66,50 +71,76 @@ export function useWikiContent(itemName: string) {
         // console.log('Raw HTML before processing:', data.parse.text['*']);
 
         // Sanitize the HTML content
-        const sanitizedHtml = DOMPurify.sanitize(data.parse.text['*'], {
-          ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'table', 'tr', 'td', 'th', 'img', 'a', 'b', 'i', 'em', 'strong'],
-          ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'rowspan'],
-          FORBID_TAGS: ['style', 'script'],
-          FORBID_ATTR: ['onerror', 'onload'],
+        const sanitizedHtml = DOMPurify.sanitize(data.parse.text["*"], {
+          ALLOWED_TAGS: [
+            "p",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "ul",
+            "ol",
+            "li",
+            "table",
+            "tr",
+            "td",
+            "th",
+            "img",
+            "a",
+            "b",
+            "i",
+            "em",
+            "strong",
+          ],
+          ALLOWED_ATTR: ["href", "src", "alt", "title", "class", "rowspan"],
+          FORBID_TAGS: ["style", "script"],
+          FORBID_ATTR: ["onerror", "onload"],
         });
 
         // Process the HTML to remove unwanted sections and text
         const processedHtml = sanitizedHtml
           // Remove Contents section
-          .replace(/<h2[^>]*>Contents(?:\[<a[^>]*>edit<\/a> \| <a[^>]*>edit source<\/a>\])?<\/h2>/g, '')
+          .replace(
+            /<h2[^>]*>Contents(?:\[<a[^>]*>edit<\/a> \| <a[^>]*>edit source<\/a>\])?<\/h2>/g,
+            ""
+          )
           // Remove all TOC elements
-          .replace(/<ul[^>]*>[\s\S]*?<li[^>]*class="toclevel[^"]*"[\s\S]*?<\/ul>/g, '')
-          .replace(/<li[^>]*class="toclevel[^"]*"[^>]*>[\s\S]*?<\/li>/g, '')
+          .replace(
+            /<ul[^>]*>[\s\S]*?<li[^>]*class="toclevel[^"]*"[\s\S]*?<\/ul>/g,
+            ""
+          )
+          .replace(/<li[^>]*class="toclevel[^"]*"[^>]*>[\s\S]*?<\/li>/g, "")
           // Remove all edit source links
-          .replace(/\[<a[^>]*>edit<\/a> \| <a[^>]*>edit source<\/a>\]/g, '')
+          .replace(/\[<a[^>]*>edit<\/a> \| <a[^>]*>edit source<\/a>\]/g, "")
           // Remove the word "Combat"
-          .replace(/>Combat</g, '><')
+          .replace(/>Combat</g, "><")
           // Handle thumbnail paths like /images/thumb/1/10/Gold.png/20px-Gold.png
           .replace(
             /\/images\/thumb\/[^/]+\/[^/]+\/([^/]+)\.png\/[^\"]+/g,
             (match, filename) => {
-              const localFilename = filename.toLowerCase().replace(/\s+/g, '_');
+              const localFilename = filename.toLowerCase().replace(/\s+/g, "_");
               return `/gameimages/${localFilename}.png`;
             }
           )
           // Handle direct file paths like /index.php/File:Gold.png
-          .replace(
-            /\/index.php\/File:([^"]+)\.png/g,
-            (match, filename) => {
-              const localFilename = filename.toLowerCase().replace(/\s+/g, '_');
-              return `/gameimages/${localFilename}.png`;
-            }
-          );
-
+          .replace(/\/index.php\/File:([^"]+)\.png/g, (match, filename) => {
+            const localFilename = filename.toLowerCase().replace(/\s+/g, "_");
+            return `/gameimages/${localFilename}.png`;
+          });
 
         setContent({
           html: processedHtml,
-          title: data.parse.title
+          title: data.parse.title,
         });
       } catch (err) {
-        console.error('Wiki content error:', err);
+        console.error("Wiki content error:", err);
         setError({
-          message: err instanceof Error ? err.message : 'An error occurred while fetching wiki content'
+          message:
+            err instanceof Error
+              ? err.message
+              : "An error occurred while fetching wiki content",
         });
       } finally {
         setIsLoading(false);
@@ -120,4 +151,4 @@ export function useWikiContent(itemName: string) {
   }, [itemName]);
 
   return { content, error, isLoading };
-} 
+}

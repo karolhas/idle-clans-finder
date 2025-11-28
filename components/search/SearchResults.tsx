@@ -10,7 +10,6 @@ import SkillDisplay from "@/components/skills/SkillDisplay";
 import UpgradesDisplay from "@/components/upgrades/UpgradesDisplay";
 import EquipmentDisplay from "@/components/player/EquipmentDisplay";
 import ClanInfoModal from "@/components/modals/ClanInfoModal";
-import AdvancedPlayerInfoModal from "@/components/modals/AdvancedPlayerInfoModal";
 
 // types
 import { Player } from "@/types/player.types";
@@ -42,7 +41,6 @@ export default function SearchResults({
 }: SearchResultsProps) {
   const [memberCount, setMemberCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAdvancedModalOpen, setIsAdvancedModalOpen] = useState(false);
   const [clanData, setClanData] = useState<ClanData | null>(null);
 
   const router = useRouter();
@@ -119,7 +117,7 @@ export default function SearchResults({
     <div className="mt-8 animate-fade-in">
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-6">
-          <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 relative backdrop-blur-md shadow-xl hover:border-emerald-500/30 transition-all duration-300">
+          <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 relative backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group">
             {tag && (
               <span
                 className={`absolute top-0 right-0 px-4 py-2 ${tag.color} ${tag.border} text-white text-sm font-bold shadow-md flex items-center rounded-bl-xl rounded-tr-xl`}
@@ -136,7 +134,7 @@ export default function SearchResults({
               </span>
             )}
             <div className="mb-6">
-              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
+              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-300 group-hover:text-teal-400 transition-colors">
                 Player Info
               </h2>
             </div>
@@ -207,20 +205,14 @@ export default function SearchResults({
                   : "Unknown"}
               </span>
             </p>
-            <button
-              className="w-full mt-6 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-emerald-400 font-medium hover:bg-emerald-600 hover:text-white hover:border-emerald-500 transition-all duration-300 shadow-lg shadow-black/20"
-              onClick={() => setIsAdvancedModalOpen(true)}
-            >
-              View Advanced Info
-            </button>
           </div>
 
           <div
-            className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl cursor-pointer hover:bg-white/10 hover:border-emerald-500/50 hover:shadow-emerald-900/20 transition-all duration-300 group"
+            className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl cursor-pointer hover:bg-white/10 hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group"
             onClick={() => setIsModalOpen(true)}
           >
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400 group-hover:text-emerald-300 transition-colors">
+              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-300 group-hover:text-teal-400 transition-colors">
                 Clan Info
               </h2>
               <FaInfoCircle className="text-xl text-emerald-400 group-hover:scale-110 transition-transform" />
@@ -241,8 +233,8 @@ export default function SearchResults({
         </div>
 
         <div className="col-span-1 md:col-span-2 xl:col-span-2">
-          <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 h-full backdrop-blur-md shadow-xl hover:border-emerald-500/30 transition-all duration-300">
-            <h2 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
+          <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 h-full backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group">
+            <h2 className="text-2xl mb-6 font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-300 group-hover:text-teal-400 transition-colors">
               Equipment
             </h2>
             <EquipmentDisplay equipment={player.equipment} />
@@ -251,15 +243,15 @@ export default function SearchResults({
       </div>
 
       <div className="space-y-6 mt-6">
-        <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl hover:border-emerald-500/30 transition-all duration-300">
-          <h2 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
+        <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group">
+          <h2 className="text-2xl mb-6 font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-300 group-hover:text-teal-400 transition-colors">
             PvM Stats
           </h2>
           <PvmStatsDisplay stats={player.pvmStats} />
         </div>
 
-        <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl hover:border-emerald-500/30 transition-all duration-300">
-          <h2 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
+        <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group">
+          <h2 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-300 group-hover:text-teal-400 transition-colors">
             Skills
           </h2>
           <p className="text-gray-300 mb-6">
@@ -276,8 +268,8 @@ export default function SearchResults({
           <SkillDisplay skills={player.skillExperiences} />
         </div>
 
-        <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl hover:border-emerald-500/30 transition-all duration-300">
-          <h2 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
+        <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group">
+          <h2 className="text-2xl mb-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-300 group-hover:text-teal-400 transition-colors">
             Local Market Upgrades
           </h2>
           <UpgradesDisplay upgrades={player.upgrades} />
@@ -301,15 +293,6 @@ export default function SearchResults({
         }
         onSearchMember={onSearchMember}
         onSearchClan={onSearchClan}
-      />
-
-      <AdvancedPlayerInfoModal
-        isOpen={isAdvancedModalOpen}
-        onClose={() => setIsAdvancedModalOpen(false)}
-        playerData={{
-          equipment: player.equipment || {},
-          enchantmentBoosts: player.enchantmentBoosts || {},
-        }}
       />
     </div>
   );

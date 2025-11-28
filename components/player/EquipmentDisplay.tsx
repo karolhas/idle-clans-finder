@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import { Tooltip } from "react-tooltip";
 import { Equipment } from "@/types/player.types";
@@ -11,6 +11,7 @@ import {
 import { getItemStats, ItemStats } from "@/utils/itemStats";
 import { FaFistRaised } from "react-icons/fa";
 import { GiMagicSwirl, GiBowman } from "react-icons/gi";
+import { WikiModal } from "../modals/WikiModal";
 
 interface EquipmentDisplayProps {
   equipment?: Equipment;
@@ -26,6 +27,8 @@ interface StatRowProps {
 }
 
 export default function EquipmentDisplay({ equipment }: EquipmentDisplayProps) {
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
   const equipmentData = useMemo(() => {
     const defaultStats: ItemStats = {
       strength: 0,
@@ -87,6 +90,37 @@ export default function EquipmentDisplay({ equipment }: EquipmentDisplayProps) {
     return { stats: totalStats, items };
   }, [equipment]);
 
+  const handleItemClick = (slot: string) => {
+    const item = equipmentData.items[slot];
+    if (!item || !item.rawName) return;
+
+    let searchName = item.rawName;
+
+    // Special handling for pets to remove tier info
+    if (slot === "pet" && item.name) {
+      searchName = item.name.replace(/ \(Tier \d+\)/, "");
+    }
+
+    if (searchName) {
+      // Handle enchanted items by redirecting to Enchanting page
+      if (/enchanted/i.test(searchName)) {
+        setSelectedItem("Enchanting");
+        return;
+      }
+
+      // Handle special item name mappings
+      if (searchName === "Belt of the Moon") {
+        setSelectedItem("Lunar Belt");
+      } else {
+        setSelectedItem(searchName);
+      }
+    }
+  };
+
+  const handleCloseWiki = () => {
+    setSelectedItem(null);
+  };
+
   const renderSlot = (slot: string) => {
     const item = equipmentData.items[slot];
     const hasItem = !!item?.name;
@@ -97,10 +131,13 @@ export default function EquipmentDisplay({ equipment }: EquipmentDisplayProps) {
       <div className="flex flex-col items-center gap-1">
         <div className="relative group">
           <div
-            className={`sm:w-[72px] sm:h-[72px] w-16 h-16 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center relative hover:border-emerald-500/50 transition-all duration-300 ${
-              isEnchanted ? "ring-1 ring-blue-400/30" : ""
-            }`}
+            className={`sm:w-[72px] sm:h-[72px] w-14 h-14 bg-black/30 border border-white/10 rounded-xl flex items-center justify-center relative transition-all duration-300 ${
+              hasItem
+                ? "hover:border-emerald-500/50 cursor-pointer"
+                : "hover:border-white/20"
+            } ${isEnchanted ? "ring-1 ring-blue-400/30" : ""}`}
             data-tooltip-id={tooltipId}
+            onClick={() => hasItem && handleItemClick(slot)}
           >
             {hasItem && item.image ? (
               <Image
@@ -160,19 +197,25 @@ export default function EquipmentDisplay({ equipment }: EquipmentDisplayProps) {
           <span className="text-[8px] uppercase tracking-wider opacity-60 mb-0.5 font-semibold">
             Str
           </span>
-          <span className="font-mono font-medium text-xs">{strength}</span>
+          <span className="font-mono font-medium text-xs sm:text-sm">
+            {strength}
+          </span>
         </div>
         <div className="flex flex-col items-center bg-black/20 rounded p-1">
           <span className="text-[8px] uppercase tracking-wider opacity-60 mb-0.5 font-semibold">
             Acc
           </span>
-          <span className="font-mono font-medium text-xs">{accuracy}</span>
+          <span className="font-mono font-medium text-xs sm:text-sm">
+            {accuracy}
+          </span>
         </div>
         <div className="flex flex-col items-center bg-black/20 rounded p-1">
           <span className="text-[8px] uppercase tracking-wider opacity-60 mb-0.5 font-semibold">
             Def
           </span>
-          <span className="font-mono font-medium text-xs">{defence}</span>
+          <span className="font-mono font-medium text-xs sm:text-sm">
+            {defence}
+          </span>
         </div>
       </div>
     </div>
@@ -192,7 +235,7 @@ export default function EquipmentDisplay({ equipment }: EquipmentDisplayProps) {
         </div>
 
         {/* Main Gear Grid */}
-        <div className="grid grid-cols-3 gap-x-4 order-1 sm:order-2">
+        <div className="grid grid-cols-3 gap-x-3 gap-y-3 order-1 sm:order-2">
           {renderSlot("pet")}
           {renderSlot("head")}
           {renderSlot("cape")}
@@ -217,7 +260,7 @@ export default function EquipmentDisplay({ equipment }: EquipmentDisplayProps) {
           strength={equipmentData.stats.strength}
           accuracy={equipmentData.stats.accuracy}
           defence={equipmentData.stats.defence}
-          colorClass="text-orange-400 border-orange-500/20 bg-orange-500/5"
+          colorClass="text-orange-400 border-orange-500/20 bg-orange-900/20"
         />
         <StatRow
           label="Ranged"
@@ -225,7 +268,7 @@ export default function EquipmentDisplay({ equipment }: EquipmentDisplayProps) {
           strength={equipmentData.stats.archeryStrength}
           accuracy={equipmentData.stats.archeryAccuracy}
           defence={equipmentData.stats.archeryDefence}
-          colorClass="text-cyan-400 border-cyan-500/20 bg-cyan-500/5"
+          colorClass="text-cyan-400 border-cyan-500/20 bg-cyan-900/20"
         />
         <StatRow
           label="Magic"
@@ -233,9 +276,19 @@ export default function EquipmentDisplay({ equipment }: EquipmentDisplayProps) {
           strength={equipmentData.stats.magicStrength}
           accuracy={equipmentData.stats.magicAccuracy}
           defence={equipmentData.stats.magicDefence}
-          colorClass="text-fuchsia-400 border-fuchsia-500/20 bg-fuchsia-500/5"
+          colorClass="text-fuchsia-400 border-fuchsia-500/20 bg-fuchsia-900/20"
         />
       </div>
+
+      {selectedItem && (
+        <div className="wiki-modal">
+          <WikiModal
+            isOpen={!!selectedItem}
+            onClose={handleCloseWiki}
+            itemName={selectedItem}
+          />
+        </div>
+      )}
     </div>
   );
 }

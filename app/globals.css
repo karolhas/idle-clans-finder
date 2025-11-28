@@ -8,15 +8,15 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: #00202020;
+    background: rgba(2, 44, 34, 0.2);
     border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #004040;
+    background: #065f46;
     border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #005050;
+    background: #10b981;
 }
