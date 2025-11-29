@@ -33,6 +33,25 @@ export default function GeneralBuffs() {
             setGeneralBuff("offerTheyCanRefuse", true);
           }
         }
+
+        // Set clan housing tier from houseId
+        if (clanData && clanData.houseId !== undefined) {
+          // Map houseId (0-6) to tier value ('none', 't1', 't2', etc.)
+          const houseTierMap: Record<number, string> = {
+            0: "none",
+            1: "t1",
+            2: "t2",
+            3: "t3",
+            4: "t4",
+            5: "t5",
+            6: "t6",
+          };
+
+          const houseTier = houseTierMap[clanData.houseId] || "none";
+          if (houseTier !== generalBuffs.clanHouse) {
+            setGeneralBuff("clanHouse", houseTier);
+          }
+        }
       } catch (error) {
         console.error("Error fetching clan upgrades:", error);
       } finally {
@@ -41,7 +60,7 @@ export default function GeneralBuffs() {
     };
 
     checkClanUpgrades();
-  }, [state.clanName, setGeneralBuff]);
+  }, [state.clanName, setGeneralBuff, generalBuffs.offerTheyCanRefuse, generalBuffs.clanHouse]);
 
   return (
     <div className="bg-black/60 p-6 rounded-2xl border-2 border-white/10 relative backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group">
