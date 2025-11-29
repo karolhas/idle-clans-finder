@@ -47,12 +47,7 @@ export default function GeneralBuffs() {
     };
 
     checkClanUpgrades();
-  }, [
-    state.clanName,
-    setGeneralBuff,
-    generalBuffs.offerTheyCanRefuse,
-    generalBuffs.clanHouse,
-  ]);
+  }, [state.clanName, setGeneralBuff, generalBuffs.offerTheyCanRefuse]);
 
   return (
     <div className="bg-black/60 p-6 rounded-2xl border-2 border-white/10 relative backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group">
