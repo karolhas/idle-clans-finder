@@ -33,6 +33,12 @@ export default function GeneralBuffs() {
             setGeneralBuff("offerTheyCanRefuse", true);
           }
         }
+
+        // Set clan housing tier from houseId
+        if (clanData?.houseId !== undefined) {
+          const houseTier = CLAN_HOUSE_TIERS[clanData.houseId + 1];
+          setGeneralBuff("clanHouse", houseTier.value);
+        }
       } catch (error) {
         console.error("Error fetching clan upgrades:", error);
       } finally {
@@ -41,7 +47,7 @@ export default function GeneralBuffs() {
     };
 
     checkClanUpgrades();
-  }, [state.clanName, setGeneralBuff]);
+  }, [state.clanName, setGeneralBuff, generalBuffs.offerTheyCanRefuse]);
 
   return (
     <div className="bg-black/60 p-6 rounded-2xl border-2 border-white/10 relative backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group">
