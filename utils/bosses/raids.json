@@ -1,0 +1,184 @@
+{
+  "raids": [
+    {
+      "name": "guardians_of_the_citadel",
+      "displayName": "Guardians of the Citadel",
+      "type": "defense",
+      "description": "A defense-focused raid where players must protect the Citadel from waves of enemies while managing resources and upgrading defenses.",
+      "skills": {
+        "required": {},
+        "recommended": {
+          "foraging": 75,
+          "farming": 75,
+          "brewing": 75,
+          "woodcutting": 75,
+          "carpentry": 75,
+          "crafting": 75
+        }
+      },
+      "mechanics": {
+        "waves": "Multiple waves",
+        "resourceManagement": true,
+        "defenseUpgrades": true,
+        "citadelHealth": "Must be protected",
+        "enemyTypes": ["Various enemies"],
+        "skillBreakpoints": "Higher skill levels increase contribution percentage"
+      },
+      "requirements": {
+        "normal": {},
+        "ironman": {}
+      },
+      "drops": [
+        {"item": "Guardian's lamp", "quantity": "1", "chance": "0.1%", "value": "175,000"},
+        {"item": "Guardian's brewing spoon", "quantity": "1", "chance": "0.1%", "value": "175,000"},
+        {"item": "Guardian's trowel", "quantity": "1", "chance": "0.1%", "value": "175,000"},
+        {"item": "Guardian's mallet", "quantity": "1", "chance": "0.1%", "value": "175,000"},
+        {"item": "Guardian's chisel", "quantity": "1", "chance": "0.1%", "value": "175,000"},
+        {"item": "Citadel's woodworking tips", "quantity": "1", "chance": "0.25%", "value": "200,000"},
+        {"item": "Grouping techniques", "quantity": "1", "chance": "0.5%", "value": "175,000"},
+        {"item": "Platinum ore", "quantity": "20-40", "chance": "3%", "value": "62"},
+        {"item": "Meteorite ore", "quantity": "10-30", "chance": "3%", "value": "105"},
+        {"item": "Gold ore", "quantity": "50-100", "chance": "4%", "value": "52"},
+        {"item": "Cabbage seed", "quantity": "10-20", "chance": "4%", "value": "15"},
+        {"item": "Strawberry seed", "quantity": "10-15", "chance": "4%", "value": "30"},
+        {"item": "Watermelon seed", "quantity": "8-14", "chance": "4%", "value": "60"},
+        {"item": "Grape seed", "quantity": "8-12", "chance": "4%", "value": "80"},
+        {"item": "Papaya seed", "quantity": "4-8", "chance": "4%", "value": "100"},
+        {"item": "Magical flax", "quantity": "75-150", "chance": "4%", "value": "15"},
+        {"item": "Blueberry", "quantity": "75-125", "chance": "4%", "value": "16"},
+        {"item": "Enchanted flax", "quantity": "60-115", "chance": "4%", "value": "18"},
+        {"item": "Porcini", "quantity": "50-100", "chance": "4%", "value": "24"},
+        {"item": "Pine log", "quantity": "75-150", "chance": "4%", "value": "10"},
+        {"item": "Oak log", "quantity": "70-125", "chance": "4%", "value": "13"},
+        {"item": "Maple log", "quantity": "60-115", "chance": "4%", "value": "16"},
+        {"item": "Teak log", "quantity": "50-100", "chance": "4%", "value": "20"},
+        {"item": "Oak log", "quantity": "40-80", "chance": "4%", "value": "40"},
+        {"item": "Yew log", "quantity": "25-50", "chance": "4%", "value": "55"},
+        {"item": "Coal ore", "quantity": "75-150", "chance": "6%", "value": "11"},
+        {"item": "Leather", "quantity": "100-200", "chance": "10%", "value": "50"},
+        {"item": "Gold", "quantity": "20,000-30,000", "chance": "12.75%", "value": "20,000-30,000"}
+      ]
+    },
+    {
+      "name": "reckoning_of_the_gods",
+      "displayName": "Reckoning of the Gods",
+      "type": "combat",
+      "description": "A resource gathering and combat raid where players collect resources and forge equipment before battling powerful gods in multiple phases.",
+      "skills": {
+        "required": {},
+        "recommended": {
+          "cooking": 85,
+          "plundering": 90,
+          "fishing": 90,
+          "attack": 90,
+          "strength": 90,
+          "defence": 90,
+          "archery": 90,
+          "magic": 90,
+          "health": 90
+        }
+      },
+      "mechanics": {
+        "resourceGathering": "Time-limited phase for gathering and crafting equipment",
+        "combatPhases": "5 battles + final boss battle",
+        "equipmentForging": "Smithing, Crafting, Plundering for gear",
+        "foodPreparation": "Fishing and Cooking for healing",
+        "partySize": "1-6 players (affects enemy count)",
+        "externalEquipment": "Not allowed - must use raid-forged gear"
+      },
+      "requirements": {
+        "normal": {
+          "valleyOfGodsKills": 25
+        },
+        "ironman": {
+          "valleyOfGodsKills": 25
+        }
+      },
+      "drops": [
+        {"item": "Infernal club", "quantity": "1", "chance": "0.05%", "value": "10,000,000"},
+        {"item": "Viperstrike scimitar", "quantity": "1", "chance": "0.05%", "value": "10,000,000"},
+        {"item": "Eagleclaw battle-axe", "quantity": "1", "chance": "0.05%", "value": "10,000,000"},
+        {"item": "Stygian longsword", "quantity": "1", "chance": "0.05%", "value": "10,000,000"},
+        {"item": "Thunderbolt bow", "quantity": "1", "chance": "0.05%", "value": "10,000,000"},
+        {"item": "Divine staff", "quantity": "1", "chance": "0.05%", "value": "10,000,000"},
+        {"item": "Bulwark shield", "quantity": "1", "chance": "0.2%", "value": "20,000"},
+        {"item": "Divine buckler", "quantity": "1", "chance": "0.25%", "value": "50,000"},
+        {"item": "Dragon slayer's crossbow", "quantity": "1", "chance": "0.25%", "value": "50,000"},
+        {"item": "Astaroth's scimitar", "quantity": "1", "chance": "0.25%", "value": "50,000"},
+        {"item": "Sorcerer's staff", "quantity": "1", "chance": "0.25%", "value": "50,000"},
+        {"item": "Astronomical gloves", "quantity": "1", "chance": "0.5%", "value": "55,000"},
+        {"item": "Astronomical boots", "quantity": "1", "chance": "0.5%", "value": "72,000"},
+        {"item": "Warrior's helmet", "quantity": "1", "chance": "1%", "value": "15,000"},
+        {"item": "Warrior's toolbelt", "quantity": "1", "chance": "1%", "value": "25,000"},
+        {"item": "Archer's toolbelt", "quantity": "1", "chance": "1%", "value": "25,000"},
+        {"item": "Mage's toolbelt", "quantity": "1", "chance": "1%", "value": "25,000"},
+        {"item": "Archer's shield", "quantity": "1", "chance": "1%", "value": "12,000"},
+        {"item": "Astronomical flax", "quantity": "1", "chance": "2%", "value": "10,000"},
+        {"item": "Astronomical leather", "quantity": "1", "chance": "2%", "value": "10,000"},
+        {"item": "Mountain key", "quantity": "1", "chance": "5%", "value": "10,000"},
+        {"item": "Burning key", "quantity": "1", "chance": "5%", "value": "10,000"},
+        {"item": "Underworld key", "quantity": "1", "chance": "5%", "value": "10,000"},
+        {"item": "Godly key", "quantity": "1", "chance": "5%", "value": "10,000"},
+        {"item": "Stone key", "quantity": "1", "chance": "5%", "value": "10,000"},
+        {"item": "Mutated key", "quantity": "1", "chance": "5%", "value": "10,000"},
+        {"item": "Gold", "quantity": "10,000-20,000", "chance": "58.5%", "value": "10,000-20,000"}
+      ]
+    },
+    {
+      "name": "bloodmoon_massacre",
+      "displayName": "Bloodmoon Massacre",
+      "type": "survival",
+      "description": "Bloodmoon massacre is a raid that can be taken on in a party of 1 to 6 players. Infinite waves until your party inevitably falls. Each wave is harder than the last and the further you get, the better your chances at lucrative rewards. You'll bring your own equipment into this raid. Additionally, you can by default bring up to 4 equipable items into the raid with you. This is doubled to 8 with the Bloodmoon preparation upgrade.",
+      "skills": {
+        "required": {},
+        "recommended": {
+          "combat": 100,
+          "cooking": 90,
+          "fishing": 90
+        }
+      },
+      "survivalMechanics": {
+        "waves": "Infinite",
+        "scalingDifficulty": true,
+        "bloodMoonEffects": ["Increased enemy damage", "Reduced healing effectiveness", "Enemy stat buffs"],
+        "survivalTime": "Until party defeat",
+        "scoreBased": true
+      },
+      "waveStructure": [
+        {
+          "waveRange": "1-3",
+          "enemyTypes": ["Troll", "Wandering warrior", "Druid", "Gorilla", "Giant", "Green dragon"],
+          "difficulty": "Low"
+        },
+        {
+          "waveRange": "4-6",
+          "enemyTypes": ["Ghost", "Zombie", "Possessed bear", "Witch", "Demon", "Red dragon"],
+          "difficulty": "Medium"
+        },
+        {
+          "waveRange": "7-9",
+          "enemyTypes": ["Mad wizard", "Vampire", "Werewolf", "Dark wizard", "Cerberus", "Black dragon"],
+          "difficulty": "High"
+        },
+        {
+          "waveRange": "10+",
+          "enemyTypes": ["Griffin", "Devil", "Hades", "Zeus", "Medusa", "Chimera"],
+          "difficulty": "Extreme"
+        }
+      ],
+      "requirements": {
+        "normal": {},
+        "ironman": {}
+      },
+      "drops": [
+        {"item": "Bloodmoon gem", "quantity": "1", "chance": "0.02% (Default) / 0.1% (High Roller)", "value": "Gold 10,000"},
+        {"item": "Lil' eclipse", "quantity": "1", "chance": "0.03% (Default) / 0.15% (High Roller)", "value": "Gold 200,000"},
+        {"item": "Lunar belt", "quantity": "1", "chance": "0.075% (Default) / 0.375% (High Roller)", "value": "Gold 100,000"},
+        {"item": "Bloodmoon secrets", "quantity": "1", "chance": "0.1% (Default) / 0.5% (High Roller)", "value": "Gold 10,000"},
+        {"item": "Bloodmoon helmet", "quantity": "1", "chance": "0.2% (Default) / 1% (High Roller)", "value": "Gold 50,000"},
+        {"item": "Bloodmoon bait jar", "quantity": "1", "chance": "0.2% (Default) / 1% (High Roller)", "value": "Gold 10,000"},
+        {"item": "Bloodmoon worm", "quantity": "15-25 (Default) / 45-75 (High Roller)", "chance": "99.375% (Default) / 96.875% (High Roller)", "value": "Gold 40"}
+      ]
+    }
+  ]
+}

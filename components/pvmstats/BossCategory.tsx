@@ -17,13 +17,21 @@ export function BossCategory({
     formatBossName,
 }: BossCategoryProps) {
     const isRaid = title.toLowerCase().includes('raid');
+    const isClanBoss = title.toLowerCase().includes('clan');
+
+    // Sort bosses by kill count (highest first) for better visual hierarchy
+    const sortedBosses = Object.entries(bosses).sort(([, a], [, b]) => b - a);
+
     return (
-        <div>
-            <h3 className="text-xl font-bold text-emerald-400 mb-2">
-                {title} <span className="text-base">(total: {total})</span>
-            </h3>
-            <div className="space-y-1">
-                {Object.entries(bosses).map(([name, kills]) => (
+        <div className="space-y-3">
+            <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-emerald-400 flex items-center gap-2">
+                    <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                    {title}
+                </h3>
+            </div>
+            <div className="grid gap-1.5">
+                {sortedBosses.map(([name, kills]) => (
                     <BossRow
                         key={name}
                         name={name}
@@ -31,6 +39,7 @@ export function BossCategory({
                         getBossColor={getBossColor}
                         formatBossName={formatBossName}
                         isRaid={isRaid}
+                        isClanBoss={isClanBoss}
                     />
                 ))}
             </div>
