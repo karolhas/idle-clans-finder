@@ -64,27 +64,16 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = '';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   // Load clan boss data from local JSON
   useEffect(() => {
@@ -402,10 +391,11 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
   if (!mounted) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onClose}>
       <div
         ref={modalRef}
         className="relative max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto bg-slate-900/95 border border-slate-700 rounded-lg shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="sticky top-0 z-10 bg-slate-900/95 border-b border-slate-700 p-4 flex items-center justify-between">

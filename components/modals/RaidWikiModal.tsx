@@ -109,25 +109,6 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
     return () => setMounted(false);
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen, onClose]);
-
   // Load raid data from local JSON
   useEffect(() => {
     if (isOpen && raidName) {
@@ -156,42 +137,6 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
       }
     }
   }, [isOpen, raidName]);
-
-  // Custom scrollbar styling for raid modal
-  useEffect(() => {
-    const style = document.createElement("style");
-    style.textContent = `
-      /* Custom scrollbar for raid modal */
-      .boss-modal-scroll::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      .boss-modal-scroll::-webkit-scrollbar-track {
-        background: #0f2626;
-        border-radius: 4px;
-      }
-
-      .boss-modal-scroll::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #0d4a4a 0%, #14b8a6 100%);
-        border-radius: 4px;
-        border: 1px solid #042f2e;
-      }
-
-      .boss-modal-scroll::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
-      }
-    `;
-
-    if (isOpen) {
-      document.head.appendChild(style);
-    }
-
-    return () => {
-      if (document.head.contains(style)) {
-        document.head.removeChild(style);
-      }
-    };
-  }, [isOpen]);
 
   // Helper function to get boss display name
   function getBossDisplayName(bossKey: string): string {
@@ -257,16 +202,31 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
   if (!mounted) return null;
 
   return createPortal(
-    <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[9999] p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[9999] p-4 animate-in fade-in duration-200" onClick={onClose}>
       <div
         ref={modalRef}
         className="bg-gradient-to-br from-teal-950 via-teal-900 to-teal-950 rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col border-4 border-teal-600"
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Raid-themed Header */}
         <div className="px-6 py-4 border-b-4 border-teal-600 flex justify-between items-center bg-gradient-to-r from-teal-900/80 to-teal-800/80 backdrop-blur sticky top-0 z-10">
           <div className="flex items-center gap-4">
             <div className="p-2 bg-teal-600/20 rounded-xl border border-teal-500/30">
-              <FaSkull className="w-6 h-6 text-teal-400" />
+              <FaShieldAlt className="w-6 h-6 text-teal-400" />
+            </div>
+            {/* Raid Image */}
+            <div className="flex-shrink-0">
+              <Image
+                src={`/gameimages/${raidData?.name.replace(/_/g, '')}.png`}
+                alt={raidData?.displayName || raidName}
+                width={48}
+                height={48}
+                className="rounded-lg border-2 border-teal-500/50 shadow-lg"
+                onError={(e) => {
+                  // Hide image if it fails to load
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
             </div>
             <div className="flex flex-col gap-1">
               <h2 className="text-xl font-bold text-teal-100 tracking-tight flex items-center gap-2">
@@ -289,7 +249,7 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
         </div>
 
         {/* Raid Content */}
-        <div className="overflow-y-auto boss-modal-scroll max-h-[calc(90vh-120px)]">
+        <div className="overflow-y-auto custom-scrollbar max-h-[calc(90vh-120px)]">
           {/* Raid Description */}
           {raidData?.description && (
             <div className="p-6 pb-4">
@@ -675,6 +635,28 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
               </div>
             </div>
           )}
+
+          {/* Footer */}
+          <div className="mt-8 mb-6 text-center">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-1"></div>
+              <span className="text-teal-400 text-sm font-medium px-4">Data Source</span>
+              <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-1"></div>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <FaShieldAlt className="w-5 h-5 text-teal-400" />
+              <span className="text-teal-300 text-sm">Data from</span>
+              <a
+                href="https://wiki.idleclans.com/index.php/Main_Page"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-teal-300 hover:text-teal-100 text-sm underline transition-colors"
+              >
+                Idle Clans Wiki
+              </a>
+              <FaShieldAlt className="w-5 h-5 text-teal-400" />
+            </div>
+          </div>
         </div>
       </div>
     </div>,

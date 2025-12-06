@@ -58,27 +58,16 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = '';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   // Load boss data from local JSON
   useEffect(() => {
@@ -561,10 +550,11 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
 
   if (!bossData) {
     return createPortal(
-      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
         <div
           ref={modalRef}
           className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl shadow-2xl max-w-md w-full p-8 text-center border border-teal-500/20"
+          onClick={(e) => e.stopPropagation()}
         >
           <FaSkull className="w-16 h-16 text-teal-500 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-teal-100 mb-2">Boss Not Found</h3>
@@ -582,10 +572,11 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
   }
 
   return createPortal(
-    <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[9999] p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[9999] p-4 animate-in fade-in duration-200" onClick={onClose}>
       <div
         ref={modalRef}
         className="bg-gradient-to-br from-teal-950 via-teal-900 to-teal-950 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col border-4 border-teal-600"
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Boss-themed Header */}
         <div className="px-6 py-4 border-b-4 border-teal-600 flex justify-between items-center bg-gradient-to-r from-teal-900/80 to-teal-800/80 backdrop-blur sticky top-0 z-10">
