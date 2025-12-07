@@ -294,33 +294,48 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
                   {bossStats.attackLevel && (
-                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
-                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Attack</span>
-                      <span className="text-lg font-bold text-teal-400">{bossStats.attackLevel}</span>
+                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <Image src="/skills/attack.png" alt="Attack" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
+                      <div className="text-center flex-1">
+                        <span className="text-xs text-slate-400 uppercase tracking-wide block">Attack</span>
+                        <span className="text-lg font-bold text-teal-400">{bossStats.attackLevel}</span>
+                      </div>
                     </div>
                   )}
                   {bossStats.strengthLevel && (
-                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
-                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
-                      <span className="text-lg font-bold text-teal-400">{bossStats.strengthLevel}</span>
+                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <Image src="/skills/strength.png" alt="Strength" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
+                      <div className="text-center flex-1">
+                        <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
+                        <span className="text-lg font-bold text-teal-400">{bossStats.strengthLevel}</span>
+                      </div>
                     </div>
                   )}
                   {bossStats.defenceLevel && (
-                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
-                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
-                      <span className="text-lg font-bold text-teal-400">{bossStats.defenceLevel}</span>
+                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <Image src="/skills/defence.png" alt="Defence" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
+                      <div className="text-center flex-1">
+                        <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
+                        <span className="text-lg font-bold text-teal-400">{bossStats.defenceLevel}</span>
+                      </div>
                     </div>
                   )}
                   {bossStats.magicLevel && (
-                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
-                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Magic</span>
-                      <span className="text-lg font-bold text-teal-400">{bossStats.magicLevel}</span>
+                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <Image src="/skills/magic.png" alt="Magic" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
+                      <div className="text-center flex-1">
+                        <span className="text-xs text-slate-400 uppercase tracking-wide block">Magic</span>
+                        <span className="text-lg font-bold text-teal-400">{bossStats.magicLevel}</span>
+                      </div>
                     </div>
                   )}
                   {bossStats.archeryLevel && (
-                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
-                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Archery</span>
-                      <span className="text-lg font-bold text-teal-400">{bossStats.archeryLevel}</span>
+                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <Image src="/skills/archery.png" alt="Archery" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
+                      <div className="text-center flex-1">
+                        <span className="text-xs text-slate-400 uppercase tracking-wide block">Archery</span>
+                        <span className="text-lg font-bold text-teal-400">{bossStats.archeryLevel}</span>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -336,7 +351,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                   {/* Melee Bonuses */}
                   <div>
                     <h4 className="text-sm font-semibold text-teal-400 mb-2 flex items-center gap-2">
-                      <FaDumbbell className="w-4 h-4" />
+                      <Image src="/skills/attack.png" alt="Melee" width={16} height={16} className="w-4 h-4" />
                       Melee
                     </h4>
                     <div className="grid grid-cols-3 gap-2">
@@ -364,7 +379,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                   {/* Archery Bonuses */}
                   <div>
                     <h4 className="text-sm font-semibold text-teal-400 mb-2 flex items-center gap-2">
-                      <FaCrosshairs className="w-4 h-4" />
+                      <Image src="/skills/archery.png" alt="Archery" width={16} height={16} className="w-4 h-4" />
                       Archery
                     </h4>
                     <div className="grid grid-cols-3 gap-2">
@@ -392,7 +407,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                   {/* Magic Bonuses */}
                   <div>
                     <h4 className="text-sm font-semibold text-teal-400 mb-2 flex items-center gap-2">
-                      <FaMagic className="w-4 h-4" />
+                      <Image src="/skills/magic.png" alt="Magic" width={16} height={16} className="w-4 h-4" />
                       Magic
                     </h4>
                     <div className="grid grid-cols-3 gap-2">

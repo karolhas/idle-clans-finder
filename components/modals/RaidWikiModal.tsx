@@ -366,9 +366,9 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
           <div className="wiki-content">
           {/* Raid Description */}
           {raidData?.description && (
-            <div className="p-6 pb-4">
-              <div className="requirements-section">
-                <p className="text-teal-200 leading-relaxed">{raidData.description}</p>
+            <div className="px-6 pt-6">
+              <div className="requirements-section !mb-0 !p-1">
+                <p className="text-teal-200 leading-relaxed text-center">{raidData.description}</p>
               </div>
             </div>
           )}
@@ -600,20 +600,23 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
                   </h3>
                   <div className="space-y-4">
                     {/* Required Skills */}
-                    <div>
-                      <h4 className="text-sm font-semibold text-teal-200 mb-2 flex items-center gap-2">
-                        <FaCheckCircle className="w-3 h-3 text-teal-400" />
-                        Required
-                      </h4>
-                      <div className="bonus-grid">
-                        {Object.entries(raidData.skills.required).map(([skill, level]) => (
-                          <div key={skill} className="bonus-item">
-                            <div className="bonus-label capitalize">{skill}</div>
-                            <div className="bonus-value">{level}</div>
-                          </div>
-                        ))}
+                    {raidData.skills.required && Object.keys(raidData.skills.required).length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-semibold text-teal-200 mb-2 flex items-center gap-2">
+                          <FaCheckCircle className="w-3 h-3 text-teal-400" />
+                          Required
+                        </h4>
+                        <div className="bonus-grid">
+                          {Object.entries(raidData.skills.required).map(([skill, level]) => (
+                            <div key={skill} className="bonus-item">
+                              <Image src={`/skills/${skill}.png`} alt={skill} width={20} height={20} className="w-5 h-5" />
+                              <div className="bonus-label capitalize">{skill}</div>
+                              <div className="bonus-value">{level}</div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Recommended Skills */}
                     {raidData.skills.recommended && Object.keys(raidData.skills.recommended).length > 0 && (
@@ -625,6 +628,7 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
                         <div className="bonus-grid">
                           {Object.entries(raidData.skills.recommended).map(([skill, level]) => (
                             <div key={skill} className="bonus-item">
+                              <Image src={`/skills/${skill}.png`} alt={skill} width={20} height={20} className="w-5 h-5" />
                               <div className="bonus-label capitalize">{skill}</div>
                               <div className="bonus-value">{level}</div>
                             </div>
