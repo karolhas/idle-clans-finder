@@ -65,13 +65,13 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
     } else {
-      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
     }
 
     return () => {
-      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
     };
   }, [isOpen]);
 
@@ -135,226 +135,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
     return `Item ${itemId}`;
   }
 
-  // Enhanced styles for boss wiki content matching website theme
-  useEffect(() => {
-    const style = document.createElement("style");
-    style.textContent = `
-      .clan-boss-wiki-content {
-        max-width: 100%;
-        margin: 0;
-        padding: 0.5rem;
-        color: #e2e8f0;
-        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        font-size: 0.875rem;
-        line-height: 1.4;
-        background: linear-gradient(135deg, #0a1616 0%, #1a2626 100%);
-      }
-
-      .clan-boss-wiki-content h1,
-      .clan-boss-wiki-content h2,
-      .clan-boss-wiki-content h3,
-      .clan-boss-wiki-content h4 {
-        color: #fbbf24;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-      }
-
-      .clan-boss-wiki-content h1 {
-        font-size: 1.5rem;
-        text-align: center;
-        margin-bottom: 1rem;
-      }
-
-      .clan-boss-wiki-content h2 {
-        font-size: 1.25rem;
-      }
-
-      .clan-boss-wiki-content h3 {
-        font-size: 1.125rem;
-      }
-
-      .clan-boss-wiki-content p {
-        margin-bottom: 0.5rem;
-      }
-
-      .clan-boss-wiki-content .stat-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .clan-boss-wiki-content .stat-item {
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(148, 163, 184, 0.2);
-        border-radius: 0.375rem;
-        padding: 0.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .clan-boss-wiki-content .stat-label {
-        font-weight: 500;
-        color: #94a3b8;
-      }
-
-      .clan-boss-wiki-content .stat-value {
-        font-weight: 600;
-        color: #fbbf24;
-      }
-
-      .clan-boss-wiki-content .requirements-section {
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(148, 163, 184, 0.2);
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
-      }
-
-      .clan-boss-wiki-content .requirements-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-
-      .clan-boss-wiki-content .requirement-item {
-        background: rgba(15, 23, 42, 0.6);
-        border-radius: 0.375rem;
-        padding: 0.5rem;
-      }
-
-      .clan-boss-wiki-content .requirement-label {
-        font-weight: 500;
-        color: #94a3b8;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.25rem;
-      }
-
-      .clan-boss-wiki-content .requirement-value {
-        font-weight: 600;
-        color: #fbbf24;
-      }
-
-      .clan-boss-wiki-content .combat-section {
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(148, 163, 184, 0.2);
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
-      }
-
-      .clan-boss-wiki-content .combat-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 0.15rem;
-      }
-
-      .clan-boss-wiki-content .combat-item {
-        background: rgba(15, 23, 42, 0.6);
-        border-radius: 0.25rem;
-        padding: 0.1rem;
-        text-align: center;
-        min-height: auto;
-      }
-
-      .clan-boss-wiki-content .combat-label {
-        font-size: 0.6rem;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.1rem;
-      }
-
-      .clan-boss-wiki-content .combat-value {
-        font-weight: 600;
-        color: #fbbf24;
-        font-size: 0.7rem;
-      }
-
-      .clan-boss-wiki-content .bonuses-section {
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(148, 163, 184, 0.2);
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
-      }
-
-      .clan-boss-wiki-content .bonuses-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 0.5rem;
-      }
-
-      .clan-boss-wiki-content .bonus-category {
-        background: rgba(15, 23, 42, 0.6);
-        border-radius: 0.375rem;
-        padding: 0.75rem;
-      }
-
-      .clan-boss-wiki-content .bonus-title {
-        font-weight: 600;
-        color: #fbbf24;
-        margin-bottom: 0.5rem;
-        text-align: center;
-      }
-
-      .clan-boss-wiki-content .bonus-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.25rem;
-      }
-
-      .clan-boss-wiki-content .bonus-label {
-        font-size: 0.75rem;
-        color: #94a3b8;
-      }
-
-      .clan-boss-wiki-content .bonus-value {
-        font-weight: 600;
-        color: #fbbf24;
-      }
-
-      .clan-boss-wiki-content .drops-section {
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(148, 163, 184, 0.2);
-        border-radius: 0.5rem;
-        padding: 1rem;
-      }
-
-      .clan-boss-wiki-content .drop-item {
-        background: rgba(15, 23, 42, 0.6);
-        border-radius: 0.375rem;
-        padding: 0.5rem;
-        margin-bottom: 0.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .clan-boss-wiki-content .drop-name {
-        font-weight: 500;
-        color: #e2e8f0;
-      }
-
-      .clan-boss-wiki-content .drop-quantity {
-        font-size: 0.75rem;
-        color: #94a3b8;
-      }
-
-      .clan-boss-wiki-content .drop-rarity {
-        font-weight: 600;
-        color: #fbbf24;
-      }
-    `;
-    document.head.appendChild(style);
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
+  // Helper function to get item name from ID
 
   // Helper function to get item image path
   function getItemImagePath(itemName: string): string {
@@ -394,22 +175,24 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onClose}>
       <div
         ref={modalRef}
-        className="relative max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto bg-slate-900/95 border border-slate-700 rounded-lg shadow-2xl"
+        className="relative max-w-6xl w-full mx-4 max-h-[90vh] bg-slate-900/95 border border-slate-700 rounded-lg shadow-2xl flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="sticky top-0 z-10 bg-slate-900/95 border-b border-slate-700 p-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <FaSkull className="w-6 h-6 text-amber-400" />
+        {/* Clan Boss-themed Header */}
+        <div className="px-6 py-4 border-b-4 border-slate-700 flex justify-between items-center bg-gradient-to-r from-slate-900/80 to-slate-800/80 backdrop-blur sticky top-0 z-10">
+          <div className="flex items-center gap-4">
+            <div className="p-2 bg-teal-600/20 rounded-xl border border-teal-500/30">
+              <FaSkull className="w-6 h-6 text-teal-400" />
+            </div>
             {/* Boss Image */}
             {bossData && (
               <div className="flex-shrink-0">
                 <Image
                   src={`/gameimages/${bossData.name}.png`}
                   alt={bossData.displayName}
-                  width={40}
-                  height={40}
-                  className="rounded-lg border-2 border-amber-500/50 shadow-lg"
+                  width={48}
+                  height={48}
+                  className="rounded-lg border-2 border-teal-500/50 shadow-lg"
                   onError={(e) => {
                     // Hide image if it fails to load
                     (e.target as HTMLImageElement).style.display = 'none';
@@ -417,26 +200,40 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                 />
               </div>
             )}
-            <h1 className="text-xl font-bold text-white">
-              {bossData?.displayName || bossName} - Clan Boss
-            </h1>
+            <div className="flex flex-col gap-1">
+              <h2 className="text-xl font-bold text-teal-400 tracking-tight flex items-center gap-2">
+                <FaTrophy className="w-4 h-4 text-teal-400" />
+                {bossData?.displayName || bossName} - Clan Boss
+              </h2>
+              <p className="text-sm text-slate-300 font-medium flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                Clan Boss Encyclopedia
+                <span className="text-teal-400">•</span>
+                <span className="flex items-center gap-1">
+                  <FaShieldAlt className="w-3 h-3" />
+                  Combat Guide
+                </span>
+              </p>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+            className="text-slate-300 hover:text-teal-100 transition-all duration-200 p-2 rounded-xl hover:bg-teal-600/20 group border border-teal-500/20"
+            aria-label="Close clan boss modal"
           >
-            <FaTimes className="w-5 h-5 text-slate-400 hover:text-white" />
+            <FaTimes className="w-5 h-5 group-hover:scale-110 transition-transform" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 clan-boss-wiki-content">
+        <div className="flex-1 overflow-y-auto custom-scrollbar">
+          <div className="wiki-content">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column - All Combat Information */}
             <div className="space-y-4">
               {/* Basic Stats */}
               <div className="combat-section">
-                <h3 className="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
                   <FaShieldAlt className="w-4 h-4" />
                   Combat Stats
                 </h3>
@@ -447,7 +244,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                         <FaHeart className="w-4 h-4 text-red-400" />
                         <span className="text-sm text-slate-300">Health</span>
                       </div>
-                      <span className="text-amber-100 font-bold">{bossStats.hp}</span>
+                        <span className="text-teal-400 font-bold">{bossStats.hp}</span>
                     </div>
                   )}
                   {bossStats.maxHit && (
@@ -456,7 +253,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                         <FaBolt className="w-4 h-4 text-purple-400" />
                         <span className="text-sm text-slate-300">Max Hit</span>
                       </div>
-                      <span className="text-amber-100 font-bold">{bossStats.maxHit}</span>
+                        <span className="text-teal-400 font-bold">{bossStats.maxHit}</span>
                     </div>
                   )}
                   {bossStats.attackStyle && (
@@ -465,7 +262,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                         <FaCrosshairs className="w-4 h-4 text-orange-400" />
                         <span className="text-sm text-slate-300">Attack Style</span>
                       </div>
-                      <span className="text-amber-100 font-bold text-sm">{bossStats.attackStyle}</span>
+                        <span className="text-teal-400 font-bold text-sm">{bossStats.attackStyle}</span>
                     </div>
                   )}
                   {bossStats.weakness && (
@@ -474,7 +271,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                         <FaExclamationTriangle className="w-4 h-4 text-red-400" />
                         <span className="text-sm text-slate-300">Weakness</span>
                       </div>
-                      <span className="text-amber-100 font-bold text-sm">{bossStats.weakness}</span>
+                        <span className="text-teal-400 font-bold text-sm">{bossStats.weakness}</span>
                     </div>
                   )}
                   {bossStats.attackInterval && (
@@ -483,7 +280,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                         <FaClock className="w-4 h-4 text-purple-400" />
                         <span className="text-sm text-slate-300">Attack Interval</span>
                       </div>
-                      <span className="text-amber-100 font-bold">{bossStats.attackInterval}ms</span>
+                        <span className="text-teal-400 font-bold">{bossStats.attackInterval}ms</span>
                     </div>
                   )}
                 </div>
@@ -491,7 +288,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
 
               {/* Combat Levels */}
               <div className="combat-section">
-                <h3 className="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
                   <FaTrophy className="w-4 h-4" />
                   Combat Levels
                 </h3>
@@ -499,31 +296,31 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                   {bossStats.attackLevel && (
                     <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <span className="text-xs text-slate-400 uppercase tracking-wide block">Attack</span>
-                      <span className="text-lg font-bold text-amber-100">{bossStats.attackLevel}</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.attackLevel}</span>
                     </div>
                   )}
                   {bossStats.strengthLevel && (
                     <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
-                      <span className="text-lg font-bold text-amber-100">{bossStats.strengthLevel}</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.strengthLevel}</span>
                     </div>
                   )}
                   {bossStats.defenceLevel && (
                     <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
-                      <span className="text-lg font-bold text-amber-100">{bossStats.defenceLevel}</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.defenceLevel}</span>
                     </div>
                   )}
                   {bossStats.magicLevel && (
                     <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <span className="text-xs text-slate-400 uppercase tracking-wide block">Magic</span>
-                      <span className="text-lg font-bold text-amber-100">{bossStats.magicLevel}</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.magicLevel}</span>
                     </div>
                   )}
                   {bossStats.archeryLevel && (
                     <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <span className="text-xs text-slate-400 uppercase tracking-wide block">Archery</span>
-                      <span className="text-lg font-bold text-amber-100">{bossStats.archeryLevel}</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.archeryLevel}</span>
                     </div>
                   )}
                 </div>
@@ -531,65 +328,92 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
 
               {/* Combat Bonuses */}
               <div className="bonuses-section">
-                <h3 className="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
                   <FaBolt className="w-4 h-4" />
                   Combat Bonuses
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-4">
                   {/* Melee Bonuses */}
-                  <div className="bonus-category">
-                    <div className="bonus-title">Melee</div>
-                    <div className="space-y-2">
-                      <div className="bonus-item">
-                        <span className="bonus-label">Strength</span>
-                        <span className="bonus-value">{bossStats.meleeStrength}</span>
-                      </div>
-                      <div className="bonus-item">
-                        <span className="bonus-label">Accuracy</span>
-                        <span className="bonus-value">{bossStats.meleeAccuracy}</span>
-                      </div>
-                      <div className="bonus-item">
-                        <span className="bonus-label">Defence</span>
-                        <span className="bonus-value">{bossStats.meleeDefence}</span>
-                      </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-teal-400 mb-2 flex items-center gap-2">
+                      <FaDumbbell className="w-4 h-4" />
+                      Melee
+                    </h4>
+                    <div className="grid grid-cols-3 gap-2">
+                      {bossStats.meleeStrength && (
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.meleeStrength}</span>
+                        </div>
+                      )}
+                      {bossStats.meleeAccuracy && (
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Accuracy</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.meleeAccuracy}</span>
+                        </div>
+                      )}
+                      {bossStats.meleeDefence && (
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.meleeDefence}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   {/* Archery Bonuses */}
-                  <div className="bonus-category">
-                    <div className="bonus-title">Archery</div>
-                    <div className="space-y-2">
-                      <div className="bonus-item">
-                        <span className="bonus-label">Strength</span>
-                        <span className="bonus-value">{bossStats.archeryStrength}</span>
-                      </div>
-                      <div className="bonus-item">
-                        <span className="bonus-label">Accuracy</span>
-                        <span className="bonus-value">{bossStats.archeryAccuracy}</span>
-                      </div>
-                      <div className="bonus-item">
-                        <span className="bonus-label">Defence</span>
-                        <span className="bonus-value">{bossStats.archeryDefence}</span>
-                      </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-teal-400 mb-2 flex items-center gap-2">
+                      <FaCrosshairs className="w-4 h-4" />
+                      Archery
+                    </h4>
+                    <div className="grid grid-cols-3 gap-2">
+                      {bossStats.archeryStrength && (
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.archeryStrength}</span>
+                        </div>
+                      )}
+                      {bossStats.archeryAccuracy && (
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Accuracy</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.archeryAccuracy}</span>
+                        </div>
+                      )}
+                      {bossStats.archeryDefence && (
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.archeryDefence}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   {/* Magic Bonuses */}
-                  <div className="bonus-category">
-                    <div className="bonus-title">Magic</div>
-                    <div className="space-y-2">
-                      <div className="bonus-item">
-                        <span className="bonus-label">Strength</span>
-                        <span className="bonus-value">{bossStats.magicStrength}</span>
-                      </div>
-                      <div className="bonus-item">
-                        <span className="bonus-label">Accuracy</span>
-                        <span className="bonus-value">{bossStats.magicAccuracy}</span>
-                      </div>
-                      <div className="bonus-item">
-                        <span className="bonus-label">Defence</span>
-                        <span className="bonus-value">{bossStats.magicDefence}</span>
-                      </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-teal-400 mb-2 flex items-center gap-2">
+                      <FaMagic className="w-4 h-4" />
+                      Magic
+                    </h4>
+                    <div className="grid grid-cols-3 gap-2">
+                      {bossStats.magicStrength && (
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.magicStrength}</span>
+                        </div>
+                      )}
+                      {bossStats.magicAccuracy && (
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Accuracy</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.magicAccuracy}</span>
+                        </div>
+                      )}
+                      {bossStats.magicDefence && (
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.magicDefence}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -598,7 +422,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
               {/* Clan Requirements */}
               {clanRequirements && (
                 <div className="requirements-section">
-                  <h3 className="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+                  <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
                     <FaExclamationTriangle className="w-4 h-4" />
                     Clan Requirements
                   </h3>
@@ -635,7 +459,7 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
               {/* Boss Drops */}
               {bossDrops.length > 0 && (
                 <div className="drops-section">
-                  <h3 className="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+                  <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
                     <FaCoins className="w-4 h-4" />
                     Drops ({bossDrops.length})
                   </h3>
@@ -651,11 +475,11 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                               height={32}
                               className="rounded"
                               onError={(e) => {
-                                (e.target as HTMLImageElement).style.display = 'none';
+                                (e.target as HTMLImageElement).classList.add('image-error');
                                 (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
                               }}
                             />
-                            <FaCoins className="w-4 h-4 text-amber-400 hidden" />
+                            <FaCoins className="w-4 h-4 text-teal-400 hidden" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <span className="drop-name block truncate text-sm" title={drop.item}>
@@ -675,27 +499,28 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
             </div>
           </div>
         </div>
+        </div>
 
         {/* Footer */}
-        <div className="border-t border-slate-700 p-4">
-          <div className="flex flex-col items-center gap-3">
+        <div className="border-t border-slate-700 p-2 bg-gradient-to-r from-slate-900/80 to-slate-800/80 backdrop-blur">
+          <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-4 w-full">
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent flex-1"></div>
-              <span className="text-amber-400 text-sm font-medium px-4">Data Source</span>
-              <div className="h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent flex-1"></div>
+              <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-1"></div>
+              <span className="text-teal-400 text-sm font-medium px-4">Data Source</span>
+              <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-1"></div>
             </div>
             <div className="flex items-center justify-center gap-3">
-              <FaSkull className="w-5 h-5 text-amber-400" />
+              <FaSkull className="w-5 h-5 text-teal-400" />
               <span className="text-slate-300 text-sm">Data from</span>
               <a
                 href="https://wiki.idleclans.com/index.php/Main_Page"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-amber-400 hover:text-amber-300 text-sm underline transition-colors"
+                className="text-teal-400 hover:text-teal-300 text-sm underline transition-colors"
               >
                 Idle Clans Wiki
               </a>
-              <FaShieldAlt className="w-5 h-5 text-amber-400" />
+              <FaShieldAlt className="w-5 h-5 text-teal-400" />
             </div>
           </div>
         </div>

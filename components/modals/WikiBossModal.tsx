@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { FaTimes, FaSkull, FaTrophy, FaShieldAlt, FaHeart, FaCoins, FaStar, FaMapMarkerAlt, FaKey, FaClock, FaCrosshairs, FaExclamationTriangle, FaBolt, FaDumbbell, FaMagic } from "react-icons/fa";
+import { FaTimes, FaSkull, FaTrophy, FaShieldAlt, FaHeart, FaCoins, FaStar, FaMapMarkerAlt, FaKey, FaClock, FaCrosshairs, FaExclamationTriangle, FaBolt, FaDumbbell, FaMagic, FaChevronDown } from "react-icons/fa";
 import Image from "next/image";
 import { getBossData, getAttackStyleName, getWeaknessName, ProcessedBossData } from "../../utils/bosses/bossData";
 
@@ -51,6 +51,39 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
   const [bossStats, setBossStats] = useState<BossStats>({});
   const [bossDrops, setBossDrops] = useState<BossDrop[]>([]);
   const [bossData, setBossData] = useState<ProcessedBossData | null>(null);
+  const [expandedDrops, setExpandedDrops] = useState<Set<number>>(new Set());
+
+  // Helper function to parse rarity percentage
+  const parseRarityPercentage = (rarity: string | undefined): number => {
+    if (!rarity) return 0;
+    const match = rarity.match(/(\d+(?:\.\d+)?)/);
+    return match ? parseFloat(match[1]) : 0;
+  };
+
+  // Helper function to check if drop should be collapsed by default
+  const shouldCollapseDrop = (drop: BossDrop, index: number): boolean => {
+    // Special handling for Mesines - show specific important drops
+    if (bossName === 'Mesines') {
+      const importantItems = ['Otherworldly ore', 'papaya seed', 'dragon fruit seed', 'papaya', 'dragon fruit'];
+      return !importantItems.some(item => drop.item.toLowerCase().includes(item.toLowerCase()));
+    }
+    
+    // Always show top 4 drops and page drops
+    if (index < 4 || drop.item.toLowerCase().includes('page')) return false;
+    // Hide all other drops by default
+    return true;
+  };
+
+  // Toggle drop expansion
+  const toggleDropExpansion = (index: number) => {
+    const newExpanded = new Set(expandedDrops);
+    if (newExpanded.has(index)) {
+      newExpanded.delete(index);
+    } else {
+      newExpanded.add(index);
+    }
+    setExpandedDrops(newExpanded);
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -59,13 +92,13 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
     } else {
-      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
     }
 
     return () => {
-      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
     };
   }, [isOpen]);
 
@@ -123,396 +156,7 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
     return `Item ${itemId}`;
   }
 
-  // Enhanced styles for boss wiki content matching website theme
-  useEffect(() => {
-    const style = document.createElement("style");
-    style.textContent = `
-      .boss-wiki-content {
-        max-width: 100%;
-        margin: 0;
-        padding: 0.5rem;
-        color: #e2e8f0;
-        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        font-size: 0.875rem;
-        line-height: 1.4;
-        background: linear-gradient(135deg, #0a1616 0%, #1a2626 100%);
-      }
-
-      .boss-wiki-content h1,
-      .boss-wiki-content h2,
-      .boss-wiki-content h3,
-      .boss-wiki-content h4,
-      .boss-wiki-content h5,
-      .boss-wiki-content h6 {
-        margin: 0.5rem 0 0.25rem 0;
-        font-size: 1rem;
-        font-weight: 600;
-        color: #a7f3d0;
-      }
-
-      .boss-wiki-content p {
-        margin: 0.25rem 0;
-      }
-
-      .boss-wiki-content ul,
-      .boss-wiki-content ol {
-        margin: 0.25rem 0;
-        padding-left: 1rem;
-      }
-
-      .boss-wiki-content li {
-        margin: 0.125rem 0;
-      }
-
-      /* Boss-themed table styles */
-      .boss-wiki-content table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin: 0.5rem 0;
-        background: linear-gradient(135deg, #0f2626 0%, #1f3636 100%);
-        border-radius: 0.5rem;
-        overflow: hidden;
-        border: 1px solid #14b8a6;
-        box-shadow: 0 4px 16px rgba(20, 184, 166, 0.15);
-        font-size: 0.8rem;
-      }
-
-      /* Boss stats table specific styling */
-      .boss-wiki-content table:first-of-type {
-        max-width: 100%;
-        margin: 0 auto 1rem auto;
-        background: linear-gradient(135deg, #0d4a4a 0%, #0f766e 100%);
-        border: 2px solid #14b8a6;
-        box-shadow: 0 6px 20px rgba(20, 184, 166, 0.2);
-      }
-
-      .boss-wiki-content table:first-of-type th,
-      .boss-wiki-content table:first-of-type td {
-        text-align: center;
-        padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid #14b8a6;
-      }
-
-      .boss-wiki-content table:first-of-type th {
-        background: linear-gradient(135deg, #042f2e 0%, #0d4a4a 100%);
-        font-weight: 600;
-        color: #a7f3d0;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        font-size: 0.75rem;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-      }
-
-      /* Icon images in stats table */
-      .boss-wiki-content table:first-of-type td img {
-        max-width: 16px;
-        height: auto;
-        vertical-align: middle;
-        display: inline-block;
-        margin: 0 3px;
-      }
-
-      /* Fix for large images in other tables (like upgrade costs) */
-      .boss-wiki-content table:not(:first-of-type) img {
-        max-width: 16px;
-        height: auto;
-        vertical-align: middle;
-        display: inline-block;
-        margin: 0 auto;
-      }
-
-      /* Regular table cells */
-      .boss-wiki-content th,
-      .boss-wiki-content td {
-        padding: 0.375rem 0.5rem;
-        border-bottom: 1px solid #0d4a4a;
-        color: #a7f3d0;
-        font-size: 0.8rem;
-      }
-
-      .boss-wiki-content th {
-        background: linear-gradient(135deg, rgba(13, 74, 74, 0.8) 0%, rgba(15, 118, 110, 0.8) 100%);
-        font-weight: 600;
-        color: #a7f3d0;
-        text-align: left;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        font-size: 0.75rem;
-      }
-
-      .boss-wiki-content tr:last-child th,
-      .boss-wiki-content tr:last-child td {
-        border-bottom: none;
-      }
-
-      .boss-wiki-content tr:nth-child(even):not(:first-of-type tr) {
-        background: rgba(13, 74, 74, 0.2);
-      }
-
-      /* Boss-themed typography */
-      .boss-wiki-content h1, .boss-wiki-content h2, .boss-wiki-content h3 {
-        color: #a7f3d0;
-        margin: 0.75rem 0 0.25rem 0;
-        font-size: 1.1rem;
-        font-weight: 600;
-      }
-
-      .boss-wiki-content p {
-        margin: 0.25rem 0;
-        line-height: 1.4;
-      }
-
-      .boss-wiki-content li {
-        margin: 0.125rem 0;
-        line-height: 1.3;
-        position: relative;
-      }
-
-      .boss-wiki-content li::marker {
-        color: #14b8a6;
-      }
-
-      /* Boss-themed links */
-      .boss-wiki-content a {
-        color: #34d399;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.15s ease;
-        border-bottom: 1px solid transparent;
-      }
-
-      .boss-wiki-content a:hover {
-        color: #a7f3d0;
-        border-bottom-color: #14b8a6;
-        text-shadow: 0 0 4px rgba(20, 184, 166, 0.4);
-      }
-
-      /* Special boss sections */
-      .boss-wiki-content .strategy-section {
-        background: linear-gradient(135deg, rgba(13, 74, 74, 0.15) 0%, rgba(15, 118, 110, 0.15) 100%);
-        border: 1px solid #0d4a4a;
-        border-radius: 0.5rem;
-        padding: 0.75rem;
-        margin: 0.5rem 0;
-        box-shadow: inset 0 1px 4px rgba(0,0,0,0.2);
-      }
-
-      .boss-wiki-content .loot-section {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(22, 163, 74, 0.08) 100%);
-        border: 1px solid #16a34a;
-        border-radius: 0.5rem;
-        padding: 0.75rem;
-        margin: 0.5rem 0;
-      }
-
-      .boss-wiki-content .warning-section {
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(217, 119, 6, 0.08) 100%);
-        border: 1px solid #d97706;
-        border-radius: 0.5rem;
-        padding: 0.75rem;
-        margin: 0.5rem 0;
-      }
-
-      /* Inline images styling */
-      .boss-wiki-content p:not(.boss-wiki-content table:first-of-type th p) img {
-        max-width: 16px;
-        height: auto;
-        vertical-align: middle;
-        display: inline-block;
-        margin: 0 2px;
-      }
-
-      /* General boss portrait and large images */
-      .boss-wiki-content img {
-        max-width: 120px;
-        height: auto;
-        display: block;
-        margin: 0.5rem auto;
-        border-radius: 6px;
-        border: 1px solid #0d4a4a;
-      }
-
-      /* Icon images in stats table */
-      .boss-wiki-content table:first-of-type td img {
-        max-width: 24px;
-        height: auto;
-        vertical-align: middle;
-        display: inline-block;
-        margin: 0 6px;
-      }
-
-      /* Fix for large images in other tables (like upgrade costs) */
-      .boss-wiki-content table:not(:first-of-type) img {
-        max-width: 24px;
-        height: auto;
-        vertical-align: middle;
-        display: inline-block;
-        margin: 0 auto;
-      }
-
-      /* Regular table cells */
-      .boss-wiki-content th,
-      .boss-wiki-content td {
-        padding: 1rem 1.25rem;
-        border-bottom: 1px solid #0d4a4a;
-        color: #a7f3d0;
-        font-size: 0.95rem;
-      }
-
-      .boss-wiki-content th {
-        background: linear-gradient(135deg, #042f2e 0%, #0d4a4a 100%);
-        font-weight: 600;
-        color: #a7f3d0;
-        text-align: left;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        font-size: 0.85rem;
-      }
-
-      .boss-wiki-content tr:last-child th,
-      .boss-wiki-content tr:last-child td {
-        border-bottom: none;
-      }
-
-      .boss-wiki-content tr:nth-child(even):not(:first-of-type tr) {
-        background: rgba(13, 74, 74, 0.3);
-      }
-
-      /* Boss-themed typography */
-      .boss-wiki-content h1, .boss-wiki-content h2, .boss-wiki-content h3 {
-        color: #a7f3d0;
-        margin: 2.5rem 0 1.5rem 0;
-        font-weight: 800;
-        letter-spacing: -0.025em;
-        text-shadow: 0 2px 8px rgba(20, 184, 166, 0.4);
-      }
-
-      .boss-wiki-content h1 {
-        font-size: 2rem;
-        text-align: center;
-        background: linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 50%, #a7f3d0 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 1rem;
-      }
-
-      .boss-wiki-content h2 {
-        font-size: 1.5rem;
-        border-bottom: 3px solid #14b8a6;
-        padding-bottom: 0.75rem;
-        margin-top: 2.5rem;
-      }
-
-      .boss-wiki-content h3 {
-        font-size: 1.25rem;
-        color: #34d399;
-        margin-top: 2rem;
-      }
-
-      .boss-wiki-content p {
-        color: #e4e4e7;
-        line-height: 1.8;
-        margin: 1.25rem 0;
-        font-size: 1.05rem;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-      }
-
-      .boss-wiki-content strong {
-        color: #a7f3d0;
-        font-weight: 700;
-      }
-
-      /* Boss-themed lists */
-      .boss-wiki-content ul, .boss-wiki-content ol {
-        color: #e4e4e7;
-        margin: 1.5rem 0;
-        padding-left: 2.5rem;
-      }
-
-      .boss-wiki-content li {
-        margin: 0.75rem 0;
-        line-height: 1.7;
-        position: relative;
-      }
-
-      .boss-wiki-content li::marker {
-        color: #14b8a6;
-      }
-
-      /* Boss-themed links */
-      .boss-wiki-content a {
-        color: #34d399;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.2s ease;
-        border-bottom: 1px solid transparent;
-      }
-
-      .boss-wiki-content a:hover {
-        color: #a7f3d0;
-        border-bottom-color: #14b8a6;
-        text-shadow: 0 0 8px rgba(20, 184, 166, 0.6);
-      }
-
-      /* Special boss sections */
-      .boss-wiki-content .strategy-section {
-        background: linear-gradient(135deg, rgba(13, 74, 74, 0.2) 0%, rgba(15, 118, 110, 0.2) 100%);
-        border: 2px solid #0d4a4a;
-        border-radius: 1rem;
-        padding: 1.5rem;
-        margin: 1.5rem 0;
-        box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
-      }
-
-      .boss-wiki-content .loot-section {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.1) 100%);
-        border: 2px solid #16a34a;
-        border-radius: 1rem;
-        padding: 1.5rem;
-        margin: 1.5rem 0;
-      }
-
-      .boss-wiki-content .warning-section {
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
-        border: 2px solid #d97706;
-        border-radius: 1rem;
-        padding: 1.5rem;
-        margin: 1.5rem 0;
-      }
-
-      /* Custom scrollbar for boss modal */
-      .boss-modal-scroll::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      .boss-modal-scroll::-webkit-scrollbar-track {
-        background: #0f2626;
-        border-radius: 4px;
-      }
-
-      .boss-modal-scroll::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #0d4a4a 0%, #14b8a6 100%);
-        border-radius: 4px;
-        border: 1px solid #042f2e;
-      }
-
-      .boss-modal-scroll::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
-      }
-    `;
-
-    if (isOpen) {
-      document.head.appendChild(style);
-    }
-
-    return () => {
-      if (document.head.contains(style)) {
-        document.head.removeChild(style);
-      }
-    };
-  }, [isOpen]);
+  // Helper function to get item image path
 
   // Helper function to get item image path
   function getItemImagePath(itemName: string): string {
@@ -575,11 +219,11 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
     <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[9999] p-4 animate-in fade-in duration-200" onClick={onClose}>
       <div
         ref={modalRef}
-        className="bg-gradient-to-br from-teal-950 via-teal-900 to-teal-950 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col border-4 border-teal-600"
+        className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col border-4 border-slate-700"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Boss-themed Header */}
-        <div className="px-6 py-4 border-b-4 border-teal-600 flex justify-between items-center bg-gradient-to-r from-teal-900/80 to-teal-800/80 backdrop-blur sticky top-0 z-10">
+        <div className="px-6 py-4 border-b-4 border-slate-700 flex justify-between items-center bg-gradient-to-r from-slate-900/80 to-slate-800/80 backdrop-blur sticky top-0 z-10">
           <div className="flex items-center gap-4">
             <div className="p-2 bg-teal-600/20 rounded-xl border border-teal-500/30">
               <FaSkull className="w-6 h-6 text-teal-400" />
@@ -599,11 +243,11 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
               />
             </div>
             <div className="flex flex-col gap-1">
-              <h2 className="text-xl font-bold text-teal-100 tracking-tight flex items-center gap-2">
-                <FaTrophy className="w-4 h-4 text-yellow-400" />
+              <h2 className="text-xl font-bold text-teal-400 tracking-tight flex items-center gap-2">
+                <FaTrophy className="w-4 h-4 text-teal-400" />
                 {bossData.displayName}
               </h2>
-              <p className="text-sm text-teal-300 font-medium flex items-center gap-2">
+              <p className="text-sm text-slate-300 font-medium flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
                 Boss Encyclopedia
                 <span className="text-teal-400">•</span>
@@ -616,7 +260,7 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
           </div>
           <button
             onClick={onClose}
-            className="text-teal-300 hover:text-teal-100 transition-all duration-200 p-2 rounded-xl hover:bg-teal-600/20 group border border-teal-500/20"
+            className="text-slate-300 hover:text-teal-100 transition-all duration-200 p-2 rounded-xl hover:bg-teal-600/20 group border border-teal-500/20"
             aria-label="Close boss modal"
           >
             <FaTimes className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -624,16 +268,16 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
         </div>
 
         {/* Boss Content */}
-        <div className="overflow-y-auto boss-modal-scroll">
+        <div className="wiki-content overflow-y-auto custom-scrollbar">
           {/* Responsive Layout: stats left, drops right on desktop */}
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Boss Statistics - Left on desktop, top on mobile */}
             <div className="lg:w-1/2 order-1 lg:order-1">
               {/* Boss Stats Summary */}
               {Object.keys(bossStats).length > 0 && (
-                <div className="bg-teal-600/5 rounded-lg p-4 border border-teal-500/20 flex-shrink-0 mb-6">
-                  <h3 className="text-lg font-semibold text-teal-100 mb-4 flex items-center gap-2">
-                    <FaStar className="w-4 h-4 text-yellow-400" />
+                <div className="combat-section">
+                  <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
+                    <FaStar className="w-4 h-4" />
                     Boss Statistics
                   </h3>
                   <div className="space-y-3">
@@ -641,72 +285,72 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <FaHeart className="w-4 h-4 text-red-400" />
-                          <span className="text-sm text-teal-300">HP</span>
+                          <span className="text-sm text-slate-300">Health</span>
                         </div>
-                        <span className="text-teal-100 font-bold">{bossStats.hp}</span>
+                        <span className="text-teal-400 font-bold">{bossStats.hp}</span>
                       </div>
                     )}
                     {bossStats.xp && (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <FaTrophy className="w-4 h-4 text-yellow-400" />
-                          <span className="text-sm text-teal-300">XP</span>
+                          <FaCoins className="w-4 h-4 text-teal-400" />
+                          <span className="text-sm text-slate-300">XP</span>
                         </div>
-                        <span className="text-teal-100 font-bold">{bossStats.xp}</span>
+                        <span className="text-teal-400 font-bold">{bossStats.xp}</span>
                       </div>
                     )}
                     {bossStats.location && (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <FaMapMarkerAlt className="w-4 h-4 text-green-400" />
-                          <span className="text-sm text-teal-300">Location</span>
+                          <FaMapMarkerAlt className="w-4 h-4 text-blue-400" />
+                          <span className="text-sm text-slate-300">Location</span>
                         </div>
-                        <span className="text-teal-100 font-bold text-sm">{bossStats.location}</span>
+                        <span className="text-teal-400 font-bold">{bossStats.location}</span>
                       </div>
                     )}
                     {bossStats.keyRequired && (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <FaKey className="w-4 h-4 text-yellow-500" />
-                          <span className="text-sm text-teal-300">Key Required</span>
+                          <FaKey className="w-4 h-4 text-purple-400" />
+                          <span className="text-sm text-slate-300">Key Required</span>
                         </div>
-                        <span className="text-teal-100 font-bold text-sm">{bossStats.keyRequired}</span>
+                        <span className="text-teal-400 font-bold">{bossStats.keyRequired}</span>
                       </div>
                     )}
                     {bossStats.attackInterval && (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <FaClock className="w-4 h-4 text-purple-400" />
-                          <span className="text-sm text-teal-300">Attack Interval</span>
+                          <span className="text-sm text-slate-300">Attack Interval</span>
                         </div>
-                        <span className="text-teal-100 font-bold">{bossStats.attackInterval}</span>
+                        <span className="text-teal-400 font-bold">{bossStats.attackInterval}ms</span>
                       </div>
                     )}
                     {bossStats.attackStyle && (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <FaCrosshairs className="w-4 h-4 text-orange-400" />
-                          <span className="text-sm text-teal-300">Attack Style</span>
+                          <span className="text-sm text-slate-300">Attack Style</span>
                         </div>
-                        <span className="text-teal-100 font-bold text-sm">{bossStats.attackStyle}</span>
+                        <span className="text-teal-400 font-bold text-sm">{bossStats.attackStyle}</span>
                       </div>
                     )}
                     {bossStats.weakness && (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <FaExclamationTriangle className="w-4 h-4 text-red-400" />
-                          <span className="text-sm text-teal-300">Weakness</span>
+                          <span className="text-sm text-slate-300">Weakness</span>
                         </div>
-                        <span className="text-teal-100 font-bold text-sm">{bossStats.weakness}</span>
+                        <span className="text-teal-400 font-bold text-sm">{bossStats.weakness}</span>
                       </div>
                     )}
                     {bossStats.maxHit && (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <FaBolt className="w-4 h-4 text-purple-400" />
-                          <span className="text-sm text-teal-300">Max Hit</span>
+                          <span className="text-sm text-slate-300">Max Hit</span>
                         </div>
-                        <span className="text-teal-100 font-bold">{bossStats.maxHit}</span>
+                        <span className="text-teal-400 font-bold">{bossStats.maxHit}</span>
                       </div>
                     )}
                   </div>
@@ -714,75 +358,75 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
               )}
 
               {/* Combat Levels */}
-              <div className="bg-teal-600/5 rounded-lg p-4 border border-teal-500/20 mb-6">
-                <h3 className="text-lg font-semibold text-teal-100 mb-4 flex items-center gap-2">
-                  <FaShieldAlt className="w-4 h-4 text-blue-400" />
+              <div className="combat-section">
+                <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
+                  <FaTrophy className="w-4 h-4" />
                   Combat Levels
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
                   {bossStats.attackLevel && (
-                    <div className="text-center p-3 bg-teal-800/30 rounded-lg border border-teal-600/30">
-                      <span className="text-xs text-teal-300 uppercase tracking-wide block">Attack</span>
-                      <span className="text-lg font-bold text-teal-100">{bossStats.attackLevel}</span>
+                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Attack</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.attackLevel}</span>
                     </div>
                   )}
                   {bossStats.strengthLevel && (
-                    <div className="text-center p-3 bg-teal-800/30 rounded-lg border border-teal-600/30">
-                      <span className="text-xs text-teal-300 uppercase tracking-wide block">Strength</span>
-                      <span className="text-lg font-bold text-teal-100">{bossStats.strengthLevel}</span>
+                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.strengthLevel}</span>
                     </div>
                   )}
                   {bossStats.defenceLevel && (
-                    <div className="text-center p-3 bg-teal-800/30 rounded-lg border border-teal-600/30">
-                      <span className="text-xs text-teal-300 uppercase tracking-wide block">Defence</span>
-                      <span className="text-lg font-bold text-teal-100">{bossStats.defenceLevel}</span>
+                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.defenceLevel}</span>
                     </div>
                   )}
                   {bossStats.magicLevel && (
-                    <div className="text-center p-3 bg-teal-800/30 rounded-lg border border-teal-600/30">
-                      <span className="text-xs text-teal-300 uppercase tracking-wide block">Magic</span>
-                      <span className="text-lg font-bold text-teal-100">{bossStats.magicLevel}</span>
+                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Magic</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.magicLevel}</span>
                     </div>
                   )}
                   {bossStats.archeryLevel && (
-                    <div className="text-center p-3 bg-teal-800/30 rounded-lg border border-teal-600/30">
-                      <span className="text-xs text-teal-300 uppercase tracking-wide block">Archery</span>
-                      <span className="text-lg font-bold text-teal-100">{bossStats.archeryLevel}</span>
+                    <div className="text-center p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                      <span className="text-xs text-slate-400 uppercase tracking-wide block">Archery</span>
+                      <span className="text-lg font-bold text-teal-400">{bossStats.archeryLevel}</span>
                     </div>
                   )}
                 </div>
               </div>
 
               {/* Combat Bonuses */}
-              <div className="bg-teal-600/5 rounded-lg p-4 border border-teal-500/20 mb-6">
-                <h3 className="text-lg font-semibold text-teal-100 mb-4 flex items-center gap-2">
-                  <FaMagic className="w-4 h-4 text-purple-400" />
+              <div className="bonuses-section">
+                <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
+                  <FaBolt className="w-4 h-4" />
                   Combat Bonuses
                 </h3>
                 <div className="space-y-4">
                   {/* Melee Bonuses */}
                   <div>
-                    <h4 className="text-sm font-semibold text-teal-200 mb-2 flex items-center gap-2">
+                    <h4 className="text-sm font-semibold text-teal-400 mb-2 flex items-center gap-2">
                       <FaDumbbell className="w-4 h-4" />
                       Melee
                     </h4>
                     <div className="grid grid-cols-3 gap-2">
                       {bossStats.meleeStrength && (
-                        <div className="text-center p-2 bg-teal-800/30 rounded border border-teal-600/30">
-                          <span className="text-xs text-teal-300 block">Strength</span>
-                          <span className="text-sm font-bold text-teal-100">{bossStats.meleeStrength}</span>
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.meleeStrength}</span>
                         </div>
                       )}
                       {bossStats.meleeAccuracy && (
-                        <div className="text-center p-2 bg-teal-800/30 rounded border border-teal-600/30">
-                          <span className="text-xs text-teal-300 block">Accuracy</span>
-                          <span className="text-sm font-bold text-teal-100">{bossStats.meleeAccuracy}</span>
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Accuracy</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.meleeAccuracy}</span>
                         </div>
                       )}
                       {bossStats.meleeDefence && (
-                        <div className="text-center p-2 bg-teal-800/30 rounded border border-teal-600/30">
-                          <span className="text-xs text-teal-300 block">Defence</span>
-                          <span className="text-sm font-bold text-teal-100">{bossStats.meleeDefence}</span>
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.meleeDefence}</span>
                         </div>
                       )}
                     </div>
@@ -790,27 +434,27 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
 
                   {/* Archery Bonuses */}
                   <div>
-                    <h4 className="text-sm font-semibold text-teal-200 mb-2 flex items-center gap-2">
+                    <h4 className="text-sm font-semibold text-teal-400 mb-2 flex items-center gap-2">
                       <FaCrosshairs className="w-4 h-4" />
                       Archery
                     </h4>
                     <div className="grid grid-cols-3 gap-2">
                       {bossStats.archeryStrength && (
-                        <div className="text-center p-2 bg-teal-800/30 rounded border border-teal-600/30">
-                          <span className="text-xs text-teal-300 block">Strength</span>
-                          <span className="text-sm font-bold text-teal-100">{bossStats.archeryStrength}</span>
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.archeryStrength}</span>
                         </div>
                       )}
                       {bossStats.archeryAccuracy && (
-                        <div className="text-center p-2 bg-teal-800/30 rounded border border-teal-600/30">
-                          <span className="text-xs text-teal-300 block">Accuracy</span>
-                          <span className="text-sm font-bold text-teal-100">{bossStats.archeryAccuracy}</span>
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Accuracy</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.archeryAccuracy}</span>
                         </div>
                       )}
                       {bossStats.archeryDefence && (
-                        <div className="text-center p-2 bg-teal-800/30 rounded border border-teal-600/30">
-                          <span className="text-xs text-teal-300 block">Defence</span>
-                          <span className="text-sm font-bold text-teal-100">{bossStats.archeryDefence}</span>
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.archeryDefence}</span>
                         </div>
                       )}
                     </div>
@@ -818,27 +462,27 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
 
                   {/* Magic Bonuses */}
                   <div>
-                    <h4 className="text-sm font-semibold text-teal-200 mb-2 flex items-center gap-2">
+                    <h4 className="text-sm font-semibold text-teal-400 mb-2 flex items-center gap-2">
                       <FaMagic className="w-4 h-4" />
                       Magic
                     </h4>
                     <div className="grid grid-cols-3 gap-2">
                       {bossStats.magicStrength && (
-                        <div className="text-center p-2 bg-teal-800/30 rounded border border-teal-600/30">
-                          <span className="text-xs text-teal-300 block">Strength</span>
-                          <span className="text-sm font-bold text-teal-100">{bossStats.magicStrength}</span>
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.magicStrength}</span>
                         </div>
                       )}
                       {bossStats.magicAccuracy && (
-                        <div className="text-center p-2 bg-teal-800/30 rounded border border-teal-600/30">
-                          <span className="text-xs text-teal-300 block">Accuracy</span>
-                          <span className="text-sm font-bold text-teal-100">{bossStats.magicAccuracy}</span>
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Accuracy</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.magicAccuracy}</span>
                         </div>
                       )}
                       {bossStats.magicDefence && (
-                        <div className="text-center p-2 bg-teal-800/30 rounded border border-teal-600/30">
-                          <span className="text-xs text-teal-300 block">Defence</span>
-                          <span className="text-sm font-bold text-teal-100">{bossStats.magicDefence}</span>
+                        <div className="text-center p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                          <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
+                          <span className="text-sm font-bold text-teal-400">{bossStats.magicDefence}</span>
                         </div>
                       )}
                     </div>
@@ -850,63 +494,180 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
             {/* Boss Drops - Right on desktop, bottom on mobile */}
             <div className="lg:w-1/2 order-2 lg:order-2">
               {bossDrops.length > 0 && (
-                <div className="bg-teal-600/5 rounded-lg p-4 border border-teal-500/20">
-                  <h3 className="text-lg font-semibold text-teal-100 mb-4 flex items-center gap-2">
-                    <FaCoins className="w-4 h-4 text-yellow-400" />
+                <div className="drops-section">
+                  <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
+                    <FaCoins className="w-4 h-4" />
                     Drops ({bossDrops.length})
                   </h3>
-                  <div className="space-y-3 overflow-y-auto">
-                    {bossDrops.map((drop, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-teal-800/30 rounded-lg border border-teal-600/30">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-teal-600/20 rounded border border-teal-500/30 flex items-center justify-center flex-shrink-0">
-                            <Image
-                              src={getItemImagePath(drop.item)}
-                              alt={drop.item}
-                              width={32}
-                              height={32}
-                              className="rounded"
-                              onError={(e) => {
-                                // Hide image if it fails to load and show fallback icon
-                                (e.target as HTMLImageElement).style.display = 'none';
-                                (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                              }}
-                            />
-                            <FaCoins className="w-4 h-4 text-teal-400 hidden" />
+                  <div className="space-y-2">
+                    {/* Special handling for Kronos and Sobek - show all drops */}
+                    {bossName === 'Kronos' || bossName === 'Sobek' ? (
+                      bossDrops.map((drop, index) => (
+                        <div key={index} className="drop-item">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-slate-600/20 rounded border border-slate-500/30 flex items-center justify-center flex-shrink-0">
+                              <Image
+                                src={getItemImagePath(drop.item)}
+                                alt={drop.item}
+                                width={32}
+                                height={32}
+                                className="rounded"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = 'none';
+                                  (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                                }}
+                              />
+                              <FaCoins className="w-4 h-4 text-teal-400 hidden" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <span className="drop-name block truncate text-sm" title={drop.item}>
+                                {drop.item}
+                              </span>
+                              {drop.quantity && (
+                                <div className="drop-quantity text-xs">Qty: {drop.quantity}</div>
+                              )}
+                            </div>
                           </div>
-                          <div className="min-w-0 flex-1">
-                            <span className="text-sm font-medium text-teal-100 block truncate" title={drop.item}>
-                              {drop.item}
-                            </span>
-                            {drop.quantity && (
-                              <div className="text-xs text-teal-300">Qty: {drop.quantity}</div>
-                            )}
-                          </div>
+                          <span className="drop-rarity flex-shrink-0 text-sm font-bold">{drop.rarity}</span>
                         </div>
-                        <span className="text-xs text-green-300 font-medium flex-shrink-0">{drop.rarity}</span>
+                      ))
+                    ) : (
+                      <>
+                        {/* Top drops and page drops - always shown */}
+                        {bossDrops
+                          .map((drop, index) => ({ drop, index }))
+                          .filter(({ drop, index }) => !shouldCollapseDrop(drop, index))
+                          .map(({ drop, index }) => (
+                        <div key={index} className="drop-item">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-slate-600/20 rounded border border-slate-500/30 flex items-center justify-center flex-shrink-0">
+                              <Image
+                                src={getItemImagePath(drop.item)}
+                                alt={drop.item}
+                                width={32}
+                                height={32}
+                                className="rounded"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).classList.add('image-error');
+                                  (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                                }}
+                              />
+                              <FaCoins className="w-4 h-4 text-teal-400 hidden" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <span className="drop-name block truncate text-sm" title={drop.item}>
+                                {drop.item}
+                              </span>
+                              {drop.quantity && (
+                                <div className="drop-quantity text-xs">Qty: {drop.quantity}</div>
+                              )}
+                            </div>
+                          </div>
+                          <span className="drop-rarity flex-shrink-0 text-sm font-bold">{drop.rarity}</span>
+                        </div>
+                      ))}
+
+                    {/* Other drops toggle */}
+                    {bossDrops.some((drop, index) => shouldCollapseDrop(drop, index)) && (
+                      <div className="mt-4">
+                        <button
+                          onClick={() => {
+                            const otherIndices = bossDrops
+                              .map((drop, index) => ({ drop, index }))
+                              .filter(({ drop, index }) => shouldCollapseDrop(drop, index))
+                              .map(({ index }) => index);
+                            
+                            if (otherIndices.every(index => expandedDrops.has(index))) {
+                              // All expanded, collapse all
+                              setExpandedDrops(new Set());
+                            } else {
+                              // Some collapsed, expand all
+                              setExpandedDrops(new Set(otherIndices));
+                            }
+                          }}
+                          className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-slate-700/40 hover:bg-slate-700/60 rounded-lg border border-slate-600/30 transition-colors group"
+                        >
+                          <FaChevronDown 
+                            className={`w-4 h-4 text-teal-400 transition-transform ${
+                              bossDrops
+                                .map((drop, index) => ({ drop, index }))
+                                .filter(({ drop, index }) => shouldCollapseDrop(drop, index))
+                                .every(({ index }) => expandedDrops.has(index)) 
+                                ? 'rotate-180' : ''
+                            }`} 
+                          />
+                          <span className="text-sm text-teal-400 font-medium">
+                            {bossDrops
+                              .map((drop, index) => ({ drop, index }))
+                              .filter(({ drop, index }) => shouldCollapseDrop(drop, index))
+                              .every(({ index }) => expandedDrops.has(index)) 
+                              ? 'Hide Other Drops' : 'Show Other Drops'}
+                            {' '}
+                            ({bossDrops.filter((drop, index) => shouldCollapseDrop(drop, index)).length})
+                          </span>
+                        </button>
                       </div>
-                    ))}
+                    )}
+
+                    {/* Rare drops (≥3% rarity) - always shown */}
+                    {/* Other drops - expandable */}
+                    {bossDrops
+                      .map((drop, index) => ({ drop, index }))
+                      .filter(({ drop, index }) => shouldCollapseDrop(drop, index) && expandedDrops.has(index))
+                      .map(({ drop, index }) => (
+                        <div key={index} className="drop-item opacity-75">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-slate-600/20 rounded border border-slate-500/30 flex items-center justify-center flex-shrink-0">
+                              <Image
+                                src={getItemImagePath(drop.item)}
+                                alt={drop.item}
+                                width={32}
+                                height={32}
+                                className="rounded"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = 'none';
+                                  (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                                }}
+                              />
+                              <FaCoins className="w-4 h-4 text-teal-400 hidden" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <span className="drop-name block truncate text-sm" title={drop.item}>
+                                {drop.item}
+                              </span>
+                              {drop.quantity && (
+                                <div className="drop-quantity text-xs">Qty: {drop.quantity}</div>
+                              )}
+                            </div>
+                          </div>
+                          <span className="drop-rarity flex-shrink-0 text-sm font-bold">{drop.rarity}</span>
+                        </div>
+                      ))}
+                      </>
+                    )}
                   </div>
                 </div>
               )}
             </div>
           </div>
+        </div>
 
-          {/* Footer */}
-          <div className="mt-8 mb-6 text-center">
-            <div className="flex items-center justify-center gap-4 mb-4">
+        {/* Footer */}
+        <div className="border-t border-slate-700 p-2 bg-gradient-to-r from-slate-900/80 to-slate-800/80 backdrop-blur">
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-4 w-full">
               <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-1"></div>
               <span className="text-teal-400 text-sm font-medium px-4">Data Source</span>
               <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-1"></div>
             </div>
             <div className="flex items-center justify-center gap-3">
               <FaSkull className="w-5 h-5 text-teal-400" />
-              <span className="text-teal-300 text-sm">Data from</span>
+              <span className="text-slate-300 text-sm">Data from</span>
               <a
                 href="https://wiki.idleclans.com/index.php/Main_Page"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-teal-300 hover:text-teal-100 text-sm underline transition-colors"
+                className="text-teal-400 hover:text-teal-300 text-sm underline transition-colors"
               >
                 Idle Clans Wiki
               </a>

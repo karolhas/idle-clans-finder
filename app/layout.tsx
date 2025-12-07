@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import "./modal-styles.css";
 import "react-tooltip/dist/react-tooltip.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
