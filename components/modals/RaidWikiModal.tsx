@@ -782,7 +782,7 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
 
                             {/* Collapsible drops */}
                             {isExpanded && (
-                              <div className="mt-2 space-y-2">
+                              <div className="mt-2 max-h-96 overflow-y-auto custom-scrollbar space-y-2">
                                 {drops.map(({ drop, index }) => (
                                   <div key={index} className="drop-item">
                                     <div className="drop-info">

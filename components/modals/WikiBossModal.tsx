@@ -629,35 +629,42 @@ export function WikiBossModal({ isOpen, onClose, bossName }: WikiBossModalProps)
                     {bossDrops
                       .map((drop, index) => ({ drop, index }))
                       .filter(({ drop, index }) => shouldCollapseDrop(drop, index) && expandedDrops.has(index))
-                      .map(({ drop, index }) => (
-                        <div key={index} className="drop-item">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-slate-600/20 rounded border border-slate-500/30 flex items-center justify-center flex-shrink-0">
-                              <Image
-                                src={getItemImagePath(drop.item)}
-                                alt={drop.item}
-                                width={32}
-                                height={32}
-                                className="rounded"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).style.display = 'none';
-                                  (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                                }}
-                              />
-                              <FaCoins className="w-4 h-4 text-teal-400 hidden" />
+                      .length > 0 && (
+                      <div className="mt-2 max-h-96 overflow-y-auto custom-scrollbar space-y-2">
+                        {bossDrops
+                          .map((drop, index) => ({ drop, index }))
+                          .filter(({ drop, index }) => shouldCollapseDrop(drop, index) && expandedDrops.has(index))
+                          .map(({ drop, index }) => (
+                            <div key={index} className="drop-item">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 bg-slate-600/20 rounded border border-slate-500/30 flex items-center justify-center flex-shrink-0">
+                                  <Image
+                                    src={getItemImagePath(drop.item)}
+                                    alt={drop.item}
+                                    width={32}
+                                    height={32}
+                                    className="rounded"
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).style.display = 'none';
+                                      (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                                    }}
+                                  />
+                                  <FaCoins className="w-4 h-4 text-teal-400 hidden" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <span className="drop-name block truncate text-sm" title={drop.item}>
+                                    {drop.item}
+                                  </span>
+                                  {drop.quantity && (
+                                    <div className="drop-quantity text-xs">Qty: {drop.quantity}</div>
+                                  )}
+                                </div>
+                              </div>
+                              <span className="drop-rarity flex-shrink-0 text-sm font-bold">{drop.rarity}</span>
                             </div>
-                            <div className="min-w-0 flex-1">
-                              <span className="drop-name block truncate text-sm" title={drop.item}>
-                                {drop.item}
-                              </span>
-                              {drop.quantity && (
-                                <div className="drop-quantity text-xs">Qty: {drop.quantity}</div>
-                              )}
-                            </div>
-                          </div>
-                          <span className="drop-rarity flex-shrink-0 text-sm font-bold">{drop.rarity}</span>
-                        </div>
-                      ))}
+                          ))}
+                      </div>
+                    )}
                       </>
                     )}
                   </div>
