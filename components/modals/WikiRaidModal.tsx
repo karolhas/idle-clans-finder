@@ -368,7 +368,7 @@ export function WikiRaidModal({ isOpen, onClose, raidName }: WikiRaidModalProps)
           {raidData?.description && (
             <div className="px-6 pt-6">
               <div className="requirements-section !mb-0 !p-1">
-                <p className="text-teal-200 leading-relaxed text-center">{raidData.description}</p>
+                <p className="text-teal-200 leading-relaxed text-center !mb-0">{raidData.description}</p>
               </div>
             </div>
           )}
@@ -465,10 +465,10 @@ export function WikiRaidModal({ isOpen, onClose, raidName }: WikiRaidModalProps)
                       <h4 className="text-sm font-semibold text-teal-200 mb-2">Features</h4>
                       <div className="flex flex-wrap gap-2">
                         {raidData.mechanics.resourceManagement && (
-                          <span className="px-2 py-1 bg-slate-900/20 rounded text-xs text-slate-300">Resource Management</span>
+                          <span className="px-2 py-1 bg-teal-900/20 rounded text-xs text-teal-300">Resource Management</span>
                         )}
                         {raidData.mechanics.defenseUpgrades && (
-                          <span className="px-2 py-1 bg-slate-900/20 rounded text-xs text-slate-300">Defense Upgrades</span>
+                          <span className="px-2 py-1 bg-teal-900/20 rounded text-xs text-teal-300">Defense Upgrades</span>
                         )}
                       </div>
                     </div>

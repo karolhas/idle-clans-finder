@@ -294,47 +294,47 @@ export function WikiClanBossModal({ isOpen, onClose, bossName }: WikiClanBossMod
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
                   {bossStats.attackLevel && (
-                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                    <div className="flex items-center gap-2 p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <Image src="/skills/attack.png" alt="Attack" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
                       <div className="text-center flex-1">
                         <span className="text-xs text-slate-400 uppercase tracking-wide block">Attack</span>
-                        <span className="text-lg font-bold text-teal-400">{bossStats.attackLevel}</span>
+                        <span className="text-sm font-bold text-teal-400">{bossStats.attackLevel}</span>
                       </div>
                     </div>
                   )}
                   {bossStats.strengthLevel && (
-                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                    <div className="flex items-center gap-2 p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <Image src="/skills/strength.png" alt="Strength" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
                       <div className="text-center flex-1">
                         <span className="text-xs text-slate-400 uppercase tracking-wide block">Strength</span>
-                        <span className="text-lg font-bold text-teal-400">{bossStats.strengthLevel}</span>
+                        <span className="text-sm font-bold text-teal-400">{bossStats.strengthLevel}</span>
                       </div>
                     </div>
                   )}
                   {bossStats.defenceLevel && (
-                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                    <div className="flex items-center gap-2 p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <Image src="/skills/defence.png" alt="Defence" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
                       <div className="text-center flex-1">
                         <span className="text-xs text-slate-400 uppercase tracking-wide block">Defence</span>
-                        <span className="text-lg font-bold text-teal-400">{bossStats.defenceLevel}</span>
+                        <span className="text-sm font-bold text-teal-400">{bossStats.defenceLevel}</span>
                       </div>
                     </div>
                   )}
                   {bossStats.magicLevel && (
-                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                    <div className="flex items-center gap-2 p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <Image src="/skills/magic.png" alt="Magic" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
                       <div className="text-center flex-1">
                         <span className="text-xs text-slate-400 uppercase tracking-wide block">Magic</span>
-                        <span className="text-lg font-bold text-teal-400">{bossStats.magicLevel}</span>
+                        <span className="text-sm font-bold text-teal-400">{bossStats.magicLevel}</span>
                       </div>
                     </div>
                   )}
                   {bossStats.archeryLevel && (
-                    <div className="flex items-center gap-2 p-3 bg-slate-700/40 rounded-lg border border-slate-600/30">
+                    <div className="flex items-center gap-2 p-2 bg-slate-700/40 rounded-lg border border-slate-600/30">
                       <Image src="/skills/archery.png" alt="Archery" width={24} height={24} className="w-6 h-6 flex-shrink-0" />
                       <div className="text-center flex-1">
                         <span className="text-xs text-slate-400 uppercase tracking-wide block">Archery</span>
-                        <span className="text-lg font-bold text-teal-400">{bossStats.archeryLevel}</span>
+                        <span className="text-sm font-bold text-teal-400">{bossStats.archeryLevel}</span>
                       </div>
                     </div>
                   )}
