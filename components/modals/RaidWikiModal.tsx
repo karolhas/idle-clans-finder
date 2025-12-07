@@ -766,6 +766,8 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
                                 if (newExpanded.has(groupName)) {
                                   newExpanded.delete(groupName);
                                 } else {
+                                  // Clear all other groups and add only this one
+                                  newExpanded.clear();
                                   newExpanded.add(groupName);
                                 }
                                 setExpandedDrops(newExpanded);
