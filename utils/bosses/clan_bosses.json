@@ -1,0 +1,179 @@
+{
+  "clanBosses": [
+    {
+      "name": "otherworldly_golem",
+      "displayName": "Otherworldly Golem",
+      "health": 25000,
+      "attackInterval": 2500,
+      "attackStyle": "Melee",
+      "weakness": "Stab",
+      "combatLevels": {
+        "attack": 275,
+        "strength": 117,
+        "defence": 250,
+        "magic": 1,
+        "archery": 1
+      },
+      "bonuses": {
+        "meleeStrength": 117,
+        "meleeAccuracy": 225,
+        "meleeDefence": 250,
+        "archeryStrength": 125,
+        "archeryAccuracy": 225,
+        "archeryDefence": 250,
+        "magicStrength": 125,
+        "magicAccuracy": 225,
+        "magicDefence": 250
+      },
+      "maxHit": 35,
+      "requirements": {
+        "normal": {
+          "griffin": 2500,
+          "devil": 2500,
+          "hades": 2500,
+          "zeus": 2500,
+          "medusa": 2500,
+          "chimera": 2500,
+          "kronos": 250
+        },
+        "ironman": {
+          "griffin": 250,
+          "devil": 250,
+          "hades": 250,
+          "zeus": 250,
+          "medusa": 250,
+          "chimera": 250,
+          "kronos": 25
+        }
+      },
+      "drops": [
+        {"item": "Golem fragment", "quantity": "1", "chance": "0.05%", "value": "Gold 5,000"},
+        {"item": "Otherworldly gemstone", "quantity": "1", "chance": "0.5%", "value": "Gold 1,150,000"},
+        {"item": "Coal ore", "quantity": "25-100", "chance": "10%", "value": "Gold 11"},
+        {"item": "Silver ore", "quantity": "25-100", "chance": "10%", "value": "Gold 15"},
+        {"item": "Gold ore", "quantity": "25-100", "chance": "10%", "value": "Gold 52"},
+        {"item": "Platinum ore", "quantity": "25-100", "chance": "10%", "value": "Gold 62"},
+        {"item": "Meteorite ore", "quantity": "25-100", "chance": "10%", "value": "Gold 105"},
+        {"item": "Titanium ore", "quantity": "20-50", "chance": "10%", "value": "Gold 155"},
+        {"item": "Gold", "quantity": "10,000-20,000", "chance": "39.45%", "value": "Gold 10,000-20,000"}
+      ]
+    },
+    {
+      "name": "skeleton_warrior",
+      "displayName": "Skeleton Warrior",
+      "health": 5000,
+      "attackInterval": 2000,
+      "attackStyle": "Melee",
+      "weakness": "Magic",
+      "combatLevels": {
+        "attack": 155,
+        "strength": 85,
+        "defence": 110,
+        "magic": 1,
+        "archery": 1
+      },
+      "bonuses": {
+        "meleeStrength": 95,
+        "meleeAccuracy": 85,
+        "meleeDefence": 125,
+        "archeryStrength": 90,
+        "archeryAccuracy": 90,
+        "archeryDefence": 125,
+        "magicStrength": 90,
+        "magicAccuracy": 90,
+        "magicDefence": 125
+      },
+      "maxHit": 23,
+      "requirements": {
+        "normal": {
+          "griffin": 25,
+          "devil": 25,
+          "hades": 25,
+          "zeus": 25,
+          "medusa": 25,
+          "chimera": 25
+        },
+        "ironman": {
+          "griffin": 12,
+          "devil": 12,
+          "hades": 12,
+          "zeus": 12,
+          "medusa": 12,
+          "chimera": 12
+        }
+      },
+      "drops": [
+        {"item": "Ancient bone", "quantity": "1", "chance": "0.05%", "value": "Gold 5,000"},
+        {"item": "Warrior's platelegs", "quantity": "1", "chance": "0.1%", "value": "Gold 12,000"},
+        {"item": "Spiked shield", "quantity": "1", "chance": "0.4%", "value": "Gold 12,000"},
+        {"item": "Gold", "quantity": "2,000-4,000", "chance": "9.35%", "value": "Gold 2,000-4,000"},
+        {"item": "Onion", "quantity": "15-30", "chance": "10%", "value": "Gold 12"},
+        {"item": "Oak Plank", "quantity": "10-20", "chance": "10%", "value": "Gold 55"},
+        {"item": "Maple Plank", "quantity": "10-20", "chance": "10%", "value": "Gold 65"},
+        {"item": "Teak Plank", "quantity": "10-20", "chance": "10%", "value": "Gold 75"},
+        {"item": "Chestnut Plank", "quantity": "10-20", "chance": "10%", "value": "Gold 85"},
+        {"item": "Mahogany Plank", "quantity": "10-20", "chance": "10%", "value": "Gold 95"},
+        {"item": "Yew Plank", "quantity": "5-10", "chance": "10%", "value": "Gold 110"},
+        {"item": "Otherworldly essence", "quantity": "100-120", "chance": "20%", "value": "Gold 15"}
+      ]
+    },
+    {
+      "name": "malignant_spider",
+      "displayName": "Malignant Spider",
+      "health": 1000,
+      "attackInterval": 2000,
+      "attackStyle": "Melee",
+      "weakness": "Crush",
+      "combatLevels": {
+        "attack": 85,
+        "strength": 63,
+        "defence": 70,
+        "magic": 1,
+        "archery": 1
+      },
+      "bonuses": {
+        "meleeStrength": 72,
+        "meleeAccuracy": 68,
+        "meleeDefence": 74,
+        "archeryStrength": 71,
+        "archeryAccuracy": 67,
+        "archeryDefence": 74,
+        "magicStrength": 74,
+        "magicAccuracy": 73,
+        "magicDefence": 74
+      },
+      "maxHit": 15,
+      "requirements": {
+        "normal": {
+          "griffin": 25,
+          "devil": 25,
+          "hades": 25,
+          "zeus": 25,
+          "medusa": 25,
+          "chimera": 25
+        },
+        "ironman": {
+          "griffin": 12,
+          "devil": 12,
+          "hades": 12,
+          "zeus": 12,
+          "medusa": 12,
+          "chimera": 12
+        }
+      },
+      "drops": [
+        {"item": "Spider fang", "quantity": "1", "chance": "0.05%", "value": "Gold 5,000"},
+        {"item": "Quiver", "quantity": "1", "chance": "0.2%", "value": "Gold 5,000"},
+        {"item": "Common thread", "quantity": "4-8", "chance": "10%", "value": "Gold 80"},
+        {"item": "Rare thread", "quantity": "1-2", "chance": "10%", "value": "Gold 160"},
+        {"item": "Common smoke bomb", "quantity": "4-8", "chance": "10%", "value": "Gold 80"},
+        {"item": "Rare smoke bomb", "quantity": "1-2", "chance": "10%", "value": "Gold 160"},
+        {"item": "Common seasoning", "quantity": "4-8", "chance": "10%", "value": "Gold 80"},
+        {"item": "Rare seasoning", "quantity": "1-2", "chance": "10%", "value": "Gold 160"},
+        {"item": "Common wax", "quantity": "4-8", "chance": "10%", "value": "Gold 80"},
+        {"item": "Rare wax", "quantity": "1-2", "chance": "10%", "value": "Gold 160"},
+        {"item": "Gold", "quantity": "500-1,500", "chance": "19.75%", "value": "Gold 500-1,500"}
+      ]
+    }
+  ]
+}

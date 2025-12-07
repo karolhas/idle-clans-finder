@@ -8860,7 +8860,7 @@
                     },
                     {
                         "ItemId": 122,
-                        "ItemAmountMin": 70,
+                        "ItemAmountMin": 75,
                         "ItemAmountMax": 125,
                         "LevelRequirement": 0,
                         "CanBeRemovedFromDropTable": true,

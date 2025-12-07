@@ -18,11 +18,16 @@ export const calculateBossStats = (stats: PvmStats): BossStatsResult => {
     (a, b) => a + b,
     0
   );
+  const eliteBossTotal = Object.values(categorizedBosses.eliteBosses).reduce(
+    (a, b) => a + b,
+    0
+  );
 
   return {
     categorizedBosses,
     raidTotal,
     bossTotal,
     clanBossTotal,
+    eliteBossTotal,
   };
 };
