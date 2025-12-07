@@ -4,7 +4,7 @@ import { FaTimes, FaSkull, FaTrophy, FaShieldAlt, FaHeart, FaCoins, FaStar, FaMa
 import Image from "next/image";
 import { getRaidData } from "../../utils/bosses/bossData";
 
-interface RaidWikiModalProps {
+interface WikiRaidModalProps {
   isOpen: boolean;
   onClose: () => void;
   raidName: string;
@@ -96,7 +96,7 @@ interface RaidData {
   }>;
 }
 
-export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps) {
+export function WikiRaidModal({ isOpen, onClose, raidName }: WikiRaidModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   const [raidStats, setRaidStats] = useState<RaidStats>({});
