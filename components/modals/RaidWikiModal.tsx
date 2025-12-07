@@ -784,7 +784,7 @@ export function RaidWikiModal({ isOpen, onClose, raidName }: RaidWikiModalProps)
                             {isExpanded && (
                               <div className="mt-2 space-y-2">
                                 {drops.map(({ drop, index }) => (
-                                  <div key={index} className="drop-item opacity-75">
+                                  <div key={index} className="drop-item">
                                     <div className="drop-info">
                                       <div className="w-8 h-8 bg-slate-600/20 rounded border border-slate-500/30 flex items-center justify-center flex-shrink-0">
                                         <Image
