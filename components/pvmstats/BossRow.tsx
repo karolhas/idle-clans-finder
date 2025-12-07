@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { WikiBossModal } from '../modals/WikiBossModal';
 import { WikiClanBossModal } from '../modals/WikiClanBossModal';
-import { RaidWikiModal } from '../modals/RaidWikiModal';
+import { WikiRaidModal } from '../modals/WikiRaidModal';
 
 interface BossRowProps {
     name: string;
@@ -92,7 +92,7 @@ export function BossRow({
             )}
 
             {selectedBoss && isRaid && (
-                <RaidWikiModal
+                <WikiRaidModal
                     isOpen={!!selectedBoss}
                     onClose={handleCloseWiki}
                     raidName={selectedBoss}
