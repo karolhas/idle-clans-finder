@@ -4,6 +4,49 @@ import { useState, useEffect, useCallback } from 'react';
 import { LeaderboardData, GameMode, LeaderboardStat, EntityType, LeaderboardCategory } from '@/types/leaderboard.types';
 import { fetchLeaderboard } from '@/lib/api/apiService';
 
+interface CachedLeaderboardData {
+  data: LeaderboardData;
+  timestamp: number;
+}
+
+const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+const getCacheKey = (gameMode: GameMode, entityType: EntityType, category: LeaderboardCategory, stat: LeaderboardStat | null) => {
+  return `leaderboard_${gameMode}_${entityType}_${category}_${stat}`;
+};
+
+const getCachedData = (key: string): LeaderboardData | null => {
+  try {
+    const cached = localStorage.getItem(key);
+    if (!cached) return null;
+
+    const parsed: CachedLeaderboardData = JSON.parse(cached);
+    const now = Date.now();
+
+    if (now - parsed.timestamp > CACHE_DURATION) {
+      localStorage.removeItem(key);
+      return null;
+    }
+
+    return parsed.data;
+  } catch (error) {
+    console.warn('Failed to read leaderboard cache:', error);
+    return null;
+  }
+};
+
+const setCachedData = (key: string, data: LeaderboardData) => {
+  try {
+    const cached: CachedLeaderboardData = {
+      data,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(key, JSON.stringify(cached));
+  } catch (error) {
+    console.warn('Failed to write leaderboard cache:', error);
+  }
+};
+
 export const useLeaderboardData = (
   gameMode: GameMode,
   entityType: EntityType,
@@ -23,15 +66,27 @@ export const useLeaderboardData = (
       setLoading(true);
       setError(null);
 
+      const cacheKey = getCacheKey(gameMode, entityType, category, stat);
+      const cachedData = getCachedData(cacheKey);
+
+      if (cachedData) {
+        setData(cachedData);
+        setHasMore(cachedData.entries.length === maxCount);
+        setLoading(false);
+        return;
+      }
+
       if (entityType === 'clan') {
         // Clan leaderboard uses same API as players/pets
         const result = await fetchLeaderboard(gameMode, entityType, category, stat!, startCount, maxCount);
         setData(result);
+        setCachedData(cacheKey, result);
         setHasMore(result.entries.length === maxCount);
       } else {
         // Load initial batch of data
         const result = await fetchLeaderboard(gameMode, entityType, category, stat!, startCount, maxCount);
         setData(result);
+        setCachedData(cacheKey, result);
         setHasMore(result.entries.length === maxCount);
       }
     } catch (err) {
