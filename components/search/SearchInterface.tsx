@@ -33,12 +33,19 @@ export default function SearchInterface() {
   // Handle URL query parameter for pre-filling search
   useEffect(() => {
     const queryParam = searchParams.get('q');
+    const typeParam = searchParams.get('type');
     if (queryParam && queryParam.trim()) {
       const trimmedQuery = queryParam.trim();
       setSearchQuery(trimmedQuery);
-      // Auto-search if we have a query parameter (assume player search for now)
-      setActiveTab('player');
-      handlePlayerSearch(trimmedQuery);
+      // Set active tab based on type parameter, default to player
+      const searchType = typeParam === 'clan' ? 'clan' : 'player';
+      setActiveTab(searchType);
+      // Auto-search based on the determined type
+      if (searchType === 'clan') {
+        handleClanSearch(trimmedQuery);
+      } else {
+        handlePlayerSearch(trimmedQuery);
+      }
     }
   }, [searchParams]);
 

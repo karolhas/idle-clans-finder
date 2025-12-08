@@ -76,9 +76,16 @@ export default function LeaderboardTable({ entries, isLoading = false, entityTyp
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {(entityType === 'player' || entityType === 'clan') ? (
+                  {entityType === 'pet' ? (
                     <Link
                       href={`/search?q=${encodeURIComponent(entry.name)}`}
+                      className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
+                    >
+                      {entry.name}
+                    </Link>
+                  ) : (entityType === 'player' || entityType === 'clan') ? (
+                    <Link
+                      href={`/search?q=${encodeURIComponent(entry.name)}${entityType === 'clan' ? '&type=clan' : ''}`}
                       className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
                     >
                       {entry.name}
