@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { LeaderboardEntry } from "@/types/leaderboard.types";
 import { FaTrophy, FaMedal, FaAward } from "react-icons/fa";
 
 interface Props {
   entries: LeaderboardEntry[];
   isLoading?: boolean;
+  entityType?: 'player' | 'clan' | 'pet';
 }
 
 const formatNum = (n: number) => new Intl.NumberFormat().format(Math.round(n));
@@ -24,7 +26,7 @@ const getRankColor = (rank: number) => {
   return "text-gray-300";
 };
 
-export default function LeaderboardTable({ entries, isLoading = false }: Props) {
+export default function LeaderboardTable({ entries, isLoading = false, entityType = 'player' }: Props) {
   if (isLoading) {
     return (
       <div className="bg-white/5 border border-white/10 rounded-2xl shadow-xl backdrop-blur-xl overflow-hidden">
@@ -74,9 +76,18 @@ export default function LeaderboardTable({ entries, isLoading = false }: Props) 
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-white">
-                    {entry.name}
-                  </div>
+                  {entityType === 'player' ? (
+                    <Link
+                      href={`/search?q=${encodeURIComponent(entry.name)}`}
+                      className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
+                    >
+                      {entry.name}
+                    </Link>
+                  ) : (
+                    <div className="text-sm font-medium text-white">
+                      {entry.name}
+                    </div>
+                  )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
                   <div className="text-sm text-emerald-400 font-mono">

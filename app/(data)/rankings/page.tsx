@@ -181,6 +181,7 @@ export default function RankingsPage() {
         <LeaderboardTable
           entries={data?.entries || []}
           isLoading={loading}
+          entityType={entityType}
         />
 
         {/* End of data message */}
