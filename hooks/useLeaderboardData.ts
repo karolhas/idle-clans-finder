@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { LeaderboardData, GameMode, LeaderboardStat, EntityType, LeaderboardCategory } from '@/types/leaderboard.types';
 import { fetchLeaderboard, fetchClanLeaderboard } from '@/lib/api/apiService';
 
@@ -14,32 +14,66 @@ export const useLeaderboardData = (
 ) => {
   const [data, setData] = useState<LeaderboardData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        let result: LeaderboardData;
-        if (entityType === 'clan') {
-          result = await fetchClanLeaderboard(gameMode, maxCount);
-        } else {
-          // For players and pets, stat should not be null
-          result = await fetchLeaderboard(gameMode, entityType, category, stat!, startCount, maxCount);
-        }
-        
+  const loadInitialData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      if (entityType === 'clan') {
+        // Clan leaderboard doesn't support pagination beyond limit
+        const result = await fetchClanLeaderboard(gameMode, maxCount);
         setData(result);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load leaderboard');
-      } finally {
-        setLoading(false);
+        setHasMore(false);
+      } else {
+        // Load initial batch of data
+        const result = await fetchLeaderboard(gameMode, entityType, category, stat!, startCount, maxCount);
+        setData({
+          entries: result.entries,
+          totalCount: result.entries.length
+        });
+        setHasMore(result.entries.length === maxCount);
       }
-    };
-
-    loadData();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load leaderboard');
+    } finally {
+      setLoading(false);
+    }
   }, [gameMode, entityType, category, stat, startCount, maxCount]);
 
-  return { data, loading, error };
+  const loadMoreData = useCallback(async () => {
+    if (!data || loadingMore || !hasMore || entityType === 'clan') return;
+
+    try {
+      setLoadingMore(true);
+      const currentCount = data.entries.length;
+      const nextStartCount = startCount + currentCount;
+      const nextMaxCount = nextStartCount + maxCount - 1;
+
+      const result = await fetchLeaderboard(gameMode, entityType, category, stat!, nextStartCount, nextMaxCount);
+
+      if (result.entries.length === 0) {
+        setHasMore(false);
+      } else {
+        setData({
+          entries: [...data.entries, ...result.entries],
+          totalCount: data.totalCount + result.entries.length
+        });
+        setHasMore(result.entries.length === maxCount);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load more data');
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [data, loadingMore, hasMore, entityType, gameMode, category, stat, startCount, maxCount]);
+
+  useEffect(() => {
+    loadInitialData();
+  }, [loadInitialData]);
+
+  return { data, loading, loadingMore, error, hasMore, loadMoreData };
 };

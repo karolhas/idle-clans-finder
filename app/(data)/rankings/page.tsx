@@ -54,7 +54,7 @@ export default function RankingsPage() {
   const [category, setCategory] = useState<LeaderboardCategory>('skills');
   const [selectedStat, setSelectedStat] = useState<LeaderboardStat>('total_level');
 
-  const { data, loading, error } = useLeaderboardData(
+  const { data, loading, loadingMore, error, hasMore, loadMoreData } = useLeaderboardData(
     gameMode,
     entityType,
     category,
@@ -184,10 +184,40 @@ export default function RankingsPage() {
           entityType={entityType}
         />
 
+        {/* Load More Button */}
+        {data && data.entries.length > 0 && hasMore && entityType !== 'clan' && (
+          <div className="mt-6 text-center">
+            <button
+              onClick={loadMoreData}
+              disabled={loadingMore}
+              className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-800 disabled:cursor-not-allowed text-white font-medium py-3 px-8 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 mx-auto"
+            >
+              {loadingMore ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Loading...
+                </>
+              ) : (
+                'Load Next 100'
+              )}
+            </button>
+          </div>
+        )}
+
         {/* End of data message */}
-        {data && data.entries.length > 0 && (
+        {data && data.entries.length > 0 && !hasMore && (
           <div className="mt-6 text-center text-gray-400">
-            Showing top 100 {entityType === 'clan' ? 'clans' : entityType === 'pet' ? 'pets' : 'players'}
+            {entityType === 'clan'
+              ? 'Showing top clans'
+              : `Showing all ${data.entries.length} ${entityType === 'pet' ? 'pets' : 'players'}`
+            }
+          </div>
+        )}
+
+        {/* Initial message */}
+        {data && data.entries.length === 0 && !loading && (
+          <div className="mt-6 text-center text-gray-400">
+            No data available for the selected criteria
           </div>
         )}
       </div>

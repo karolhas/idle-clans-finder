@@ -72,7 +72,7 @@ export const fetchLeaderboard = async (
     category: LeaderboardCategory,
     stat: LeaderboardStat,
     startCount: number = 1,
-    maxCount: number = 50
+    maxCount: number = 100
 ): Promise<LeaderboardData> => {
     try {
         const leaderboardName = `${entityType === 'pet' ? 'pets' : 'players'}:${gameMode}`;
@@ -83,41 +83,21 @@ export const fetchLeaderboard = async (
                 params: { startCount, maxCount }
             }
         );
-        // Handle different possible response formats
+
+        // API returns consistent format: { username, level, score, expCapDate }
+        // For skills: use level as value
+        // For bosses/raids: use score as value
+        const isSkillCategory = category === 'skills';
+
         let entries: LeaderboardEntry[] = [];
-        
         if (Array.isArray(response.data)) {
-            if (response.data.length === 0) {
-                // Empty array means no more data
-                entries = [];
-            } else if (typeof response.data[0] === 'number') {
-                // Response is array of numbers (just values)
-                entries = response.data.map((value: number, index: number) => ({
-                    rank: startCount + index,
-                    name: `Player ${startCount + index}`,
-                    value: value
-                }));
-            } else if (typeof response.data[0] === 'object') {
-                // Response is array of objects
-                entries = response.data.map((entry: any, index: number) => ({
-                    rank: entry.rank || (startCount + index),
-                    name: entry.name || entry.playerName || entry.username || entry.player || `Player ${startCount + index}`,
-                    value: entry.value || entry.score || entry.experience || entry.level || entry
-                }));
-            }
-        } else if (typeof response.data === 'object') {
-            // Response might be an object with rankings
-            // Try to extract entries from various possible structures
-            const possibleArrays = response.data.entries || response.data.rankings || response.data.players || response.data.top || Object.values(response.data);
-            if (Array.isArray(possibleArrays)) {
-                entries = possibleArrays.map((entry: any, index: number) => ({
-                    rank: entry.rank || (startCount + index),
-                    name: entry.name || entry.playerName || entry.username || entry.player || `Player ${startCount + index}`,
-                    value: entry.value || entry.score || entry.experience || entry.level || entry
-                }));
-            }
+            entries = response.data.map((entry: any, index: number) => ({
+                rank: startCount + index,
+                name: entry.username || entry.name || `Player ${startCount + index}`,
+                value: isSkillCategory ? (entry.level || 0) : (entry.score || 0)
+            }));
         }
-        
+
         return {
             entries,
             totalCount: entries.length
@@ -128,20 +108,9 @@ export const fetchLeaderboard = async (
                 throw new Error('Request timed out. Please try again.');
             }
             if (error.response?.status === 404) {
-                // 404 might mean no more data available, return empty array instead of error
-                console.log('No more leaderboard data available (404)');
+                // 404 might mean no data available for this stat
+                console.log('No leaderboard data available for this stat');
                 return { entries: [], totalCount: 0 };
-            }
-            if (error.response?.status && error.response.status >= 400) {
-                console.error('API response status:', error.response.status);
-                console.error('API response data:', error.response?.data);
-                // For 400 errors (bad request), it likely means we've reached the API limit
-                if (error.response.status === 400) {
-                    console.log('Reached API pagination limit (400 error)');
-                    return { entries: [], totalCount: 0 };
-                }
-                // For other 4xx/5xx errors, still throw
-                throw new Error(`API error: ${error.response.status}`);
             }
         }
         throw new Error('Failed to fetch leaderboard data. Please try again.');
