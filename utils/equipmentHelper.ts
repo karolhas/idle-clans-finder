@@ -147,6 +147,8 @@ export function createSafeImagePath(name: string | null): string {
     cleanName = "gilded_pet_1";
   } else if (cleanName === "lil'_swagger") {
     cleanName = "gilded_pet_2";
+  } else if (cleanName === "lil_eclipse") {
+    cleanName = "pet_bloodmoon";
   }
 
   // Add public prefix
