@@ -72,7 +72,7 @@ export default function RankingsPage() {
   const [category, setCategory] = useState<LeaderboardCategory>('skills');
   const [selectedStat, setSelectedStat] = useState<LeaderboardStat>('total_level');
 
-  const { data, loading, loadingMore, error, hasMore, loadMoreData } = useLeaderboardData(
+  const { data, loading, loadingMore, error, hasMore, loadMoreData, dataSource, lastUpdated, forceRefresh } = useLeaderboardData(
     gameMode,
     entityType,
     category,
@@ -194,6 +194,26 @@ export default function RankingsPage() {
         {error && (
           <div className="bg-red-900/20 border border-red-500/20 rounded-lg p-4 mb-6">
             <p className="text-red-400">{error}</p>
+          </div>
+        )}
+
+        {/* Data Source Indicator */}
+        {dataSource && lastUpdated && !loading && (
+          <div className="mb-4 text-right">
+            <div className="inline-flex items-center gap-2 text-sm text-gray-400">
+              <span 
+                className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                  dataSource === 'cache' 
+                    ? 'bg-green-900/20 text-green-400 border border-green-500/20 cursor-pointer hover:bg-green-900/30 hover:border-green-500/40' 
+                    : 'bg-blue-900/20 text-blue-400 border border-blue-500/20'
+                }`}
+                onClick={dataSource === 'cache' ? forceRefresh : undefined}
+                title={dataSource === 'cache' ? 'Click to refresh with live data' : undefined}
+              >
+                {dataSource === 'cache' ? '💾 Local' : '🌐 Live'}
+              </span>
+              <span>Updated {lastUpdated.toLocaleTimeString()}</span>
+            </div>
           </div>
         )}
 

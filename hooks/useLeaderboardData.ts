@@ -15,7 +15,7 @@ const getCacheKey = (gameMode: GameMode, entityType: EntityType, category: Leade
   return `leaderboard_${gameMode}_${entityType}_${category}_${stat}`;
 };
 
-const getCachedData = (key: string): LeaderboardData | null => {
+const getCachedData = (key: string): { data: LeaderboardData; timestamp: number } | null => {
   try {
     const cached = localStorage.getItem(key);
     if (!cached) return null;
@@ -28,7 +28,7 @@ const getCachedData = (key: string): LeaderboardData | null => {
       return null;
     }
 
-    return parsed.data;
+    return { data: parsed.data, timestamp: parsed.timestamp };
   } catch (error) {
     console.warn('Failed to read leaderboard cache:', error);
     return null;
@@ -60,6 +60,8 @@ export const useLeaderboardData = (
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
+  const [dataSource, setDataSource] = useState<'cache' | 'api' | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   const loadInitialData = useCallback(async () => {
     try {
@@ -67,14 +69,19 @@ export const useLeaderboardData = (
       setError(null);
 
       const cacheKey = getCacheKey(gameMode, entityType, category, stat);
-      const cachedData = getCachedData(cacheKey);
+      const cachedResult = getCachedData(cacheKey);
 
-      if (cachedData) {
-        setData(cachedData);
-        setHasMore(cachedData.entries.length === maxCount);
+      if (cachedResult) {
+        setData(cachedResult.data);
+        setDataSource('cache');
+        setLastUpdated(new Date(cachedResult.timestamp));
+        setHasMore(cachedResult.data.entries.length === maxCount);
         setLoading(false);
         return;
       }
+
+      setDataSource('api');
+      setLastUpdated(new Date());
 
       if (entityType === 'clan') {
         // Clan leaderboard uses same API as players/pets
@@ -127,5 +134,34 @@ export const useLeaderboardData = (
     loadInitialData();
   }, [loadInitialData]);
 
-  return { data, loading, loadingMore, error, hasMore, loadMoreData };
+  const forceRefresh = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const cacheKey = getCacheKey(gameMode, entityType, category, stat);
+      setDataSource('api');
+      setLastUpdated(new Date());
+
+      if (entityType === 'clan') {
+        // Clan leaderboard uses same API as players/pets
+        const result = await fetchLeaderboard(gameMode, entityType, category, stat!, startCount, maxCount);
+        setData(result);
+        setCachedData(cacheKey, result);
+        setHasMore(result.entries.length === maxCount);
+      } else {
+        // Load initial batch of data
+        const result = await fetchLeaderboard(gameMode, entityType, category, stat!, startCount, maxCount);
+        setData(result);
+        setCachedData(cacheKey, result);
+        setHasMore(result.entries.length === maxCount);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to refresh data');
+    } finally {
+      setLoading(false);
+    }
+  }, [gameMode, entityType, category, stat, startCount, maxCount]);
+
+  return { data, loading, loadingMore, error, hasMore, loadMoreData, dataSource, lastUpdated, forceRefresh };
 };
