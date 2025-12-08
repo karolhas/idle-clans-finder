@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { LeaderboardData, GameMode, LeaderboardStat, EntityType, LeaderboardCategory } from '@/types/leaderboard.types';
-import { fetchLeaderboard, fetchClanLeaderboard } from '@/lib/api/apiService';
+import { fetchLeaderboard } from '@/lib/api/apiService';
 
 export const useLeaderboardData = (
   gameMode: GameMode,
@@ -24,17 +24,14 @@ export const useLeaderboardData = (
       setError(null);
 
       if (entityType === 'clan') {
-        // Clan leaderboard doesn't support pagination beyond limit
-        const result = await fetchClanLeaderboard(gameMode, maxCount);
+        // Clan leaderboard uses same API as players/pets
+        const result = await fetchLeaderboard(gameMode, entityType, category, stat!, startCount, maxCount);
         setData(result);
-        setHasMore(false);
+        setHasMore(result.entries.length === maxCount);
       } else {
         // Load initial batch of data
         const result = await fetchLeaderboard(gameMode, entityType, category, stat!, startCount, maxCount);
-        setData({
-          entries: result.entries,
-          totalCount: result.entries.length
-        });
+        setData(result);
         setHasMore(result.entries.length === maxCount);
       }
     } catch (err) {

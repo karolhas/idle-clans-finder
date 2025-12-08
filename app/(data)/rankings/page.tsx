@@ -6,7 +6,7 @@ import { GameMode, LeaderboardStat, EntityType, LeaderboardCategory, SkillStat, 
 import { useLeaderboardData } from '@/hooks/useLeaderboardData';
 import LeaderboardTable from '@/components/leaderboard/LeaderboardTable';
 
-const SKILLS: { value: SkillStat; label: string }[] = [
+const PLAYER_SKILLS: { value: SkillStat; label: string }[] = [
   { value: 'total_level', label: 'Total Level' },
   { value: 'attack', label: 'Attack' },
   { value: 'strength', label: 'Strength' },
@@ -14,6 +14,24 @@ const SKILLS: { value: SkillStat; label: string }[] = [
   { value: 'archery', label: 'Archery' },
   { value: 'magic', label: 'Magic' },
   { value: 'health', label: 'Health' },
+  { value: 'crafting', label: 'Crafting' },
+  { value: 'woodcutting', label: 'Woodcutting' },
+  { value: 'carpentry', label: 'Carpentry' },
+  { value: 'fishing', label: 'Fishing' },
+  { value: 'cooking', label: 'Cooking' },
+  { value: 'mining', label: 'Mining' },
+  { value: 'smithing', label: 'Smithing' },
+  { value: 'foraging', label: 'Foraging' },
+  { value: 'farming', label: 'Farming' },
+  { value: 'agility', label: 'Agility' },
+  { value: 'plundering', label: 'Plundering' },
+  { value: 'enchanting', label: 'Enchanting' },
+  { value: 'brewing', label: 'Brewing' },
+  { value: 'exterminating', label: 'Exterminating' },
+];
+
+const PET_SKILLS: { value: SkillStat; label: string }[] = [
+  { value: 'total_level', label: 'Total Level' },
   { value: 'crafting', label: 'Crafting' },
   { value: 'woodcutting', label: 'Woodcutting' },
   { value: 'carpentry', label: 'Carpentry' },
@@ -87,6 +105,10 @@ export default function RankingsPage() {
                     setCategory('skills');
                     setSelectedStat('total_level');
                   }
+                  // If switching to pet and current stat is a combat skill or health, switch to total_level
+                  if (newEntityType === 'pet' && category === 'skills' && ['attack', 'strength', 'defence', 'archery', 'magic', 'health'].includes(selectedStat)) {
+                    setSelectedStat('total_level');
+                  }
                 }}
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
@@ -110,63 +132,61 @@ export default function RankingsPage() {
               </select>
             </div>
 
-            {/* Category and Stat Selectors - Only show for players and pets */}
-            {(entityType === 'player' || entityType === 'pet') && (
-              <>
-                {/* Category Selector */}
-                <div className="space-y-3">
-                  <label className="text-gray-300 font-medium text-sm uppercase tracking-wide">Category</label>
-                  <select
-                    value={category}
-                    onChange={(e) => {
-                      const newCategory = e.target.value as LeaderboardCategory;
-                      setCategory(newCategory);
-                      // Set default stat based on category
-                      if (newCategory === 'skills') setSelectedStat('total_level');
-                      else if (newCategory === 'bosses') setSelectedStat('zeus');
-                      else if (newCategory === 'raids') setSelectedStat('guardians_of_the_citadel');
-                    }}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  >
-                    <option value="skills" className="bg-[#002020]">Skills</option>
-                    {entityType === 'player' && (
-                      <>
-                        <option value="bosses" className="bg-[#002020]">Bosses</option>
-                        <option value="raids" className="bg-[#002020]">Raids</option>
-                      </>
-                    )}
-                  </select>
-                </div>
+            {/* Category and Stat Selectors - Show for all entity types */}
+            <>
+              {/* Category Selector */}
+              <div className="space-y-3">
+                <label className="text-gray-300 font-medium text-sm uppercase tracking-wide">Category</label>
+                <select
+                  value={category}
+                  onChange={(e) => {
+                    const newCategory = e.target.value as LeaderboardCategory;
+                    setCategory(newCategory);
+                    // Set default stat based on category
+                    if (newCategory === 'skills') setSelectedStat('total_level');
+                    else if (newCategory === 'bosses') setSelectedStat('zeus');
+                    else if (newCategory === 'raids') setSelectedStat('guardians_of_the_citadel');
+                  }}
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                >
+                  <option value="skills" className="bg-[#002020]">Skills</option>
+                  {entityType !== 'pet' && (
+                    <>
+                      <option value="bosses" className="bg-[#002020]">Bosses</option>
+                      <option value="raids" className="bg-[#002020]">Raids</option>
+                    </>
+                  )}
+                </select>
+              </div>
 
-                {/* Stat Selector */}
-                <div className="space-y-3">
-                  <label className="text-gray-300 font-medium text-sm uppercase tracking-wide">
-                    {category === 'skills' ? 'Skill' : category === 'bosses' ? 'Boss' : 'Raid'}
-                  </label>
-                  <select
-                    value={selectedStat}
-                    onChange={(e) => setSelectedStat(e.target.value as LeaderboardStat)}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  >
-                    {category === 'skills' && SKILLS.map((stat) => (
-                      <option key={stat.value} value={stat.value} className="bg-[#002020]">
-                        {stat.label}
-                      </option>
-                    ))}
-                    {category === 'bosses' && BOSSES.map((stat) => (
-                      <option key={stat.value} value={stat.value} className="bg-[#002020]">
-                        {stat.label}
-                      </option>
-                    ))}
-                    {category === 'raids' && RAIDS.map((stat) => (
-                      <option key={stat.value} value={stat.value} className="bg-[#002020]">
-                        {stat.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </>
-            )}
+              {/* Stat Selector */}
+              <div className="space-y-3">
+                <label className="text-gray-300 font-medium text-sm uppercase tracking-wide">
+                  {category === 'skills' ? 'Skill' : category === 'bosses' ? 'Boss' : 'Raid'}
+                </label>
+                <select
+                  value={selectedStat}
+                  onChange={(e) => setSelectedStat(e.target.value as LeaderboardStat)}
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                >
+                  {category === 'skills' && (entityType === 'pet' ? PET_SKILLS : PLAYER_SKILLS).map((stat) => (
+                    <option key={stat.value} value={stat.value} className="bg-[#002020]">
+                      {stat.label}
+                    </option>
+                  ))}
+                  {category === 'bosses' && entityType !== 'pet' && BOSSES.map((stat) => (
+                    <option key={stat.value} value={stat.value} className="bg-[#002020]">
+                      {stat.label}
+                    </option>
+                  ))}
+                  {category === 'raids' && entityType !== 'pet' && RAIDS.map((stat) => (
+                    <option key={stat.value} value={stat.value} className="bg-[#002020]">
+                      {stat.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
           </div>
         </div>
 

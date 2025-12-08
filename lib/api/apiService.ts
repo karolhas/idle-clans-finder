@@ -75,7 +75,7 @@ export const fetchLeaderboard = async (
     maxCount: number = 100
 ): Promise<LeaderboardData> => {
     try {
-        const leaderboardName = `${entityType === 'pet' ? 'pets' : 'players'}:${gameMode}`;
+        const leaderboardName = entityType === 'pet' ? `pets:${gameMode}` : `${entityType}s:${gameMode}`;
         const response = await axios.get(
             `${BASE_URL}/Leaderboard/top/${leaderboardName}/${stat}`,
             {
@@ -85,16 +85,17 @@ export const fetchLeaderboard = async (
         );
 
         // API returns consistent format: { username, level, score, expCapDate }
-        // For skills: use level as value
+        // For total_level: use level as value
+        // For individual skills: use score (experience) as value
         // For bosses/raids: use score as value
-        const isSkillCategory = category === 'skills';
+        const isTotalLevel = category === 'skills' && stat === 'total_level';
 
         let entries: LeaderboardEntry[] = [];
         if (Array.isArray(response.data)) {
             entries = response.data.map((entry: any, index: number) => ({
                 rank: startCount + index,
                 name: entry.username || entry.name || `Player ${startCount + index}`,
-                value: isSkillCategory ? (entry.level || 0) : (entry.score || 0)
+                value: isTotalLevel ? (entry.level || 0) : (entry.score || 0)
             }));
         }
 
@@ -117,37 +118,3 @@ export const fetchLeaderboard = async (
     }
 };
 
-export const fetchClanLeaderboard = async (
-    gameMode: GameMode,
-    limit: number = 100
-): Promise<LeaderboardData> => {
-    try {
-        const response = await axios.get(
-            `${BASE_URL}/ClanCup/leaderboard/${gameMode}/totalPoints`,
-            {
-                timeout: TIMEOUT,
-                params: { limit }
-            }
-        );
-        // Assuming the response is an array of clan entries with rank, clanName, score
-        const entries = response.data.map((entry: any, index: number) => ({
-            rank: index + 1,
-            name: entry.clanName || entry.name,
-            value: entry.score || entry.totalPoints || entry.points || entry
-        }));
-        return {
-            entries,
-            totalCount: entries.length
-        };
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            if (error.code === 'ECONNABORTED') {
-                throw new Error('Request timed out. Please try again.');
-            }
-            if (error.response?.status === 404) {
-                throw new Error('Clan leaderboard data not found.');
-            }
-        }
-        throw new Error('Failed to fetch clan leaderboard data. Please try again.');
-    }
-};
