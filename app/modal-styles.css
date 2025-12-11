@@ -1,0 +1,339 @@
+/* =================================================================
+   SHARED MODAL STYLES - Based on Clan Boss Modal Theme
+   ================================================================= */
+
+/* =================================================================
+   BASE WIKI CONTENT STYLES
+   ================================================================= */
+
+.wiki-content {
+  max-width: 100%;
+  margin: 0;
+  padding: 0.5rem;
+  color: #e2e8f0;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  background: linear-gradient(135deg, #0a1418 0%, #1a2630 100%);
+}
+
+/* Typography */
+.wiki-content h1,
+.wiki-content h2,
+.wiki-content h3,
+.wiki-content h4 {
+  color: #2dd4bf;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.wiki-content h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.wiki-content h2 {
+  font-size: 1.25rem;
+}
+
+.wiki-content h3 {
+  font-size: 1.125rem;
+}
+
+.wiki-content p {
+  margin-bottom: 0.5rem;
+}
+
+/* =================================================================
+   STATISTICS SECTION STYLES
+   ================================================================= */
+
+.wiki-content .stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.wiki-content .stat-item {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wiki-content .stat-label {
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.wiki-content .stat-value {
+  font-weight: 600;
+  color: #2dd4bf;
+}
+
+/* =================================================================
+   REQUIREMENTS SECTION STYLES
+   ================================================================= */
+
+.wiki-content .requirements-section {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wiki-content .requirements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.wiki-content .requirement-item {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+}
+
+.wiki-content .requirement-label {
+  font-weight: 500;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.wiki-content .requirement-value {
+  font-weight: 600;
+  color: #2dd4bf;
+}
+
+/* =================================================================
+   COMBAT SECTION STYLES
+   ================================================================= */
+
+.wiki-content .combat-section {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wiki-content .combat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.15rem;
+}
+
+.wiki-content .combat-item {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 0.25rem;
+  padding: 0.1rem;
+  text-align: center;
+  min-height: auto;
+}
+
+.wiki-content .combat-label {
+  font-size: 0.6rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.1rem;
+}
+
+.wiki-content .combat-value {
+  font-weight: 600;
+  color: #fbbf24;
+  font-size: 0.7rem;
+}
+
+/* =================================================================
+   BONUSES SECTION STYLES
+   ================================================================= */
+
+.wiki-content .bonuses-section {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wiki-content .bonuses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.5rem;
+}
+
+.wiki-content .bonus-category {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+}
+
+.wiki-content .bonus-title {
+  font-weight: 600;
+  color: #fbbf24;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.wiki-content .bonus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.wiki-content .bonus-item {
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.wiki-content .bonus-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.wiki-content .bonus-value {
+  font-weight: 600;
+  color: #2dd4bf;
+}
+
+/* =================================================================
+   DROPS SECTION STYLES
+   ================================================================= */
+
+.wiki-content .drops-section {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wiki-content .drop-item {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wiki-content .drop-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wiki-content .drop-name {
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.wiki-content .drop-quantity {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 0.125rem;
+}
+
+/* =================================================================
+   BLOODMOON MASSACRE DROP STYLING
+   ================================================================= */
+
+.wiki-content .bloodmoon-quantity {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 0.125rem;
+}
+
+.wiki-content .drop-rarity {
+  font-weight: 600;
+  color: #2dd4bf;
+}
+
+/* =================================================================
+   DROP ROLL INFORMATION STYLES
+   ================================================================= */
+
+.wiki-content .drop-roll-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.wiki-content .drop-roll-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.wiki-content .drop-roll-label {
+  color: #94a3b8;
+  font-weight: 500;
+  min-width: 60px;
+}
+
+.wiki-content .drop-roll-value {
+  font-weight: 600;
+}
+
+/* =================================================================
+   CUSTOM SCROLLBAR STYLES
+   ================================================================= */
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.3) rgba(15, 23, 42, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(15, 23, 42, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5);
+}
+
+/* =================================================================
+   MODAL OVERLAY STYLES
+   ================================================================= */
+
+.modal-open {
+  overflow: hidden;
+}
+
+/* =================================================================
+   IMAGE ERROR HANDLING
+   ================================================================= */
+
+.image-error {
+  display: none;
+}

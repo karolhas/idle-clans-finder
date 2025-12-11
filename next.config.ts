@@ -13,6 +13,32 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    async redirects() {
+        return [
+            {
+                source: '/(.*)',
+                destination: 'https://idleclanshub.vercel.app/:1',
+                permanent: true,
+                has: [
+                    {
+                        type: 'host',
+                        value: 'idleclansfinder.vercel.app',
+                    },
+                ],
+            },
+            {
+                source: '/(.*)',
+                destination: 'https://idleclanshub.vercel.app/:1',
+                permanent: true,
+                has: [
+                    {
+                        type: 'host',
+                        value: 'icfinder.vercel.app',
+                    },
+                ],
+            },
+        ];
+    },
 };
 
 export default nextConfig;

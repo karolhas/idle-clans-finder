@@ -243,8 +243,8 @@ export default function SearchResults({
       </div>
 
       <div className="space-y-6 mt-6">
-        <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300 group">
-          <h2 className="text-2xl mb-6 font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-300 group-hover:text-teal-400 transition-colors">
+        <div className="bg-white/5 p-6 rounded-2xl border-2 border-white/10 backdrop-blur-md shadow-xl hover:border-teal-500/50 hover:shadow-teal-900/20 transition-all duration-300">
+          <h2 className="text-2xl mb-6 font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-300 hover:text-teal-400 transition-colors">
             PvM Stats
           </h2>
           <PvmStatsDisplay stats={player.pvmStats} />
