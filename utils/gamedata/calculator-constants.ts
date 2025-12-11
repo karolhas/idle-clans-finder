@@ -14,9 +14,9 @@ import { XP_TABLE } from '@/utils/common/constants/xpTable';
 export const CLAN_HOUSE_TIERS: ClanHouseTier[] = [
     { name: 'None', value: 'none', boost: 0 },
     { name: 'T1 (Tent)', value: 't1', boost: 5 },
-    { name: 'T2 (Cabin)', value: 't2', boost: 10 },
-    { name: 'T3 (Cottage)', value: 't3', boost: 15 },
-    { name: 'T4 (Villa)', value: 't4', boost: 20 },
+    { name: 'T2 (Barn)', value: 't2', boost: 10 },
+    { name: 'T3 (Windmill)', value: 't3', boost: 15 },
+    { name: 'T4 (House)', value: 't4', boost: 20 },
     { name: 'T5 (Manor)', value: 't5', boost: 25 },
     { name: 'T6 (Castle)', value: 't6', boost: 30 },
 ];
@@ -24,10 +24,10 @@ export const CLAN_HOUSE_TIERS: ClanHouseTier[] = [
 // Personal House Tiers
 export const PERSONAL_HOUSE_TIERS: PersonalHouseTier[] = [
     { name: 'None', value: 'none', boost: 0 },
-    { name: 'T1 (Tent)', value: 't1', boost: 5 },
-    { name: 'T2 (Cabin)', value: 't2', boost: 10 },
-    { name: 'T3 (Cottage)', value: 't3', boost: 15 },
-    { name: 'T4 (Villa)', value: 't4', boost: 20 },
+    { name: 'T1 (Cardboard Box)', value: 't1', boost: 5 },
+    { name: 'T2 (Tent)', value: 't2', boost: 10 },
+    { name: 'T3 (Van Down By The River)', value: 't3', boost: 15 },
+    { name: 'T4 (Small Cabin)', value: 't4', boost: 20 },
     { name: 'T5 (House)', value: 't5', boost: 25 },
 ];
 

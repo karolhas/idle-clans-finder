@@ -9,3 +9,9 @@ export const CLAN_BOSSES = [
     'SkeletonWarrior',
     'OtherworldlyGolem',
 ] as const;
+
+export const ELITE_BOSSES = [
+    'Kronos',
+    'Sobek',
+    'Mesines',
+] as const;

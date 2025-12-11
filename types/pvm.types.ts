@@ -6,6 +6,8 @@ export interface PvmStats {
   Medusa: number;
   Chimera: number;
   Kronos: number;
+  Sobek: number;
+  Mesines: number;
   ReckoningOfTheGods: number;
   GuardiansOfTheCitadel: number;
   MalignantSpider: number;
@@ -13,12 +15,13 @@ export interface PvmStats {
   OtherworldlyGolem: number;
 }
 
-export type BossCategory = "raids" | "bosses" | "clanBosses";
+export type BossCategory = "raids" | "bosses" | "clanBosses" | "eliteBosses";
 
 export interface CategorizedBosses {
   raids: Record<string, number>;
   bosses: Record<string, number>;
   clanBosses: Record<string, number>;
+  eliteBosses: Record<string, number>;
 }
 
 export interface BossStatsResult {
@@ -26,4 +29,5 @@ export interface BossStatsResult {
   raidTotal: number;
   bossTotal: number;
   clanBossTotal: number;
+  eliteBossTotal: number;
 }

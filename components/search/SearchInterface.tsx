@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Player } from "@/types/player.types";
 import { ClanData } from "@/types/clan.types";
 import { fetchPlayerProfile, fetchClanByName } from "@/lib/api/apiService";
@@ -15,6 +15,7 @@ import UnifiedSearch from "./UnifiedSearch";
 
 export default function SearchInterface() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<"player" | "clan">("player");
   const [playerSearchResults, setPlayerSearchResults] = useState<Player | null>(
     null
@@ -28,6 +29,25 @@ export default function SearchInterface() {
   const [clanSearches, setClanSearches] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { latestPlayerLookup } = useSearchStore();
+
+  // Handle URL query parameter for pre-filling search
+  useEffect(() => {
+    const queryParam = searchParams.get('q');
+    const typeParam = searchParams.get('type');
+    if (queryParam && queryParam.trim()) {
+      const trimmedQuery = queryParam.trim();
+      setSearchQuery(trimmedQuery);
+      // Set active tab based on type parameter, default to player
+      const searchType = typeParam === 'clan' ? 'clan' : 'player';
+      setActiveTab(searchType);
+      // Auto-search based on the determined type
+      if (searchType === 'clan') {
+        handleClanSearch(trimmedQuery);
+      } else {
+        handlePlayerSearch(trimmedQuery);
+      }
+    }
+  }, [searchParams]);
 
   // Load recent searches on component mount
   useEffect(() => {

@@ -1,0 +1,1875 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "IdleClansLeaderboardsService",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Chat/recent": {
+      "get": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Retrieves the public chat history for various channels.",
+        "parameters": [
+          {
+            "name": "generalDisabled",
+            "in": "query",
+            "description": "If true, excludes the General channel from the result.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "tradeDisabled",
+            "in": "query",
+            "description": "If true, excludes the Trade channel from the result.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "helpDisabled",
+            "in": "query",
+            "description": "If true, excludes the Help channel from the result.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "clanHubDisabled",
+            "in": "query",
+            "description": "If true, excludes the ClanHub channel from the result.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "combatLFGDisabled",
+            "in": "query",
+            "description": "If true, excludes the CombatLFG channel from the result.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "raidLFGDisabled",
+            "in": "query",
+            "description": "If true, excludes the RaidLFG channel from the result.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": { }
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": { }
+                    }
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": { }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/Clan/logs/clan/{name}": {
+      "get": {
+        "tags": [
+          "Clan"
+        ],
+        "summary": "Retrieves the logs for a specific clan.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the clan.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "The number of logs to skip.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of logs to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the requested clan logs.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Log"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Log"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Log"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the requested limit exceeds the maximum allowed limit."
+          },
+          "404": {
+            "description": "If no logs are found for the specified clan."
+          }
+        }
+      }
+    },
+    "/api/Clan/logs/clan/{clanName}/{playerName}": {
+      "get": {
+        "tags": [
+          "Clan"
+        ],
+        "summary": "Retrieves the logs for a specific player within a clan.",
+        "parameters": [
+          {
+            "name": "clanName",
+            "in": "path",
+            "description": "The name of the clan.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "playerName",
+            "in": "path",
+            "description": "The name of the player.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "The number of logs to skip.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of logs to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the requested player logs within the clan.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Log"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Log"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Log"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the requested limit exceeds the maximum allowed limit."
+          },
+          "404": {
+            "description": "If no logs are found for the specified player within the clan."
+          }
+        }
+      }
+    },
+    "/api/Clan/recruitment/{clanName}": {
+      "get": {
+        "tags": [
+          "Clan"
+        ],
+        "summary": "Retrieves the recruitment information for a specific clan.",
+        "parameters": [
+          {
+            "name": "clanName",
+            "in": "path",
+            "description": "The name of the clan.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the recruitment information for the clan.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClanRecruitmentPageEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClanRecruitmentPageEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClanRecruitmentPageEntry"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If the specified clan is not found."
+          }
+        }
+      }
+    },
+    "/api/Clan/most-active": {
+      "get": {
+        "tags": [
+          "Clan"
+        ],
+        "summary": "Retrieves the most active guilds based on the provided query parameters.",
+        "parameters": [
+          {
+            "name": "clanQueryInfoJson",
+            "in": "query",
+            "description": "JSON string containing query parameters.",
+            "schema": {
+              "type": "string",
+              "default": "{}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of most active guilds.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClanRecruitmentPageEntry"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClanRecruitmentPageEntry"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClanRecruitmentPageEntry"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the provided JSON is invalid."
+          }
+        }
+      }
+    },
+    "/api/ClanCup/standings/{clanName}": {
+      "get": {
+        "tags": [
+          "ClanCup"
+        ],
+        "summary": "Retrieves a clan's standings for all objectives in the Clan Cup.",
+        "parameters": [
+          {
+            "name": "clanName",
+            "in": "path",
+            "description": "The name of the clan.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "gameMode",
+            "in": "query",
+            "description": "The game mode for which to retrieve standings.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "previousCup",
+            "in": "query",
+            "description": "Optionally set to true to get standings for the previous cup",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the clan's standings for all objectives.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClanCupObjectiveStandingBase"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClanCupObjectiveStandingBase"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClanCupObjectiveStandingBase"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the provided date format is invalid.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If no standings are found for the specified clan, game mode, and date.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ClanCup/standing/{clanName}": {
+      "get": {
+        "tags": [
+          "ClanCup"
+        ],
+        "summary": "Retrieves a clan's score and current standing in a given ClanCupObjectiveType.",
+        "parameters": [
+          {
+            "name": "clanName",
+            "in": "path",
+            "description": "The name of the clan.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "gameMode",
+            "in": "query",
+            "description": "The game mode for which to retrieve the standing.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "objectiveType",
+            "in": "query",
+            "description": "The type of ClanCupObjective.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "previousCup",
+            "in": "query",
+            "description": "Optionally set to true to get standings for the previous cup",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the clan's standing.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreBasedStanding"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreBasedStanding"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreBasedStanding"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the provided date format is invalid.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If the clan or objective is not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ClanCup/top-clans/current": {
+      "get": {
+        "tags": [
+          "ClanCup"
+        ],
+        "summary": "Retrieves the current top 10 clans in every ClanCupObjectiveType for the currently active cup.",
+        "parameters": [
+          {
+            "name": "gameMode",
+            "in": "query",
+            "description": "The game mode for which to retrieve top clans.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of top clans for each objective in the current cup.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClanCupTopClans"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClanCupTopClans"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClanCupTopClans"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ClanCup/top-clans/previous": {
+      "get": {
+        "tags": [
+          "ClanCup"
+        ],
+        "summary": "Retrieves the top 10 clans in every ClanCupObjectiveType for the previous cup.",
+        "parameters": [
+          {
+            "name": "gameMode",
+            "in": "query",
+            "description": "The game mode for which to retrieve top clans.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of top clans for each objective in the previous cup.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClanCupTopClans"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClanCupTopClans"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClanCupTopClans"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ClanCup/top-clans/date": {
+      "get": {
+        "tags": [
+          "ClanCup"
+        ],
+        "summary": "Retrieves the top 10 clans in every ClanCupObjectiveType for a cup with the given end date.",
+        "parameters": [
+          {
+            "name": "gameMode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "The end date of the clan cup.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of top clans for each objective.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClanCupTopClansInScoreObjectives"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClanCupTopClansInScoreObjectives"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClanCupTopClansInScoreObjectives"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ClanCup/leaderboard/{gameMode}/totalPoints": {
+      "get": {
+        "tags": [
+          "ClanCup"
+        ],
+        "summary": "Retrieves the overall leaderboard for a specific game mode, showing total points for each clan.",
+        "parameters": [
+          {
+            "name": "gameMode",
+            "in": "path",
+            "description": "The game mode to retrieve the leaderboard for (e.g., \"Default\", \"Ironman\").",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Optional. The year to filter results by.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "description": "Optional. The month to filter results by.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Optional. The maximum number of results to return. Default is 10, maximum is 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/ClanCup/leaderboard/{gameMode}/{category}": {
+      "get": {
+        "tags": [
+          "ClanCup"
+        ],
+        "summary": "Retrieves the leaderboard for a specific category within a game mode.",
+        "parameters": [
+          {
+            "name": "gameMode",
+            "in": "path",
+            "description": "The game mode to retrieve the leaderboard for (e.g., \"Default\", \"Ironman\").",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "path",
+            "description": "The category to retrieve the leaderboard for (e.g., \"Woodcutting\", \"Cooking\").",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Optional. The year to filter results by.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "description": "Optional. The month to filter results by.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Optional. The maximum number of results to return. Default is 10, maximum is 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/ClanCup/leaderboard/{gameMode}/clans/{clanName}": {
+      "get": {
+        "tags": [
+          "ClanCup"
+        ],
+        "summary": "Retrieves the standing for a specific clan in a given game mode.",
+        "parameters": [
+          {
+            "name": "gameMode",
+            "in": "path",
+            "description": "The game mode to retrieve the clan standing for (e.g., \"Default\", \"Ironman\").",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "clanName",
+            "in": "path",
+            "description": "The name of the clan to retrieve the standing for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Optional. The year to filter results by.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "description": "Optional. The month to filter results by.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Configuration/build-versions": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Retrieves the required and latest build versions from the configuration.",
+        "responses": {
+          "200": {
+            "description": "Returns the build version information.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildVersionInfo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildVersionInfo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildVersionInfo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If the build version information is not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Configuration/game-data": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/JToken"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/JToken"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/JToken"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Leaderboard/profile/{leaderboardName}/{name}": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "Fetches the profile of an entity (player or clan) by their name.",
+        "parameters": [
+          {
+            "name": "leaderboardName",
+            "in": "path",
+            "description": "Name of the leaderboard (e.g \"players:default\" to look up a player in the default game mode and \"players:ironman\" to look up an ironman).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the entity.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the entity profile"
+          },
+          "404": {
+            "description": "If the entity profile is not found"
+          }
+        }
+      }
+    },
+    "/api/Leaderboard/top/{leaderboardName}/{name}": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "Gets a range of entities (players or clans) in the specified leaderboard field. No more than 100 entities can be queried at a time.",
+        "parameters": [
+          {
+            "name": "leaderboardName",
+            "in": "path",
+            "description": "Name of the leaderboard (e.g \"players:default\" to look up players in the default game mode and \"players:ironman\" to query ironman leaderboards).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the stat (e.g. \"total_level\", \"attack\" or \"reckoning_of_the_gods\").",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startCount",
+            "in": "query",
+            "description": "The starting position for the entities list.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "maxCount",
+            "in": "query",
+            "description": "The ending position for the  entities list.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Player/clan-logs/{name}": {
+      "get": {
+        "tags": [
+          "Player"
+        ],
+        "summary": "Retrieves the logs for a specific player from all clans.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the player.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "The number of logs to skip.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of logs to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the requested player logs from all clans.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Log"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Log"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Log"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the requested limit exceeds the maximum allowed limit."
+          },
+          "404": {
+            "description": "If no logs are found for the specified player."
+          }
+        }
+      }
+    },
+    "/api/Player/profile/{name}": {
+      "get": {
+        "tags": [
+          "Player"
+        ],
+        "summary": "Retrieves the profile for a specific player.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the player.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "localize",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the requested player profile.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayerProfile"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayerProfile"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayerProfile"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If the player profile is not found."
+          }
+        }
+      }
+    },
+    "/api/Player/profile/simple/{username}": {
+      "get": {
+        "tags": [
+          "Player"
+        ],
+        "summary": "Retrieves a simple profile for a specific player.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The username of the player.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the requested simple player profile.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimplePlayerProfile"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimplePlayerProfile"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimplePlayerProfile"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If the player profile is not found."
+          }
+        }
+      }
+    },
+    "/api/PlayerMarket/items/prices/latest/{itemId}": {
+      "get": {
+        "tags": [
+          "PlayerMarket"
+        ],
+        "summary": "Gets the latest prices for a specific item, including the lowest price, highest price, and optionally the average price.",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "The ID of the item to get the latest prices for.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "includeAveragePrice",
+            "in": "query",
+            "description": "If true, include the average price of the item from the past 24 hours.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/PlayerMarket/items/prices/latest/comprehensive/{itemId}": {
+      "get": {
+        "tags": [
+          "PlayerMarket"
+        ],
+        "summary": "Retrieves detailed price information for a specific item.",
+        "description": "This endpoint provides comprehensive price details for a given item, including:\r\n- The top 10 lowest prices with their corresponding volumes\r\n- The top 10 highest prices with their corresponding volumes\r\n- The average price of the item over the past 1 day, 7 days, and 30 days\r\n- The trade volume of the item over the past 1 day\r\n            \r\nThe prices and volumes are retrieved from the market offer collections and are based on the current state of the market.\r\nThe average prices and trade volume are calculated using historical trade records within the specified time ranges.\r\n            \r\nUse this endpoint to gain insights into the price distribution, average prices, and recent trade activity of an item.",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "The ID of the item to retrieve price details for.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the detailed price information for the item."
+          },
+          "400": {
+            "description": "If the itemId is invalid or missing."
+          }
+        }
+      }
+    },
+    "/api/PlayerMarket/items/prices/latest": {
+      "get": {
+        "tags": [
+          "PlayerMarket"
+        ],
+        "summary": "Gets the latest prices for all items, including the lowest price, highest price, and optionally the average price.",
+        "parameters": [
+          {
+            "name": "includeAveragePrice",
+            "in": "query",
+            "description": "If true, include the average price of each item from the past 24 hours.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/PlayerMarket/items/prices/history/{itemId}": {
+      "get": {
+        "tags": [
+          "PlayerMarket"
+        ],
+        "summary": "Retrieves the price history of a specific item over a given period.",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "The ID of the item to get price history for.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "description": "The period for which to retrieve the price history (supported: '1d', '7d', '30d', '1y').",
+            "schema": {
+              "type": "string",
+              "default": "1d"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/PlayerMarket/items/prices/history/value": {
+      "get": {
+        "tags": [
+          "PlayerMarket"
+        ],
+        "summary": "Retrieves the trades with the highest item prices within a specified period.",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "description": "The period for which to retrieve the most valuable trades (e.g., '1d', '7d', '30d', '1y').",
+            "schema": {
+              "type": "string",
+              "default": "1d"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of records to retrieve (between 1 and 10).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/PlayerMarket/items/volume/history": {
+      "get": {
+        "tags": [
+          "PlayerMarket"
+        ],
+        "summary": "Retrieves the top items by trade volume within a specified period.",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "description": "The period for which to retrieve the top items by volume (e.g., '1d', '7d', '30d', '1y').",
+            "schema": {
+              "type": "string",
+              "default": "1d"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of records to retrieve (between 1 and 10).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiToken": {
+        "type": "object",
+        "properties": {
+          "developer": {
+            "type": "string",
+            "nullable": true
+          },
+          "token": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BestTimeInfo": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "achievedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BuildVersionInfo": {
+        "type": "object",
+        "properties": {
+          "requiredBuildVersion": {
+            "type": "string",
+            "nullable": true
+          },
+          "latestBuildVersion": {
+            "type": "string",
+            "nullable": true
+          },
+          "configVersion": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClanCupObjectiveStandingBase": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClanCupTopClans": {
+        "type": "object",
+        "properties": {
+          "topScoreClans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClanCupTopClansInScoreObjectives"
+            },
+            "nullable": true
+          },
+          "topTimeClans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClanCupTopClansInTimeObjectives"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClanCupTopClansInScoreObjectives": {
+        "type": "object",
+        "properties": {
+          "objective": {
+            "type": "string",
+            "nullable": true
+          },
+          "standings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScoreBasedStanding"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClanCupTopClansInTimeObjectives": {
+        "type": "object",
+        "properties": {
+          "objective": {
+            "type": "string",
+            "nullable": true
+          },
+          "standings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TimeBasedStanding"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClanRecruimentPageMemberEntry": {
+        "type": "object",
+        "properties": {
+          "memberName": {
+            "type": "string",
+            "nullable": true
+          },
+          "rank": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClanRecruitmentPageEntry": {
+        "type": "object",
+        "properties": {
+          "clanName": {
+            "type": "string",
+            "nullable": true
+          },
+          "tag": {
+            "type": "string",
+            "nullable": true
+          },
+          "activityScore": {
+            "type": "number",
+            "format": "float"
+          },
+          "minimumTotalLevelRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "memberlist": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClanRecruimentPageMemberEntry"
+            },
+            "nullable": true
+          },
+          "memberCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isRecruiting": {
+            "type": "boolean"
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "serializedSkills": {
+            "type": "string",
+            "nullable": true
+          },
+          "serializedUpgrades": {
+            "type": "string",
+            "nullable": true
+          },
+          "recruitmentMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "houseId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EntityUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "totalExperience": {
+            "type": "number",
+            "format": "double"
+          },
+          "fields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "experienceCapReachedFields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "JToken": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/JToken"
+        }
+      },
+      "Log": {
+        "type": "object",
+        "properties": {
+          "clanName": {
+            "type": "string",
+            "nullable": true
+          },
+          "memberUsername": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PetUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "totalLevel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "format": "float"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PlayerProfile": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "gameMode": {
+            "type": "string",
+            "nullable": true
+          },
+          "guildName": {
+            "type": "string",
+            "nullable": true
+          },
+          "skillExperiences": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "equipment": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "enchantmentBoosts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "format": "float"
+            },
+            "nullable": true
+          },
+          "upgrades": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "pvmStats": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "hoursOffline": {
+            "type": "number",
+            "format": "double"
+          },
+          "taskTypeOnLogout": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taskNameOnLogout": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "ScoreBasedStanding": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "clanName": {
+            "type": "string",
+            "nullable": true
+          },
+          "score": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SimplePlayerProfile": {
+        "type": "object",
+        "properties": {
+          "skillExperiences": {
+            "type": "string",
+            "nullable": true
+          },
+          "equipment": {
+            "type": "string",
+            "nullable": true
+          },
+          "hoursOffline": {
+            "type": "number",
+            "format": "double"
+          },
+          "taskTypeOnLogout": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taskNameOnLogout": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimeBasedStanding": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "clanName": {
+            "type": "string",
+            "nullable": true
+          },
+          "bestTime": {
+            "$ref": "#/components/schemas/BestTimeInfo"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "description": "API Key needed to access protected endpoints",
+        "name": "X-Api-Key",
+        "in": "header"
+      }
+    }
+  }
+}
